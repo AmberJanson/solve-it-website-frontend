@@ -1,0 +1,21 @@
+body {
+
+    p.description {
+        margin-top: 3em;
+        margin-bottom: 3em;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        width: 50%;
+    }
+
+    a {
+        color: #006FFF;
+        font-weight: 800;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
