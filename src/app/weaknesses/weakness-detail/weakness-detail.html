@@ -1,0 +1,11 @@
+<main>
+    @if (loadingWeakness) {
+        <p>Loading weakness...</p>
+    } @else {
+        @if (weakness) {
+            <p>{{ weakness.name }}</p>
+        } @else {
+            <p>No weakness found.</p>
+        }
+    }
+</main>
