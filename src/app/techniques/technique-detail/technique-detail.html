@@ -1,0 +1,11 @@
+<main>
+    @if (loadingTechnique) {
+            <p>Loading technique...</p>
+        } @else {
+            @if (technique) {
+                <p>{{ technique.name }}</p>
+            } @else {
+                <p>No technique found.</p>
+            }
+        }
+</main>
