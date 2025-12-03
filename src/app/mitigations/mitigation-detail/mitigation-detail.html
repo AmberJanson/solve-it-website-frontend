@@ -1,0 +1,11 @@
+<main>
+    @if (loadingMitigation) {
+        <p>Loading mitigation...</p>
+    } @else {
+        @if (mitigation) {
+            <p>{{ mitigation.name }}</p>
+        } @else {
+            <p>No mitigation found.</p>
+        }
+    }
+</main>
