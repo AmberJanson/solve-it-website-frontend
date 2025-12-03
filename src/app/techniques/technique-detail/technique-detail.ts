@@ -2,11 +2,10 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TechniqueService } from '../../services/technique.service';
 import { Technique } from '../../models/technique.model';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-technique-detail',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './technique-detail.html',
   styleUrls: ['./technique-detail.scss'],
 })
@@ -34,7 +33,7 @@ export class TechniqueDetail  implements OnInit{
           this.loadingTechnique = false;
           this.cdr.markForCheck();
       }, error: err => {
-          console.error("Error occurred: ", err)
+          console.error("Error occurred: ", err);
           this.technique = null;
           this.loadingTechnique = false;
           this.cdr.markForCheck();
