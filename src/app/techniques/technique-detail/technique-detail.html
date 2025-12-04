@@ -1,11 +1,138 @@
-<main>
-    @if (loadingTechnique) {
-            <p>Loading technique...</p>
-        } @else {
-            @if (technique) {
-                <p>{{ technique.name }}</p>
+<div class="page-layout">
+
+    <aside class="toc">
+        <h2>Contents</h2>
+
+        <ul>
+            <li><a [routerLink]="[]" fragment="description">Description</a></li>
+            <li><a [routerLink]="[]" fragment="synonyms">Synonyms</a></li>
+            <li><a [routerLink]="[]" fragment="details">Details</a></li>
+            <li><a [routerLink]="[]" fragment="subtechniques">Subtechniques</a></li>
+            <li><a [routerLink]="[]" fragment="examples">Examples</a></li>
+            <li><a [routerLink]="[]" fragment="weaknesses">Weaknesses</a></li>
+            <li><a [routerLink]="[]" fragment="case_output_classes">Case Output Classes</a></li>
+            <li><a [routerLink]="[]" fragment="references">References</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+        @if (loadingTechnique) {
+                <p>Loading technique...</p>
             } @else {
-                <p>No technique found.</p>
+                @if (technique) {
+
+                    <section id="description">
+                        <h1 class="title">{{ technique.id }}: {{ technique.name }}</h1>
+                        @if (technique.description == "") {
+                            <p>No description for this technique is known yet.</p>
+                        } @else {
+                            <p>{{ technique.description }}</p>
+                        }
+                    </section>
+
+                    <section id="synonyms">
+
+                    </section>
+
+                    <section id="details">
+                        <h1 class="subtitle">Details</h1>
+                        @if (technique.details == "") {
+                            <p>No details about this technique are known yet.</p>
+                        } @else {
+                            <p>{{ technique.details }}</p>
+                        }
+                    </section>
+
+                    <section id="subtechniques">
+                        <h1 class="subtitle">Subtechniques</h1>
+                        @if (technique.subtechniques.length == 0) {
+                            <p>No subtechniques for this technique are known yet.</p>
+                        } @else {
+                            <div class="table-background">
+                                <table class="entities">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th class="description">Description</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @for (subtechnique of subtechniques; track $index) {
+                                            <tr>
+                                                <td class="id">
+                                                    <a [routerLink]="['/techniques', subtechnique.id]">{{ subtechnique.id }}</a>
+                                                </td>
+                                                <td class="name">
+                                                    <a [routerLink]="['/techniques', subtechnique.id]">{{ subtechnique.name}}</a>
+                                                </td>
+                                                <td class="description">
+                                                    {{ subtechnique.description }}
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </section>
+
+                    <section id="examples">
+
+                    </section>
+
+                    <section id="weaknesses">
+                        <h1 class="subtitle">Weaknesses</h1>
+                        @if (technique.weaknesses.length == 0) {
+                            <p>No weaknesses for this technique are known yet.</p>
+                        } @else {
+                            <div class="table-background">
+                                <table class="entities">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th class="risks">Risks</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @for (weakness of weaknesses; track $index) {
+                                            <tr>
+                                                <td class="id">
+                                                    <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.id }}</a>
+                                                </td>
+                                                <td class="name">
+                                                    <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.name}}</a>
+                                                </td>
+                                                <td class="risks">
+                                                    @for (risk of weakness.risks; track $index) {
+                                                        {{ risk }}
+                                                        @if ($index < weakness.risks.length - 1) {
+                                                            |
+                                                        }
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </section>
+
+                    <section id="case_output_classes">
+
+                    </section>
+
+                    <section id="references">
+
+                    </section>
+
+                } @else {
+                    <p class="not-found">No technique found.</p>
+                }
             }
-        }
-</main>
+    </main>
+</div>
