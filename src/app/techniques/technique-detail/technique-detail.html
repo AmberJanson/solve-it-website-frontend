@@ -23,21 +23,30 @@
 
                     <section id="description">
                         <h1 class="title">{{ technique.id }}: {{ technique.name }}</h1>
-                        @if (technique.description == "") {
-                            <p>No description for this technique is known yet.</p>
+                        @if (technique.description == null || technique.description == "") {
+                            <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No description for this technique is known yet.</p>
                         } @else {
                             <p>{{ technique.description }}</p>
                         }
                     </section>
 
                     <section id="synonyms">
-
+                        <h1 class="subtitle">Synonyms</h1>
+                        @if (technique.synonyms == null || technique.synonyms.length == 0) {
+                            <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No synonyms for this technique are known yet.</p>
+                        } @else {
+                            @for (synonym of technique.synonyms; track $index) {
+                                <div class="entry-background">
+                                    <p>{{ synonym }}</p>
+                                </div>
+                            }
+                        }
                     </section>
 
                     <section id="details">
                         <h1 class="subtitle">Details</h1>
-                        @if (technique.details == "") {
-                            <p>No details about this technique are known yet.</p>
+                        @if (technique.details == null || technique.details == "") {
+                            <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No details about this technique are known yet.</p>
                         } @else {
                             <p>{{ technique.details }}</p>
                         }
@@ -45,8 +54,8 @@
 
                     <section id="subtechniques">
                         <h1 class="subtitle">Subtechniques</h1>
-                        @if (technique.subtechniques.length == 0) {
-                            <p>No subtechniques for this technique are known yet.</p>
+                        @if (technique.subtechniques == null || technique.subtechniques.length == 0) {
+                            <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No subtechniques for this technique are known yet.</p>
                         } @else {
                             <div class="table-background">
                                 <table class="entities">
@@ -79,13 +88,30 @@
                     </section>
 
                     <section id="examples">
-
+                        <h1 class="subtitle">Examples</h1>
+                        @if (technique.examples == null || technique.examples.length == 0) {
+                            <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No examples for this technique are known yet.</p>
+                        } @else {
+                            <div class="table-background">
+                                <table class="entities">
+                                    <tbody>
+                                        @for (example of technique.examples; track $index) {
+                                            <tr>
+                                                <td>
+                                                    {{ example }}
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
                     </section>
 
                     <section id="weaknesses">
                         <h1 class="subtitle">Weaknesses</h1>
-                        @if (technique.weaknesses.length == 0) {
-                            <p>No weaknesses for this technique are known yet.</p>
+                        @if (technique.weaknesses == null || technique.weaknesses.length == 0) {
+                            <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No weaknesses for this technique are known yet.</p>
                         } @else {
                             <div class="table-background">
                                 <table class="entities">
@@ -123,11 +149,37 @@
                     </section>
 
                     <section id="case_output_classes">
-
+                        <h1 class="subtitle">Case Output Classes</h1>
+                        @if (technique.CASE_output_classes == null || technique.CASE_output_classes.length == 0) {
+                            <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No case output classes for this technique are known yet.</p>
+                        } @else {
+                            @for (CASE_output_class of technique.CASE_output_classes; track $index) {
+                                <div class="entry-background">
+                                    <p>{{ CASE_output_class }}</p>
+                                </div>
+                            }
+                        }
                     </section>
 
                     <section id="references">
-
+                        <h1 class="subtitle">References</h1>
+                        @if (technique.references == null || technique.references.length == 0) {
+                            <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No references for this technique are known yet.</p>
+                        } @else {
+                            <div class="table-background">
+                                <table class="entities">
+                                    <tbody>
+                                        @for (reference of technique.references; track $index) {
+                                            <tr>
+                                                <td>
+                                                    {{ reference }}
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
                     </section>
 
                 } @else {
