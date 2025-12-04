@@ -1,11 +1,81 @@
-<main>
-    @if (loadingMitigation) {
-        <p>Loading mitigation...</p>
-    } @else {
-        @if (mitigation) {
-            <p>{{ mitigation.name }}</p>
+<div class="page-layout">
+
+    <aside class="toc">
+        <h2>Contents</h2>
+
+        <ul>
+            <li><a [routerLink]="[]" fragment="technique">Technique</a></li>
+            <li><a [routerLink]="[]" fragment="references">References</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+        @if (loadingMitigation) {
+            <p>Loading mitigation...</p>
         } @else {
-            <p>No mitigation found.</p>
+            @if (mitigation) {
+
+                <section>
+                     <h1 class="title">{{ mitigation.id }}: {{ mitigation.name }}</h1>
+                </section>
+
+                <section id="technique">
+                    <h1 class="subtitle">Technique</h1>
+                    @if (technique == null) {
+                        <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No technique for this mitigation is known yet.</p>
+                    } @else {
+                        <div class="table-background">
+                            <table class="entities">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th class="description">Description</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td class="id">
+                                            <a [routerLink]="['/techniques', technique.id]">{{ technique.id }}</a>
+                                        </td>
+                                        <td class="name">
+                                            <a [routerLink]="['/techniques', technique.id]">{{ technique.name}}</a>
+                                        </td>
+                                        <td class="description">
+                                            {{ technique.description }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </section>
+
+                <section id="references">
+                    <h1 class="subtitle">References</h1>
+                    @if (mitigation.references == null || mitigation.references.length == 0) {
+                        <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No references for this mitigation are known yet.</p>
+                    } @else {
+                        <div class="table-background">
+                            <table class="entities">
+                                <tbody>
+                                    @for (reference of mitigation.references; track $index) {
+                                        <tr>
+                                            <td>
+                                                {{ reference }}
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </section>
+
+            } @else {
+                <p class="not-found">No mitigation found.</p>
+            }
         }
-    }
-</main>
+    </main>
+</div>
