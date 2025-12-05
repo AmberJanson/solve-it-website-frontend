@@ -1,0 +1,190 @@
+<div class="page-layout">
+
+    <aside class="toc">
+        <h2>Contents</h2>
+
+        <ul>
+            <li><a [routerLink]="[]" fragment="description">Description</a></li>
+            <li><a [routerLink]="[]" fragment="synonyms">Synonyms</a></li>
+            <li><a [routerLink]="[]" fragment="details">Details</a></li>
+            <li><a [routerLink]="[]" fragment="subtechniques">Subtechniques</a></li>
+            <li><a [routerLink]="[]" fragment="examples">Examples</a></li>
+            <li><a [routerLink]="[]" fragment="weaknesses">Weaknesses</a></li>
+            <li><a [routerLink]="[]" fragment="case_output_classes">Case Output Classes</a></li>
+            <li><a [routerLink]="[]" fragment="references">References</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+        @if (loadingTechnique) {
+                <p>Loading technique...</p>
+            } @else {
+                @if (technique) {
+
+                    <section id="description">
+                        <h1 class="title">{{ technique.id }}: {{ technique.name }}</h1>
+                        @if (technique.description == null || technique.description == "") {
+                            <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No description for this technique is known yet.</p>
+                        } @else {
+                            <p>{{ technique.description }}</p>
+                        }
+                    </section>
+
+                    <section id="synonyms">
+                        <h1 class="subtitle">Synonyms</h1>
+                        @if (technique.synonyms == null || technique.synonyms.length == 0) {
+                            <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No synonyms for this technique are known yet.</p>
+                        } @else {
+                            @for (synonym of technique.synonyms; track $index) {
+                                <div class="entry-background">
+                                    <p>{{ synonym }}</p>
+                                </div>
+                            }
+                        }
+                    </section>
+
+                    <section id="details">
+                        <h1 class="subtitle">Details</h1>
+                        @if (technique.details == null || technique.details == "") {
+                            <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No details about this technique are known yet.</p>
+                        } @else {
+                            <p>{{ technique.details }}</p>
+                        }
+                    </section>
+
+                    <section id="subtechniques">
+                        <h1 class="subtitle">Subtechniques</h1>
+                        @if (technique.subtechniques == null || technique.subtechniques.length == 0) {
+                            <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No subtechniques for this technique are known yet.</p>
+                        } @else {
+                            <div class="table-background">
+                                <table class="entities">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th class="description">Description</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @for (subtechnique of subtechniques; track $index) {
+                                            <tr>
+                                                <td class="id">
+                                                    <a [routerLink]="['/techniques', subtechnique.id]">{{ subtechnique.id }}</a>
+                                                </td>
+                                                <td class="name">
+                                                    <a [routerLink]="['/techniques', subtechnique.id]">{{ subtechnique.name}}</a>
+                                                </td>
+                                                <td class="description">
+                                                    {{ subtechnique.description }}
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </section>
+
+                    <section id="examples">
+                        <h1 class="subtitle">Examples</h1>
+                        @if (technique.examples == null || technique.examples.length == 0) {
+                            <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No examples for this technique are known yet.</p>
+                        } @else {
+                            <div class="table-background">
+                                <table class="entities">
+                                    <tbody>
+                                        @for (example of technique.examples; track $index) {
+                                            <tr>
+                                                <td>
+                                                    {{ example }}
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </section>
+
+                    <section id="weaknesses">
+                        <h1 class="subtitle">Weaknesses</h1>
+                        @if (technique.weaknesses == null || technique.weaknesses.length == 0) {
+                            <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No weaknesses for this technique are known yet.</p>
+                        } @else {
+                            <div class="table-background">
+                                <table class="entities">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th class="risks">Risks</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @for (weakness of weaknesses; track $index) {
+                                            <tr>
+                                                <td class="id">
+                                                    <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.id }}</a>
+                                                </td>
+                                                <td class="name">
+                                                    <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.name}}</a>
+                                                </td>
+                                                <td class="risks">
+                                                    @for (risk of weakness.risks; track $index) {
+                                                        {{ risk }}
+                                                        @if ($index < weakness.risks.length - 1) {
+                                                            |
+                                                        }
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </section>
+
+                    <section id="case_output_classes">
+                        <h1 class="subtitle">Case Output Classes</h1>
+                        @if (technique.CASE_output_classes == null || technique.CASE_output_classes.length == 0) {
+                            <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No case output classes for this technique are known yet.</p>
+                        } @else {
+                            @for (CASE_output_class of technique.CASE_output_classes; track $index) {
+                                <div class="entry-background">
+                                    <p>{{ CASE_output_class }}</p>
+                                </div>
+                            }
+                        }
+                    </section>
+
+                    <section id="references">
+                        <h1 class="subtitle">References</h1>
+                        @if (technique.references == null || technique.references.length == 0) {
+                            <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No references for this technique are known yet.</p>
+                        } @else {
+                            <div class="table-background">
+                                <table class="entities">
+                                    <tbody>
+                                        @for (reference of technique.references; track $index) {
+                                            <tr>
+                                                <td>
+                                                    {{ reference }}
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </section>
+
+                } @else {
+                    <p class="not-found">No technique found.</p>
+                }
+            }
+    </main>
+</div>
