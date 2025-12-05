@@ -1,1 +1,43 @@
-<p>mitigations works!</p>
+<main class="content">
+    @if (loadingMitigations) {
+        <p>Loading mitigations...</p>
+    } @else {
+        @if (mitigationList.length >= 1) {
+
+            <section>
+                <h1 class="title">Mitigations</h1>
+                <p>Dit is een beschrijving</p>
+            </section>
+
+            <section>
+                <p class="entity-amount">Mitigations: {{ mitigationList.length }}</p>
+                <div class="table-background">
+                    <table class="entities">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @for (mitigation of mitigationList; track $index) {
+                                <tr>
+                                    <td class="id">
+                                        <a [routerLink]="['/mitigations', mitigation.id]">{{ mitigation.id }}</a>
+                                    </td>
+                                    <td class="name">
+                                        <a [routerLink]="['/mitigations', mitigation.id]">{{ mitigation.name}}</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        } @else {
+            <p class="not-found">No mitigations found.</p>
+        }
+    }
+</main>

@@ -1,1 +1,52 @@
-<p>weaknesses works!</p>
+<main class="content">
+    @if (loadingWeaknesses) {
+        <p>Loading weaknesses...</p>
+    } @else {
+        @if (weaknessList.length >= 1) {
+
+            <section>
+                <h1 class="title">Weaknesses</h1>
+                <p>Dit is een beschrijving</p>
+            </section>
+
+            <section>
+                <p class="entity-amount">Weaknesses: {{ weaknessList.length }}</p>
+                <div class="table-background">
+                    <table class="entities">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th class="risks">Risks</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @for (weakness of weaknessList; track $index) {
+                                <tr>
+                                    <td class="id">
+                                        <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.id }}</a>
+                                    </td>
+                                    <td class="name">
+                                        <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.name}}</a>
+                                    </td>
+                                    <td class="risks">
+                                        @for (risk of weakness.risks; track $index) {
+                                            {{ risk }}
+                                            @if ($index < weakness.risks.length - 1) {
+                                                |
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        } @else {
+            <p class="not-found">No weaknesses found.</p>
+        }
+    }
+</main>
