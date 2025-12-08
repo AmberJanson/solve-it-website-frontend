@@ -1,1 +1,76 @@
-<p>mitigations works!</p>
+<div class="page-layout">
+    <aside class="filters">
+        <h2>Filters</h2>
+
+        <p>Technique:</p>
+        <div class="selection-filtering-background selection-arrow">
+            <select [(ngModel)]="selectedFilters['technique']" (change)="applyFiltersAndSort()" class="selection-filtering">
+                <option value="">All</option>
+                <option value="linked">Linked</option>
+                <option value="not linked to">Not linked</option>
+            </select>
+        </div>
+
+        <p>References:</p>
+        <div class="selection-filtering-background selection-arrow">
+            <select [(ngModel)]="selectedFilters['references']" (change)="applyFiltersAndSort()" class="selection-filtering">
+                <option value="">All</option>
+                <option value="present">Present</option>
+                <option value="absent">Absent</option>
+            </select>
+        </div>
+    </aside>
+
+    <main class="content">
+        @if (loadingMitigations) {
+            <p>Loading mitigations...</p>
+        } @else {
+            @if (mitigationList.length >= 1) {
+
+                <section>
+                    <h1 class="title">Mitigations</h1>
+                    <p>Dit is een beschrijving</p>
+                </section>
+
+                <section>
+                    <div class="selection-background selection-arrow">
+                        <select [(ngModel)]="selectedSort" (change)="applyFiltersAndSort()" class="selection">
+                            <option value="idAsc">ID (Low -> High)</option>
+                            <option value="idDesc">ID (High -> Low)</option>
+                            <option value="nameAsc">Name (A -> Z)</option>
+                            <option value="nameDesc">Name (Z -> A)</option>
+                        </select>
+                    </div>
+
+                    <p class="entity-amount">Mitigations: {{ mitigationList.length }}</p>
+                    <div class="table-background">
+                        <table class="entities">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @for (mitigation of mitigationList; track $index) {
+                                    <tr>
+                                        <td class="id">
+                                            <a [routerLink]="['/mitigations', mitigation.id]">{{ mitigation.id }}</a>
+                                        </td>
+                                        <td class="name">
+                                            <a [routerLink]="['/mitigations', mitigation.id]">{{ mitigation.name}}</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            } @else {
+                <p class="not-found">No mitigations found.</p>
+            }
+        }
+    </main>
+</div>

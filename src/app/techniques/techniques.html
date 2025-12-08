@@ -1,1 +1,145 @@
-<p>techniques works!</p>
+<div class="page-layout">
+    <aside class="filters">
+        <h2>Filters</h2>
+
+        <p>Description:</p>
+        <div class="selection-filtering-background selection-arrow">
+            <select [(ngModel)]="selectedFilters['description']" (change)="applyFiltersAndSort()" class="selection-filtering">
+                <option value="">All</option>
+                <option value="present">Present</option>
+                <option value="absent">Absent</option>
+            </select>
+        </div>
+
+        <p>Synonyms:</p>
+        <div class="selection-filtering-background selection-arrow">
+            <select [(ngModel)]="selectedFilters['synonyms']" (change)="applyFiltersAndSort()" class="selection-filtering">
+                <option value="">All</option>
+                <option value="present">Present</option>
+                <option value="absent">Absent</option>
+            </select>
+        </div>
+
+        <p>Details:</p>
+        <div class="selection-filtering-background selection-arrow">
+            <select [(ngModel)]="selectedFilters['details']" (change)="applyFiltersAndSort()" class="selection-filtering">
+                <option value="">All</option>
+                <option value="present">Present</option>
+                <option value="absent">Absent</option>
+            </select>
+        </div>
+
+        <p>Subtechniques:</p>
+        <div class="selection-filtering-background selection-arrow">
+            <select [(ngModel)]="selectedFilters['subtechniques']" (change)="applyFiltersAndSort()" class="selection-filtering">
+                <option value="">All</option>
+                <option value="0">0 entries</option>
+                <option value="1-2">1-2 entries</option>
+                <option value="3-4">3-4 entries</option>
+                <option value="5+">5+ entries</option>
+            </select>
+        </div>
+
+        <p>Examples:</p>
+        <div class="selection-filtering-background selection-arrow">
+            <select [(ngModel)]="selectedFilters['examples']" (change)="applyFiltersAndSort()" class="selection-filtering">
+                <option value="">All</option>
+                <option value="present">Present</option>
+                <option value="absent">Absent</option>
+            </select>
+        </div>
+
+        <p>Weaknesses:</p>
+        <div class="selection-filtering-background selection-arrow">
+            <select [(ngModel)]="selectedFilters['weaknesses']" (change)="applyFiltersAndSort()" class="selection-filtering">
+                <option value="">All</option>
+                <option value="0">0 entries</option>
+                <option value="1-2">1-2 entries</option>
+                <option value="3-4">3-4 entries</option>
+                <option value="5+">5+ entries</option>
+            </select>
+        </div>
+
+        <p>Case Output Classes:</p>
+        <div class="selection-filtering-background selection-arrow">
+            <select [(ngModel)]="selectedFilters['CASE_output_classes']" (change)="applyFiltersAndSort()" class="selection-filtering">
+                <option value="">All</option>
+                <option value="present">Present</option>
+                <option value="absent">Absent</option>
+            </select>
+        </div>
+
+        <p>References:</p>
+        <div class="selection-filtering-background selection-arrow">
+            <select [(ngModel)]="selectedFilters['references']" (change)="applyFiltersAndSort()" class="selection-filtering">
+                <option value="">All</option>
+                <option value="present">Present</option>
+                <option value="absent">Absent</option>
+            </select>
+        </div>
+
+    </aside>
+
+    <main class="content">
+        @if (loadingTechniques) {
+            <p>Loading techniques...</p>
+        } @else {
+            @if (techniqueList.length >= 1) {
+
+                <section>
+                    <h1 class="title">Techniques</h1>
+                    <p>Dit is een beschrijving</p>
+                </section>
+
+                <section>
+                    <div class="selection-background selection-arrow">
+                        <select [(ngModel)]="selectedSort" (change)="applyFiltersAndSort()" class="selection">
+                            <option value="idAsc">ID (Low -> High)</option>
+                            <option value="idDesc">ID (High -> Low)</option>
+                            <option value="nameAsc">Name (A -> Z)</option>
+                            <option value="nameDesc">Name (Z -> A)</option>
+                        </select>
+                    </div>
+
+                    <p class="entity-amount">Techniques: {{ techniqueList.length }}</p>
+
+                    <div class="table-background">
+                        <table class="entities">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th class="description">Description</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @for (technique of techniqueList; track $index) {
+                                    <tr>
+                                        <td class="id">
+                                            <a [routerLink]="['/techniques', technique.id]">{{ technique.id }}</a>
+                                        </td>
+                                        <td class="name">
+                                            <a [routerLink]="['/techniques', technique.id]">{{ technique.name}}</a>
+                                        </td>
+                                        <td class="description">
+                                            @if (technique.description == null || technique.description == "") {
+                                                <i class="fas fa-exclamation-triangle" style="color:red"></i>No description for this technique is known yet.
+                                            } @else {
+                                                {{ technique.description }}
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            } @else {
+                <p class="not-found">No techniques found.</p>
+            }
+        }
+    </main>
+</div>
+

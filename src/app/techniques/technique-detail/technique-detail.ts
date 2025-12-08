@@ -7,7 +7,6 @@ import { Weakness } from '../../models/weakness.model';
 
 @Component({
   selector: 'app-technique-detail',
-  standalone: true,
   imports: [RouterLink],
   templateUrl: './technique-detail.html',
   styleUrls: ['./technique-detail.scss'],
@@ -53,7 +52,6 @@ export class TechniqueDetail  implements OnInit{
                   this.subtechniques.push(subtechnique);
                   this.loadingTechnique = false;
                   this.cdr.markForCheck();
-                  console.log(subtechnique)
                 }, error: err => {
                   console.error("Error occurred: ", err);
                   this.loadingTechnique = false;
