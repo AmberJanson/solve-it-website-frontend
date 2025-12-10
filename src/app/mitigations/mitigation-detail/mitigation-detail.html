@@ -16,7 +16,14 @@
             @if (mitigation) {
 
                 <section>
-                     <h1 class="title">{{ mitigation.id }}: {{ mitigation.name }}</h1>
+                      <div class="line-divider">
+                            <div class="title-wrapper">
+                                <h1 class="title">
+                                    {{ mitigation.id }}: {{ mitigation.name }}
+                                </h1>
+                                <a href="https://github.com/SOLVE-IT-DF/solve-it/blob/main/data/mitigations/{{ mitigationId }}.json" target="_blank" class="title-link">Mitigation Github<i class="fas fa-arrow-up-right-from-square"></i></a>
+                            </div>
+                        </div>
                 </section>
 
                 <section id="technique">
