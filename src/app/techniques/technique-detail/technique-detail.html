@@ -130,7 +130,7 @@
                                                     <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.id }}</a>
                                                 </td>
                                                 <td class="name">
-                                                    <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.name}}</a>
+                                                    <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.name}}</a> ({{ weakness.mitigations.length }})
                                                 </td>
                                                 <td class="risks">
                                                     @for (risk of weakness.risks; track $index) {

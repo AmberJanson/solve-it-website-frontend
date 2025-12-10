@@ -34,7 +34,7 @@
                         <div class="technique-list">
                             @for (technique of category.techniqueDetailed; track $index) {
                                 <div class="technique-item">
-                                    <a [routerLink]="['/techniques', technique.id]">{{ technique.name }} ({{ technique.weaknesses.length }})</a>
+                                    <a [routerLink]="['/techniques', technique.id]">{{ technique.name }}</a> ({{ technique.weaknesses.length }})
                                 </div>
                             }
                         </div>

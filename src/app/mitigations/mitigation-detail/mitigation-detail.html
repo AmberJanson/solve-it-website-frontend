@@ -40,7 +40,7 @@
                                             <a [routerLink]="['/techniques', technique.id]">{{ technique.id }}</a>
                                         </td>
                                         <td class="name">
-                                            <a [routerLink]="['/techniques', technique.id]">{{ technique.name}}</a>
+                                            <a [routerLink]="['/techniques', technique.id]">{{ technique.name}}</a> ({{ technique.weaknesses.length }})
                                         </td>
                                         <td class="description">
                                             {{ technique.description }}
