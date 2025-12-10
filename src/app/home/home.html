@@ -28,7 +28,7 @@
                     <div class="category-section">
 
                         <div class="category-header">
-                            <p class="category-title">{{category.name}}</p>
+                            <a [routerLink]="['/categories', category.id]" class="category-title">{{category.name}}</a>
                             <p class="technique-count">Techniques: {{ category.techniques.length }}</p>
                         </div>
                         <div class="technique-list">
