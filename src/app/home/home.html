@@ -23,19 +23,18 @@
         @if (categoryList.length >= 1) {
             <p class="description">{{ selectedView?.long_description }}</p>
 
-            <div class="category-background">
+            <div #scrollContainer class="category-background">
                 @for (category of categoryList; track $index) {
                     <div class="category-section">
 
                         <div class="category-header">
-                            <p>{{category.name}}</p>
-                            <br>
-                            <p>Techniques: {{ category.techniques.length }}</p>
+                            <p class="category-title">{{category.name}}</p>
+                            <p class="technique-count">Techniques: {{ category.techniques.length }}</p>
                         </div>
                         <div class="technique-list">
-                            @for (technique of category.techniques; track $index) {
+                            @for (technique of category.techniqueDetailed; track $index) {
                                 <div class="technique-item">
-                                    <p>{{ technique }}</p>
+                                    <a [routerLink]="['/techniques', technique.id]">{{ technique.name }} ({{ technique.weaknesses.length }})</a>
                                 </div>
                             }
                         </div>

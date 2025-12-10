@@ -54,33 +54,73 @@ body {
     }
 
     .category-background {
-        width: 90%;
-        padding: 0.5rem;
+        width: 85%;
+        padding: 1rem;
         margin: 0 auto 1rem auto;
         background: #004D46;
         border-radius: 12px;
 
         display: flex;
         flex-direction: row;
-        gap: 12px;
+        gap: 24px;
         overflow-x: auto;
         overflow-y: hidden;
         scroll-behavior: smooth;
         flex-wrap: nowrap;
         box-sizing: border-box;
 
+        .category-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 0 0 auto;
+            max-width: 220px;
+        }
+
         .category-header {
             background: #AEAEAE;
             padding: 0.5rem;
             border-radius: 8px;
-            flex: 0 0 auto;
+            text-align: center;
         }
 
-        .category-technique {
+        .category-title {
+            font-weight: 700;
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .category-count {
+            margin: 0;
+            margin-top: 4px;
+            font-size: 16px;
+        }
+
+        .technique-list {
+            display: flex;
+            flex-direction: column;
             background: #AEAEAE;
             padding: 0.5rem;
             border-radius: 8px;
-            flex: 0 0 auto;
+            gap: 16px;
+        }
+
+        .technique-item {
+            background: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        .technique-item a {
+            color: #006FFF;
+            font-weight: 800;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
         }
     }
 
