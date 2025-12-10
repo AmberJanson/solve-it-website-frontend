@@ -77,7 +77,11 @@
                                                     <a [routerLink]="['/techniques', subtechnique.id]">{{ subtechnique.name}}</a>
                                                 </td>
                                                 <td class="description">
-                                                    {{ subtechnique.description }}
+                                                    @if (subtechnique.description == null || subtechnique.description == "") {
+                                                        <i class="fas fa-exclamation-triangle" style="color:red"></i>No description for this subtechnique is known yet.
+                                                    } @else {
+                                                        {{ subtechnique.description }}
+                                                    }
                                                 </td>
                                             </tr>
                                         }
