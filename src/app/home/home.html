@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>SOLVE-IT</title>
+    </head>
+    <body>
+        <p class="description">This website contains the SOLVE-IT framework. 
+            Below, you can adjust the overview to suit your specific needs. 
+            The digital forensic investigation techniques from SOLVE-IT are divided according to the selected overview. 
+            The number next to each technique indicates how many weaknesses are known for that specific technique. 
+            For more information about the SOLVE-IT framework, go to the <a routerLink="/about">About page</a>.
+        </p>
+        
+        <div class="selection-background selection-arrow">
+            <select #categorySelect class="selection" (change)="getCategoriesByView(categorySelect.value)">
+                <option value="" disabled selected hidden>Select an overview...</option>
+                @for (categoryView of categoryViewList; track $index) {
+                    <option [value]="categoryView.id">{{ categoryView.name }}: {{ categoryView.short_description }}</option>
+                }
+            </select>
+        </div>
+
+        @if (categoryList.length >= 1) {
+            <p class="description">{{ selectedView?.long_description }}</p>
+
+            <div #scrollContainer class="category-background">
+                @for (category of categoryList; track $index) {
+                    <div class="category-section">
+
+                        <div class="category-header">
+                            <p class="category-title">{{category.name}}</p>
+                            <p class="technique-count">Techniques: {{ category.techniques.length }}</p>
+                        </div>
+                        <div class="technique-list">
+                            @for (technique of category.techniqueDetailed; track $index) {
+                                <div class="technique-item">
+                                    <a [routerLink]="['/techniques', technique.id]">{{ technique.name }} ({{ technique.weaknesses.length }})</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        } @else if (categoryList.length <= 0 && categorySelect.value !== "") {
+            <p class="not-found">No categories found.</p>
+        }
+
+    </body>
+</html>

@@ -1,0 +1,18 @@
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+@font-face {
+    font-family: 'Inter';
+    src: url('assets/Inter/static/Inter_18pt-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+     box-sizing: border-box;
+     font-family: 'Inter';
+}
+
+body, html {
+     margin: 0 auto;
+     padding: 0;
+}

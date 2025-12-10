@@ -5,6 +5,11 @@
     "packageManager": "npm"
   },
   "newProjectRoot": "projects",
+  "schematics": {
+    "@schematics/angular:component": {
+      "style": "scss"
+    }
+  },
   "projects": {
     "solve-it-website-frontend": {
       "projectType": "application",
@@ -21,11 +26,12 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "src/assets",
+                "output": "/assets"
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ]
           },
           "configurations": {

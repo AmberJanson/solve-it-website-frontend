@@ -1,0 +1,103 @@
+<div class="page-layout">
+
+    <aside class="toc">
+        <h2>Contents</h2>
+
+        <ul>
+            <li><a [routerLink]="[]" fragment="details">Details</a></li>
+            <li><a [routerLink]="[]" fragment="risks">Risks</a></li>
+            <li><a [routerLink]="[]" fragment="mitigations">Mitigations</a></li>
+            <li><a [routerLink]="[]" fragment="references">References</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+        @if (loadingWeakness) {
+            <p>Loading weakness...</p>
+        } @else {
+            @if (weakness) {
+                
+                <section>
+                     <h1 class="title">{{ weakness.id }}: {{ weakness.name }}</h1>
+                </section>
+
+                <section id="details">
+                    <h1 class="subtitle">Details</h1>
+                    @if (weakness.details == null || weakness.details == "") {
+                        <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No details about this weakness are known yet.</p>
+                    } @else {
+                        <p>{{ weakness.details }}</p>
+                    }
+                </section>
+
+                <section id="risks">
+                    <h1 class="subtitle">Risks</h1>
+                    @if (weakness.risks == null || weakness.risks.length == 0) {
+                        <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No risks for this weakness are known yet.</p>
+                    } @else {
+                        @for (risk of weakness.risks; track $index) {
+                            <div class="entry-background">
+                                <p>{{ risk }}</p>
+                            </div>
+                        }
+                    }
+                </section>
+
+                <section id="mitigations">
+                    <h1 class="subtitle">Mitigations</h1>
+                    @if (weakness.mitigations == null || weakness.mitigations.length == 0) {
+                        <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No mitigations for this weakness are known yet.</p>
+                    } @else {
+                        <div class="table-background">
+                            <table class="entities">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @for (mitigation of mitigations; track $index) {
+                                        <tr>
+                                            <td class="id">
+                                                <a [routerLink]="['/mitigations', mitigation.id]">{{ mitigation.id }}</a>
+                                            </td>
+                                            <td class="name">
+                                                <a [routerLink]="['/mitigations', mitigation.id]">{{ mitigation.name}}</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </section>
+
+                <section id="references">
+                    <h1 class="subtitle">References</h1>
+                    @if (weakness.references == null || weakness.references.length == 0) {
+                        <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No references for this weakness are known yet.</p>
+                    } @else {
+                        <div class="table-background">
+                            <table class="entities">
+                                <tbody>
+                                    @for (reference of weakness.references; track $index) {
+                                        <tr>
+                                            <td>
+                                                {{ reference }}
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </section>
+
+            } @else {
+                <p class="not-found">No weakness found.</p>
+            }
+        }
+    </main>
+</div>

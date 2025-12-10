@@ -1,0 +1,57 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background-color: #004D46;
+    color: white;
+
+    .navbar-logo img {
+        height: 60px;
+    }
+
+    .navbar-search {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+
+        input {
+            width: 50%;
+            padding: 0.5rem 0.5rem;
+            border-color: white;
+            border-radius: 10px;
+            border-width: 5px;
+            border: solid white;
+            background-color: #004D46;
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            outline: none;
+        }
+
+        input::placeholder {
+            font-size: 20px;
+            color: rgb(179, 179, 179);
+        }
+    }
+
+    .navbar-links {
+        display: flex;
+        gap: 2rem;
+
+        a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        a.active {
+            text-decoration: underline;
+        }
+    }
+}

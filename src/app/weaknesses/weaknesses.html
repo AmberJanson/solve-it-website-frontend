@@ -1,0 +1,109 @@
+<div class="page-layout">
+    <aside class="filters">
+        <h2>Filters</h2>
+
+        <p>Details:</p>
+        <div class="selection-filtering-background selection-arrow">
+            <select [(ngModel)]="selectedFilters['details']" (change)="applyFiltersAndSort()" class="selection-filtering">
+                <option value="">All</option>
+                <option value="present">Present</option>
+                <option value="absent">Absent</option>
+            </select>
+        </div>
+
+        <p>Risks:</p>
+        @for (risk of riskTypes; track $index) {
+            <p class="risk-type">{{ risk }}:</p>
+            <div class="selection-filtering-background-risk selection-arrow">
+                <select [(ngModel)]="selectedFilters['risks'][risk]" (change)="applyFiltersAndSort()" class="selection-filtering-risk">
+                    <option value="">All</option>
+                    <option value="present">Present</option>
+                    <option value="absent">Absent</option>
+                </select>
+            </div>
+        }
+
+        <p>Mitigations:</p>
+        <div class="selection-filtering-background selection-arrow">
+            <select [(ngModel)]="selectedFilters['mitigations']" (change)="applyFiltersAndSort()" class="selection-filtering">
+                <option value="">All</option>
+                <option value="0">0 entries</option>
+                <option value="1-2">1-2 entries</option>
+                <option value="3-4">3-4 entries</option>
+                <option value="5+">5+ entries</option>
+            </select>
+        </div>
+
+        <p>References:</p>
+        <div class="selection-filtering-background selection-arrow">
+            <select [(ngModel)]="selectedFilters['references']" (change)="applyFiltersAndSort()" class="selection-filtering">
+                <option value="">All</option>
+                <option value="present">Present</option>
+                <option value="absent">Absent</option>
+            </select>
+        </div>
+
+    </aside>
+
+    <main class="content">
+        @if (loadingWeaknesses) {
+            <p>Loading weaknesses...</p>
+        } @else {
+            @if (weaknessList.length >= 1) {
+
+                <section>
+                    <h1 class="title">Weaknesses</h1>
+                    <p>Dit is een beschrijving</p>
+                </section>
+
+                <section>
+                    <div class="selection-background selection-arrow">
+                        <select [(ngModel)]="selectedSort" (change)="applyFiltersAndSort()" class="selection">
+                            <option value="idAsc">ID (Low -> High)</option>
+                            <option value="idDesc">ID (High -> Low)</option>
+                            <option value="nameAsc">Name (A -> Z)</option>
+                            <option value="nameDesc">Name (Z -> A)</option>
+                        </select>
+                    </div>
+
+                    <p class="entity-amount">Weaknesses: {{ weaknessList.length }}</p>
+                    <div class="table-background">
+                        <table class="entities">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th class="risks">Risks</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @for (weakness of weaknessList; track $index) {
+                                    <tr>
+                                        <td class="id">
+                                            <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.id }}</a>
+                                        </td>
+                                        <td class="name">
+                                            <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.name}}</a>
+                                        </td>
+                                        <td class="risks">
+                                            @for (risk of weakness.risks; track $index) {
+                                                {{ risk }}
+                                                @if ($index < weakness.risks.length - 1) {
+                                                    |
+                                                }
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            } @else {
+                <p class="not-found">No weaknesses found.</p>
+            }
+        }
+    </main>
+</div>
