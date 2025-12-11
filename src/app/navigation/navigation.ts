@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { Mitigation } from '../models/mitigation.model';
 import { Category } from '../models/category.model';
@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class Navigation implements OnInit {
   public searchTerm: string = '';
+  public dropdownVisible = false;
   
   public allSearchItems: any[] = [];
   public filteredItems: any[] = [];
@@ -76,12 +77,68 @@ export class Navigation implements OnInit {
 
     if (!term) {
       this.filteredItems = []
+      this.dropdownVisible = false;
       return;
     }
 
     this.filteredItems = this.allSearchItems
       .filter(item => item.name && item.name.toLowerCase().includes(term.toLowerCase()))
       .slice(0, 5);
+
+    this.dropdownVisible = true;
+  }
+
+  onFocus() {
+    if (this.searchTerm) {
+      this.dropdownVisible = true;
+    }
+  }
+
+  getNameParts(itemName: string): {text: string, highlight: boolean}[] {
+    if (!this.searchTerm) return [{ text: itemName, highlight: false}];
+
+    const term = this.searchTerm.toLowerCase();
+    const lowerName = itemName.toLowerCase();
+    const parts: { text: string, highlight: boolean}[] = [];
+    let currentIndex = 0;
+
+    while (currentIndex < itemName.length) {
+      const matchIndex = lowerName.indexOf(term, currentIndex);
+      if (matchIndex == -1) {
+        parts.push({ text: itemName.slice(currentIndex), highlight: false });
+        break;
+      }
+
+      if (matchIndex > currentIndex) {
+        parts.push({ text: itemName.slice(currentIndex, matchIndex), highlight: false });
+      }
+
+      parts.push({ text: itemName.slice(matchIndex, matchIndex + term.length), highlight: true });
+      currentIndex = matchIndex + term.length;
+    }
+
+    return parts;
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const searchBar = document.querySelector('.navbar-search');
+    if (searchBar && !searchBar.contains(target)) {
+      this.dropdownVisible = false;
+    } else if (searchBar && searchBar.contains(target)) {
+      this.dropdownVisible = true;
+    }
+  }
+
+  onItemClick(event: MouseEvent) {
+    event.stopPropagation();
+
+    setTimeout(() => {
+      this.searchTerm = '';
+      this.filteredItems = [];
+      this.dropdownVisible = false;
+    }, 0);
   }
 
 }
