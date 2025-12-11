@@ -11,9 +11,10 @@
             For more information about the SOLVE-IT framework, go to the <a routerLink="/about">About page</a>.
         </p>
         
+        <p class="select-text">Select an overview of how the techniques are divided:</p>
         <div class="selection-background selection-arrow">
             <select #categorySelect class="selection" (change)="getCategoriesByView(categorySelect.value)">
-                <option value="" disabled selected hidden>Select an overview...</option>
+                <option value="" disabled selected hidden>- Select -</option>
                 @for (categoryView of categoryViewList; track $index) {
                     <option [value]="categoryView.id">{{ categoryView.name }}: {{ categoryView.short_description }}</option>
                 }
@@ -21,7 +22,7 @@
         </div>
 
         @if (categoryList.length >= 1) {
-            <p class="description">{{ selectedView?.long_description }}</p>
+            <p class="description" style="margin-top: 0;">{{ selectedView?.long_description }}</p>
             @if (isMoreTechniquesThanInView) {
                 <p class="missing-warning">
                     <i class="fas fa-exclamation-triangle" style="color:red"></i>

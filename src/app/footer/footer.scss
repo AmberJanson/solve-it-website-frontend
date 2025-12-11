@@ -1,0 +1,42 @@
+* {
+    background: #004D46;
+    margin-top: 0px;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6rem 2rem;
+    
+    .footer-left {
+        .logo {
+            height: 100px;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+    }
+
+    .footer-right {
+        display: flex;
+        gap: 15px;
+        padding-right: 2rem;
+
+        a {
+            display: inline-block;
+        }
+
+        .social-logo {
+            font-size: 50px;
+            color: white;
+            transition: transform 0.3s;
+        }
+
+        .social-logo:hover {
+            transform: scale(1.2);
+        }
+    }
+}
