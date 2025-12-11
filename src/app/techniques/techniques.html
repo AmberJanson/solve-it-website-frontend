@@ -117,10 +117,10 @@
                                 @for (technique of techniqueList; track $index) {
                                     <tr>
                                         <td class="id">
-                                            <a [routerLink]="['/techniques', technique.id]">{{ technique.id }}</a>
+                                            <a [routerLink]="['/techniques', technique.id]">{{ technique.id }} </a>
                                         </td>
                                         <td class="name">
-                                            <a [routerLink]="['/techniques', technique.id]">{{ technique.name}}</a>
+                                            <a [routerLink]="['/techniques', technique.id]">{{ technique.name}}</a> ({{ technique.weaknesses.length }})
                                         </td>
                                         <td class="description">
                                             @if (technique.description == null || technique.description == "") {

@@ -7,10 +7,12 @@ import { MitigationDetail } from './mitigations/mitigation-detail/mitigation-det
 import { Techniques } from './techniques/techniques';
 import { Weaknesses } from './weaknesses/weaknesses';
 import { Mitigations } from './mitigations/mitigations';
+import { CategoryDetail } from './category-detail/category-detail';
 
 export const routes: Routes = [
     { path: '', component: Home},
     { path: 'about', component: About},
+    { path: 'categories/:categoryId', component: CategoryDetail},
     { path: 'techniques', component: Techniques},
     { path: 'techniques/:techniqueId', component: TechniqueDetail},
     { path: 'weaknesses', component: Weaknesses},

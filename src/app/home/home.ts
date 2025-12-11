@@ -26,6 +26,7 @@ export class Home implements OnInit {
   public techniqueList: Technique[] = [];
   public techniqueMap: Record<string, Technique> = {};
   public loadingTechniques: boolean = true;
+  public showMissing = false;
 
   constructor(
     private categoryViewService: CategoryViewService,
@@ -111,6 +112,38 @@ export class Home implements OnInit {
     this.categoryList.sort((a, b) => a.id.localeCompare(b.id))
 
     this.cdr.markForCheck();
+  }
+
+  public getAllTechniquesInSelectedView(): Technique[] {
+    if (!this.selectedView || !this.categoryList.length) {
+      return [];
+    }
+
+    const techniqueSet = new Set<Technique>();
+
+    this.categoryList.forEach(category => {
+      if (category.techniqueDetailed && category.techniqueDetailed.length) {
+        category.techniqueDetailed.forEach((technique: Technique) => techniqueSet.add(technique));
+      }
+    });
+
+    return Array.from(techniqueSet);
+  }
+
+  public get isMoreTechniquesThanInView(): boolean {
+    const allTechniquesInView = this.getAllTechniquesInSelectedView();
+    return allTechniquesInView.length < this.techniqueList.length;
+  }
+
+  public get missingTechniques(): Technique[] {
+    const allTechniquesInView = this.getAllTechniquesInSelectedView();
+    const techniquesInViewIds = new Set(allTechniquesInView.map(technique => technique.id));
+
+    return this.techniqueList.filter(technique => !techniquesInViewIds.has(technique.id)).sort((a, b) => a.id.localeCompare(b.id));
+  }
+
+  public toggleMissing() {
+    this.showMissing = !this.showMissing;
   }
 
   @ViewChild('scrollContainer', {static: false }) scrollContainer!: ElementRef;
