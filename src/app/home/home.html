@@ -11,9 +11,10 @@
             For more information about the SOLVE-IT framework, go to the <a routerLink="/about">About page</a>.
         </p>
         
+        <p class="select-text">Select an overview of how the techniques are divided:</p>
         <div class="selection-background selection-arrow">
             <select #categorySelect class="selection" (change)="getCategoriesByView(categorySelect.value)">
-                <option value="" disabled selected hidden>Select an overview...</option>
+                <option value="" disabled selected hidden>- Select -</option>
                 @for (categoryView of categoryViewList; track $index) {
                     <option [value]="categoryView.id">{{ categoryView.name }}: {{ categoryView.short_description }}</option>
                 }
