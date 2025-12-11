@@ -10,7 +10,15 @@
             </div>
 
             <div class="navbar-search">
-                <input type="text" placeholder="Search...">
+                <input type="text" placeholder="Search..." [(ngModel)]="searchTerm" (input)="onSearchChange($event.target.value)">
+
+                @if (filteredItems.length >= 1) {
+                <ul class="search-dropdown">
+                    @for (item of filteredItems; track $index) {
+                        <li>{{ item.id }}: {{ item.name }}</li>
+                    }
+                </ul>
+                }
             </div>
 
             <div class="navbar-links">
