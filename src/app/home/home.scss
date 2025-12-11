@@ -132,6 +132,18 @@ body {
 
     .missing-warning {
         text-align: center;
+        padding-bottom: 1rem;
+        font-weight: bold;
+    }
+
+    .missing-warning:hover .toggle-text {
+        text-decoration: underline;
+    }
+
+    .toggle-text {
+        margin-left: 0.25rem;
+        cursor: pointer;
+        user-select: none;
     }
 
     .missing-section {
@@ -159,7 +171,7 @@ body {
         margin: 0;
 
         color: #006FFF;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 800;
         text-decoration: none;
 

@@ -23,14 +23,22 @@
         @if (categoryList.length >= 1) {
             <p class="description">{{ selectedView?.long_description }}</p>
             @if (isMoreTechniquesThanInView) {
-                <p class="missing-warning"><i class="fas fa-exclamation-triangle" style="color:red"></i>This overview is missing the following techniques:</p>
-                <div class="missing-section">
-                    @for (technique of missingTechniques; track $index) {
-                        <div class="missing-list">
-                            <a [routerLink]="['/techniques', technique.id]">{{ technique.id }}: {{ technique.name }}</a>
-                        </div>
-                    }
-                </div>
+                <p class="missing-warning">
+                    <i class="fas fa-exclamation-triangle" style="color:red"></i>
+                    This overview is missing the following techniques:
+                    <span class="toggle-text" (click)="toggleMissing()">
+                        ({{ showMissing ? 'Hide': 'Show' }})
+                    </span>
+                </p>
+                @if (showMissing) {
+                    <div class="missing-section">
+                        @for (technique of missingTechniques; track $index) {
+                            <div class="missing-list">
+                                <a [routerLink]="['/techniques', technique.id]">{{ technique.id }}: {{ technique.name }}</a>
+                            </div>
+                        }
+                    </div>
+                }
             }
 
             <div #scrollContainer class="category-background">

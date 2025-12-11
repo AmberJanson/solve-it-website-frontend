@@ -26,6 +26,7 @@ export class Home implements OnInit {
   public techniqueList: Technique[] = [];
   public techniqueMap: Record<string, Technique> = {};
   public loadingTechniques: boolean = true;
+  public showMissing = false;
 
   constructor(
     private categoryViewService: CategoryViewService,
@@ -139,6 +140,10 @@ export class Home implements OnInit {
     const techniquesInViewIds = new Set(allTechniquesInView.map(technique => technique.id));
 
     return this.techniqueList.filter(technique => !techniquesInViewIds.has(technique.id)).sort((a, b) => a.id.localeCompare(b.id));
+  }
+
+  public toggleMissing() {
+    this.showMissing = !this.showMissing;
   }
 
   @ViewChild('scrollContainer', {static: false }) scrollContainer!: ElementRef;
