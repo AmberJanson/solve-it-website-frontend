@@ -24,6 +24,10 @@ html {
 .content p {
     padding-left: 3rem;
     margin-top: 0;
+
+    &.technique-description {
+        padding-top: 1rem;
+    }
 }
 
 .page-path {
