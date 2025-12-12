@@ -8,6 +8,7 @@ import { Category } from '../models/category.model';
 import { CategoryViewService } from '../services/category-view.service';
 import { CategoryService } from '../services/category.service';
 import { catchError, forkJoin, of } from 'rxjs';
+import { SharedPathService } from '../services/shared-path.service';
 
 @Component({
   selector: 'app-techniques',
@@ -38,10 +39,12 @@ export class Techniques implements OnInit{
     private techniqueService: TechniqueService,
     private categoryViewService: CategoryViewService,
     private categoryService: CategoryService,
+    private sharedPathService: SharedPathService,
     private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
+    this.sharedPathService.resetList();
     this.loadAllData();
   }
 

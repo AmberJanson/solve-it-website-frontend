@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
-import { RouterLink, RouterLinkActive } from "@angular/router";
+import { NavigationStart, Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { Mitigation } from '../models/mitigation.model';
 import { Category } from '../models/category.model';
 import { Technique } from '../models/technique.model';
@@ -8,8 +8,9 @@ import { CategoryService } from '../services/category.service';
 import { TechniqueService } from '../services/technique.service';
 import { WeaknessService } from '../services/weakness.service';
 import { MitigationService } from '../services/mitigation.service';
-import { catchError, forkJoin, of } from 'rxjs';
+import { catchError, filter, forkJoin, of } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { SharedPathService } from '../services/shared-path.service';
 
 @Component({
   selector: 'app-navigation',
@@ -30,13 +31,38 @@ export class Navigation implements OnInit {
   public allSearchMitigations: Mitigation[] = [];
   public loadingAllSearchLists: boolean = true;
 
+  private lastUrlIndex = 0;
+  private historyStack: string[] = [];
+
   constructor (
     private categoryService: CategoryService,
     private techniqueService: TechniqueService,
     private weaknessService: WeaknessService,
     private mitigationService: MitigationService,
-    private cdr: ChangeDetectorRef
-  ) { }
+    private sharedPathService: SharedPathService,
+    private cdr: ChangeDetectorRef,
+    private router: Router
+  ) { 
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationStart))
+        .subscribe((event: NavigationStart) => {
+          if (this.sharedPathService.getList().length == 0) {
+            this.historyStack = [];
+            this.lastUrlIndex = 0;
+          }
+          if (event.navigationTrigger === 'popstate') {
+            const lastIndex = this.historyStack.indexOf(event.url);
+            if (lastIndex < this.lastUrlIndex) {
+              this.historyStack.slice(0, -1);
+              this.sharedPathService.removeLastItem();
+            }
+            this.lastUrlIndex = lastIndex;
+          } else if (event.navigationTrigger === 'imperative') {
+            this.historyStack.push(event.url);
+            this.lastUrlIndex = this.historyStack.length - 1;
+          }
+        })
+  }
 
   ngOnInit(): void {
     this.loadAllSearchLists();
@@ -120,6 +146,10 @@ export class Navigation implements OnInit {
     return parts;
   }
 
+  public resetPath() {
+    this.sharedPathService.resetList();
+  }
+
   @HostListener('document:click', ['$event'])
   clickOutside(event: MouseEvent) {
     const target = event.target as HTMLElement;
@@ -131,14 +161,24 @@ export class Navigation implements OnInit {
     }
   }
 
-  onItemClick(event: MouseEvent) {
+  onItemClick(item: any, event: MouseEvent) {
     event.stopPropagation();
 
-    setTimeout(() => {
-      this.searchTerm = '';
-      this.filteredItems = [];
-      this.dropdownVisible = false;
-    }, 0);
-  }
+    this.searchTerm = '';
+    this.filteredItems = [];
+    this.dropdownVisible = false;
 
+    const route =
+      item.id.startsWith('C') ? '/categories/' + item.id :
+      item.id.startsWith('T') ? '/techniques/' + item.id :
+      item.id.startsWith('W') ? '/weaknesses/' + item.id :
+      item.id.startsWith('M') ? '/mitigations/' + item.id :
+      '/other/' + item.id;
+
+      this.router.navigate([route]);
+
+      if (route != this.router.url) {
+        this.resetPath();
+      }
+  }
 }

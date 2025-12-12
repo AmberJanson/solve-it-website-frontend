@@ -4,6 +4,7 @@ import { Category } from '../models/category.model';
 import { Technique } from '../models/technique.model';
 import { CategoryService } from '../services/category.service';
 import { TechniqueService } from '../services/technique.service';
+import { SharedPathService } from '../services/shared-path.service';
 
 @Component({
   selector: 'app-category-detail',
@@ -12,6 +13,8 @@ import { TechniqueService } from '../services/technique.service';
   styleUrl: './category-detail.scss'
 })
 export class CategoryDetail implements OnInit{
+
+  public pathList: string[] = [];
 
   public category: Category | null = null;
   public categoryId?: string;
@@ -22,6 +25,7 @@ export class CategoryDetail implements OnInit{
     private activatedRoute: ActivatedRoute,
     private categoryService: CategoryService,
     private techniqueService: TechniqueService,
+    private sharedPathService: SharedPathService,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -32,7 +36,11 @@ export class CategoryDetail implements OnInit{
 
       this.categoryId = id;
       this.loadCategory(id);
-    })
+    });
+
+    this.sharedPathService.list$.subscribe(list => {
+      this.pathList = list;
+    });
   }
 
   loadCategory(id: string) {
@@ -42,6 +50,7 @@ export class CategoryDetail implements OnInit{
     this.categoryService.getCategoryById(id)
       .subscribe ({next: (category) => {
         this.category = category;
+        this.addCategoryPathToService();
 
         if (category.techniques.length >= 1) {
           for (const techniqueId of category.techniques) {
@@ -68,5 +77,15 @@ export class CategoryDetail implements OnInit{
           this.cdr.markForCheck();
       }
     })
+  }
+
+  public addCategoryPathToService() {
+    this.sharedPathService.setNextItem(`${this.categoryId}: ${this.category?.name}`);
+    
+    const lastItem = this.sharedPathService.getLastItem();
+
+    if (lastItem != `${this.categoryId}: ${this.category?.name}`) {
+      this.sharedPathService.addItem(`${this.categoryId}: ${this.category?.name}`)
+    }
   }
 }

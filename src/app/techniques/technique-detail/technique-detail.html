@@ -19,6 +19,13 @@
         @if (loadingTechnique) {
                 <p>Loading technique...</p>
             } @else {
+                <p class="page-path">
+                    <a routerLink="" class="path-link">Home</a> 
+                    > 
+                    @for (path of pathList; track $index) {
+                        {{ path }} >
+                    }
+                </p>
                 @if (technique) {
 
                     <section id="description">

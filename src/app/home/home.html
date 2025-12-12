@@ -47,13 +47,13 @@
                     <div class="category-section">
 
                         <div class="category-header">
-                            <a [routerLink]="['/categories', category.id]" class="category-title">{{category.name}}</a>
+                            <a (click)="addViewPathToService()" [routerLink]="['/categories', category.id]" class="category-title">{{category.name}}</a>
                             <p class="technique-count">Techniques: {{ category.techniques.length }}</p>
                         </div>
                         <div class="technique-list">
                             @for (technique of category.techniqueDetailed; track $index) {
                                 <div class="technique-item">
-                                    <a [routerLink]="['/techniques', technique.id]">{{ technique.name }}</a> ({{ technique.weaknesses.length }})
+                                    <a (click)="addViewAndCategoryPathToService(category)" [routerLink]="['/techniques', technique.id]">{{ technique.name }}</a> ({{ technique.weaknesses.length }})
                                 </div>
                             }
                         </div>

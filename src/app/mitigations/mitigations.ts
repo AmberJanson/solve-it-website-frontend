@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { Mitigation } from '../models/mitigation.model';
 import { MitigationService } from '../services/mitigation.service';
 import { FormsModule } from '@angular/forms';
+import { SharedPathService } from '../services/shared-path.service';
 
 @Component({
   selector: 'app-mitigations',
@@ -23,10 +24,12 @@ export class Mitigations implements OnInit {
 
   constructor(
     private mitigationService: MitigationService,
+    private sharedPathService: SharedPathService,
     private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
+    this.sharedPathService.resetList();
     this.loadMitigations();
   }
 

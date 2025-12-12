@@ -13,6 +13,13 @@
         @if (loadingCategory) {
                 <p>Loading category...</p>
             } @else {
+                <p class="page-path">
+                    <a routerLink="" class="path-link">Home</a> 
+                    > 
+                    @for (path of pathList; track $index) {
+                        {{ path }} >
+                    }
+                </p>
                 @if (category) {
 
                     <section id="description">

@@ -4,6 +4,7 @@ import { TechniqueService } from '../../services/technique.service';
 import { Technique } from '../../models/technique.model';
 import { WeaknessService } from '../../services/weakness.service';
 import { Weakness } from '../../models/weakness.model';
+import { SharedPathService } from '../../services/shared-path.service';
 
 @Component({
   selector: 'app-technique-detail',
@@ -12,6 +13,8 @@ import { Weakness } from '../../models/weakness.model';
   styleUrls: ['./technique-detail.scss'],
 })
 export class TechniqueDetail  implements OnInit{
+
+  public pathList: string[] = [];
 
   public technique: Technique | null = null;
   public subtechniques: Technique[] = [];
@@ -23,6 +26,7 @@ export class TechniqueDetail  implements OnInit{
     private activatedRoute: ActivatedRoute,
     private techniqueService: TechniqueService,
     private weaknessService: WeaknessService,
+    private sharedPathService: SharedPathService,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -33,7 +37,11 @@ export class TechniqueDetail  implements OnInit{
 
       this.techniqueId = id;
       this.loadTechnique(id);
-    })
+    });
+
+    this.sharedPathService.list$.subscribe(list => {
+      this.pathList = list;
+    });
   }
 
   loadTechnique(id: string) {
@@ -44,6 +52,7 @@ export class TechniqueDetail  implements OnInit{
     this.techniqueService.getTechniquesById(id)
       .subscribe({next: (technique) => {
           this.technique = technique;
+          this.addTechniquePathToService();
 
           if (technique.subtechniques.length >= 1) {
             for (const subtechniqueId of technique.subtechniques) {
@@ -86,5 +95,15 @@ export class TechniqueDetail  implements OnInit{
           this.cdr.markForCheck();
       }
     });
+  }
+
+  public addTechniquePathToService() {
+    this.sharedPathService.setNextItem(`${this.techniqueId}: ${this.technique?.name}`);
+
+    const lastItem = this.sharedPathService.getLastItem();
+
+    if (lastItem != `${this.techniqueId}: ${this.technique?.name}`) {
+      this.sharedPathService.addItem(`${this.techniqueId}: ${this.technique?.name}`)
+    }
   }
 }

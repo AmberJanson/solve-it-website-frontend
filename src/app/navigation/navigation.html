@@ -15,14 +15,7 @@
                 @if ( dropdownVisible && filteredItems.length >= 1) {
                 <ul class="search-dropdown">
                     @for (item of filteredItems; track $index) {
-                        <li [routerLink]="
-                            item.id.startsWith('C') ? '/categories/' + item.id :
-                            item.id.startsWith('T') ? '/techniques/' + item.id :
-                            item.id.startsWith('W') ? '/weaknesses/' + item.id :
-                            item.id.startsWith('M') ? '/mitigations/' + item.id :
-                            '/other/' + item.id
-                        "
-                        (click)="onItemClick($event)">
+                        <li (click)="onItemClick(item, $event)">
                             {{ item.id }}: 
                             @for (part of getNameParts(item.name); track $index) {
                                 <span [class.highlight]="part.highlight">{{ part.text }}</span>
