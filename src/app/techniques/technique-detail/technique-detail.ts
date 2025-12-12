@@ -106,4 +106,13 @@ export class TechniqueDetail  implements OnInit{
       this.sharedPathService.addItem(`${this.techniqueId}: ${this.technique?.name}`)
     }
   }
+
+  public resetListPartialy(index: number) {
+    let list = this.sharedPathService.getList();
+
+    while ((list.length - 1) >= index) {
+      this.sharedPathService.removeLastItem();
+      list = this.sharedPathService.getList();
+    }
+  }
 }

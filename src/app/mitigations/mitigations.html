@@ -25,7 +25,13 @@
         @if (loadingMitigations) {
             <p>Loading mitigations...</p>
         } @else {
-            <p class="page-path"><a routerLink="" class="path-link">Home</a> > Mitigations</p>
+            <p class="page-path">
+                <a routerLink="" class="path-link">Home</a> 
+                > 
+                @for (path of pathList; track $index) {
+                        {{ path }} @if($index != (pathList.length - 1)){>}
+                }
+            </p>
             @if (mitigationList.length >= 1) {
 
                 <section>

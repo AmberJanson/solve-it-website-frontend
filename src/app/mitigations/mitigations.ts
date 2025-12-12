@@ -12,6 +12,8 @@ import { SharedPathService } from '../services/shared-path.service';
   styleUrl: './mitigations.scss'
 })
 export class Mitigations implements OnInit {
+
+  public pathList: string[] = [];
   
   public allMitigations: Mitigation[] = [];
   public mitigationList: Mitigation[] = [];
@@ -30,7 +32,13 @@ export class Mitigations implements OnInit {
 
   ngOnInit(): void {
     this.sharedPathService.resetList();
+    this.sharedPathService.addItem('Mitigations');
+
     this.loadMitigations();
+
+    this.sharedPathService.list$.subscribe(list => {
+      this.pathList = list;
+    });
   }
 
   loadMitigations() {

@@ -84,7 +84,13 @@
         @if (loadingTechniques) {
             <p>Loading techniques...</p>
         } @else {
-            <p class="page-path"><a routerLink="" class="path-link">Home</a> > Techniques</p>
+                <p class="page-path">
+                    <a routerLink="" class="path-link">Home</a> 
+                    > 
+                    @for (path of pathList; track $index) {
+                            {{ path }} @if($index != (pathList.length - 1)){>}
+                    }
+                </p>
             @if (techniqueList.length >= 1) {
 
                 <section>

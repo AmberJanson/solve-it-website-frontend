@@ -13,6 +13,26 @@
         @if (loadingMitigation) {
             <p>Loading mitigation...</p>
         } @else {
+            <p class="page-path">
+                <a routerLink="" class="path-link">Home</a> 
+                > 
+                @for (path of pathList; track $index) {
+                    @if ((pathList.length - 1) != $index && (path.match('^C1') || path.match('^T1') || path.match('^W1') || path.match('^M1') || path.match('^Techniques$') || path.match('^Weaknesses$') || path.match('^Mitigations$'))) {
+                        <a (click)="resetListPartialy($index)" [routerLink]="
+                        path.startsWith('C1') ? '/categories/' + path.split(':')[0] :
+                        path.startsWith('T1') ? '/techniques/' + path.split(':')[0] :
+                        path.startsWith('W1') ? '/weaknesses/' + path.split(':')[0] :
+                        path.startsWith('M1') ? '/mitigations/' + path.split(':')[0] :
+                        path.match('^Techniques$') ? '/techniques/' :
+                        path.match('^Weaknesses$') ? '/weaknesses/' :
+                        path.match('^Mitigations$') ? '/mitigations/' :
+                        '/other/'
+                        "> {{ path }} </a>> 
+                    } @else {
+                        {{ path }} @if($index != (pathList.length - 1)){>}
+                    }
+                }
+            </p>
             @if (mitigation) {
 
                 <section>

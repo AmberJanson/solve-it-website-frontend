@@ -17,7 +17,7 @@
                     <a routerLink="" class="path-link">Home</a> 
                     > 
                     @for (path of pathList; track $index) {
-                        {{ path }} >
+                        {{ path }} @if($index != (pathList.length - 1)){>}
                     }
                 </p>
                 @if (category) {

@@ -13,6 +13,8 @@ import { SharedPathService } from '../services/shared-path.service';
 })
 export class Weaknesses implements OnInit{
 
+  public pathList: string[] = [];
+
   private allWeaknesses: Weakness[] = [];
   public weaknessList: Weakness[] = [];
   public loadingWeaknesses: boolean = true;
@@ -47,7 +49,13 @@ export class Weaknesses implements OnInit{
 
   ngOnInit(): void {
     this.sharedPathService.resetList();
+    this.sharedPathService.addItem('Weaknesses');
+
     this.loadWeaknesses();
+
+    this.sharedPathService.list$.subscribe(list => {
+      this.pathList = list;
+    });
   }
 
   loadWeaknesses() {

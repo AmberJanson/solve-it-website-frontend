@@ -18,6 +18,8 @@ import { SharedPathService } from '../services/shared-path.service';
 })
 export class Techniques implements OnInit{
 
+  public pathList: string[] = [];
+
   private allTechniques: Technique[] = [];
   public techniqueList: Technique[] = [];
   public loadingTechniques: boolean = true;
@@ -45,7 +47,13 @@ export class Techniques implements OnInit{
 
   ngOnInit(): void {
     this.sharedPathService.resetList();
+    this.sharedPathService.addItem('Techniques');
+    
     this.loadAllData();
+
+    this.sharedPathService.list$.subscribe(list => {
+      this.pathList = list;
+    });
   }
 
   private loadAllData() {

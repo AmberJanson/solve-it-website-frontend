@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MitigationService } from '../../services/mitigation.service';
 import { Technique } from '../../models/technique.model';
 import { TechniqueService } from '../../services/technique.service';
+import { SharedPathService } from '../../services/shared-path.service';
 
 @Component({
   selector: 'app-mitigation-detail',
@@ -12,6 +13,8 @@ import { TechniqueService } from '../../services/technique.service';
   styleUrl: './mitigation-detail.scss'
 })
 export class MitigationDetail implements OnInit {
+
+  public pathList: string[] = [];
 
   public mitigation: Mitigation | null = null;
   public mitigationId?: string;
@@ -22,6 +25,7 @@ export class MitigationDetail implements OnInit {
     private activatedRoute: ActivatedRoute,
     private mitigationService: MitigationService,
     private techniqueService: TechniqueService,
+    private sharedPathService: SharedPathService,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -33,6 +37,10 @@ export class MitigationDetail implements OnInit {
       this.mitigationId = id;
       this.loadMitigation(id);
     })
+
+    this.sharedPathService.list$.subscribe(list => {
+      this.pathList = list;
+    });
   }
 
   loadMitigation(id: string) {
@@ -42,6 +50,7 @@ export class MitigationDetail implements OnInit {
     this.mitigationService.getMitigationById(id)
       .subscribe({next: (mitigation) => {
         this.mitigation = mitigation;
+        this.addMitigationPathToService();
 
         if (mitigation.technique != null) {
           this.techniqueService.getTechniquesById(mitigation.technique)
@@ -66,5 +75,24 @@ export class MitigationDetail implements OnInit {
         this.cdr.markForCheck();
       }
     });
+  }
+
+  public addMitigationPathToService() {
+    this.sharedPathService.setNextItem(`${this.mitigationId}: ${this.mitigation?.name}`);
+
+    const lastItem = this.sharedPathService.getLastItem();
+
+    if (lastItem != `${this.mitigationId}: ${this.mitigation?.name}`) {
+      this.sharedPathService.addItem(`${this.mitigationId}: ${this.mitigation?.name}`)
+    }
+  }
+
+  public resetListPartialy(index: number) {
+    let list = this.sharedPathService.getList();
+
+    while ((list.length - 1) >= index) {
+      this.sharedPathService.removeLastItem();
+      list = this.sharedPathService.getList();
+    }
   }
 }
