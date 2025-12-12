@@ -3,6 +3,11 @@ import { RouterLink } from '@angular/router';
 import { Technique } from '../models/technique.model';
 import { TechniqueService } from '../services/technique.service';
 import { FormsModule } from '@angular/forms';
+import { CategoryView } from '../models/category-view.model';
+import { Category } from '../models/category.model';
+import { CategoryViewService } from '../services/category-view.service';
+import { CategoryService } from '../services/category.service';
+import { catchError, forkJoin, of } from 'rxjs';
 
 @Component({
   selector: 'app-techniques',
@@ -27,22 +32,81 @@ export class Techniques implements OnInit{
     references: ''
   };
 
+  public techniqueMap: { [techniqueId: string]: {view: CategoryView, categories: Category[]}[] } = {};
+
   constructor(
     private techniqueService: TechniqueService,
+    private categoryViewService: CategoryViewService,
+    private categoryService: CategoryService,
     private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    this.loadTechniques();
+    this.loadAllData();
   }
 
-  private loadTechniques() {
-    this.techniqueList = [];
+  private loadAllData() {
+    this.loadingTechniques = true;
 
-    this.techniqueService.getAllTechniques()
-      .subscribe({next: (techniques) => {
+    forkJoin({
+      techniques: this.techniqueService.getAllTechniques().pipe(
+        catchError(err => {
+          console.error("Error occurred: ", err);
+          return of([]);
+        })
+      ),
+      views: this.categoryViewService.getAllCategoryViews().pipe(
+        catchError(err => {
+          console.error("Error occurred: ", err);
+          return of([]);
+        })
+      ),
+      categories: this.categoryService.getAllCategories().pipe(
+        catchError(err => {
+          console.error("Error occurred: ", err);
+          return of([]);
+        })
+      )
+    }).subscribe({
+      next: ({ techniques, views, categories }) => {
         this.allTechniques = Object.values(techniques);
         this.techniqueList = [...this.allTechniques];
+
+        const viewsArray = Object.values(views);
+        const categoriesArray = Object.values(categories);
+
+        const viewMap: { [id: string]: CategoryView } = {};
+        viewsArray.forEach(view => viewMap[view.id] = view);
+
+        const categoryMap: { [id: string]: Category } = {};
+        categoriesArray.forEach(category => categoryMap[category.id] = category);
+
+        const flatMap: { [techniqueId: string]: { view: CategoryView, category: Category}[] } = {};
+        viewsArray.forEach(view => {
+          view.categories.forEach(categoryId => {
+            const category = categoryMap[categoryId];
+            if (category) {
+              category.techniques.forEach((techniqueId: string) => {
+                if (!flatMap[techniqueId]) flatMap[techniqueId] = []; 
+                flatMap[techniqueId].push({ view, category });
+              });
+            }
+          });
+        });
+
+        this.techniqueMap = {};
+        Object.entries(flatMap).forEach(([techniqueId, viewCategories]) => {
+          const temp: { [viewId: string]: Category[] } = {};
+          viewCategories.forEach(viewCategory => {
+            if (!temp[viewCategory.view.id]) temp[viewCategory.view.id] = [];
+            temp[viewCategory.view.id].push(viewCategory.category);
+          });
+          this.techniqueMap[techniqueId] = Object.entries(temp).map(([viewId, categories]) => ({
+            view: viewCategories.find(viewCategory => viewCategory.view.id == viewId)!.view,
+            categories
+          }));
+        });
+
         this.loadingTechniques = false;
         this.applyFiltersAndSort();
         this.cdr.markForCheck();
@@ -51,7 +115,7 @@ export class Techniques implements OnInit{
         this.loadingTechniques = false;
         this.cdr.markForCheck();
       }
-    });
+    })
   }
 
   private isPresent(value: any): boolean {
