@@ -84,11 +84,18 @@
         @if (loadingTechniques) {
             <p>Loading techniques...</p>
         } @else {
+                <p class="page-path">
+                    <a routerLink="" class="path-link">Home</a> 
+                    > 
+                    @for (path of pathList; track $index) {
+                            {{ path }} @if($index != (pathList.length - 1)){>}
+                    }
+                </p>
             @if (techniqueList.length >= 1) {
 
                 <section>
                     <h1 class="title">Techniques</h1>
-                    <p>Dit is een beschrijving</p>
+                    <p>This collection page lists the techniques from the SOLVE-IT framework. These techniques can be used when performing certain tasks within digital forensic investigation or research.</p>
                 </section>
 
                 <section>
@@ -110,6 +117,7 @@
                                     <th>ID</th>
                                     <th>Name</th>
                                     <th class="description">Description</th>
+                                    <th class="views-categories">Appears in</th>
                                 </tr>
                             </thead>
 
@@ -127,6 +135,24 @@
                                                 <i class="fas fa-exclamation-triangle" style="color:red"></i>No description for this technique is known yet.
                                             } @else {
                                                 {{ technique.description }}
+                                            }
+                                        </td>
+                                        <td class="views-categories">
+                                            @if (techniqueMap[technique.id]?.length) {
+                                                @for (viewGroup of techniqueMap[technique.id]; track $index) {
+                                                    <b>{{ viewGroup.view.id }}:</b> {{ viewGroup.view.name}}
+                                                    <hr>
+                                                    @for (category of viewGroup.categories; track $index) {
+                                                        <b>{{ category.id }}:</b> {{ category.name }}
+                                                        <br>
+                                                    }
+                                                    @if ($index + 1 !== techniqueMap[technique.id].length){
+                                                        <br>
+                                                        <br>
+                                                    }
+                                                }
+                                            } @else {
+                                                <i class="fas fa-exclamation-triangle" style="color:red"></i>This technique isn't added to any view or category.
                                             }
                                         </td>
                                     </tr>

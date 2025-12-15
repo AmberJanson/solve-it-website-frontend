@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { Weakness } from '../models/weakness.model';
 import { WeaknessService } from '../services/weakness.service';
 import { FormsModule } from '@angular/forms';
+import { SharedPathService } from '../services/shared-path.service';
 
 @Component({
   selector: 'app-weaknesses',
@@ -11,6 +12,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './weaknesses.scss'
 })
 export class Weaknesses implements OnInit{
+
+  public pathList: string[] = [];
 
   private allWeaknesses: Weakness[] = [];
   public weaknessList: Weakness[] = [];
@@ -40,11 +43,19 @@ export class Weaknesses implements OnInit{
 
   constructor(
     private weaknessService: WeaknessService,
+    private sharedPathService: SharedPathService,
     private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
+    this.sharedPathService.resetList();
+    this.sharedPathService.addItem('Weaknesses');
+
     this.loadWeaknesses();
+
+    this.sharedPathService.list$.subscribe(list => {
+      this.pathList = list;
+    });
   }
 
   loadWeaknesses() {

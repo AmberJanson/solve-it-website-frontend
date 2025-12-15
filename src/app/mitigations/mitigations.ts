@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { Mitigation } from '../models/mitigation.model';
 import { MitigationService } from '../services/mitigation.service';
 import { FormsModule } from '@angular/forms';
+import { SharedPathService } from '../services/shared-path.service';
 
 @Component({
   selector: 'app-mitigations',
@@ -11,6 +12,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './mitigations.scss'
 })
 export class Mitigations implements OnInit {
+
+  public pathList: string[] = [];
   
   public allMitigations: Mitigation[] = [];
   public mitigationList: Mitigation[] = [];
@@ -23,11 +26,19 @@ export class Mitigations implements OnInit {
 
   constructor(
     private mitigationService: MitigationService,
+    private sharedPathService: SharedPathService,
     private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
+    this.sharedPathService.resetList();
+    this.sharedPathService.addItem('Mitigations');
+
     this.loadMitigations();
+
+    this.sharedPathService.list$.subscribe(list => {
+      this.pathList = list;
+    });
   }
 
   loadMitigations() {

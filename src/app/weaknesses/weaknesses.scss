@@ -31,6 +31,21 @@ html {
     }
 }
 
+.page-path {
+    padding-top: 1rem;
+    font-size: 18px;
+
+    & a {
+        color: #006FFF;
+        font-weight: 800;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
 .title {
     position: relative;
     padding: 2rem;
@@ -181,6 +196,10 @@ html {
     border-radius: 12px;
     display: inline-block;
     position: relative;
+}
+
+.selection-filtering-background:last-child {
+    margin-bottom: 2rem;
 }
 
 .selection-filtering {

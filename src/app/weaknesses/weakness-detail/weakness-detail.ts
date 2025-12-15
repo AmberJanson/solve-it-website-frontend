@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { WeaknessService } from '../../services/weakness.service';
 import { Mitigation } from '../../models/mitigation.model';
 import { MitigationService } from '../../services/mitigation.service';
+import { SharedPathService } from '../../services/shared-path.service';
 
 @Component({
   selector: 'app-weakness-detail',
@@ -12,6 +13,8 @@ import { MitigationService } from '../../services/mitigation.service';
   styleUrl: './weakness-detail.scss'
 })
 export class WeaknessDetail implements OnInit{
+
+  public pathList: string[] = [];
   
   public weakness: Weakness | null = null;
   public weaknessId?: string;
@@ -22,6 +25,7 @@ export class WeaknessDetail implements OnInit{
     private activatedRoute: ActivatedRoute,
     private weaknessService: WeaknessService,
     private mitigationService: MitigationService,
+    private sharedPathService: SharedPathService,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -33,6 +37,10 @@ export class WeaknessDetail implements OnInit{
       this.weaknessId = id;
       this.loadWeakness(id);
     })
+
+    this.sharedPathService.list$.subscribe(list => {
+      this.pathList = list;
+    });
   }
 
   loadWeakness(id: string) {
@@ -42,6 +50,7 @@ export class WeaknessDetail implements OnInit{
     this.weaknessService.getWeaknessById(id)
       .subscribe({next: (weakness) => {
         this.weakness = weakness;
+        this.addWeaknessPathToService();
 
         if (weakness.mitigations.length >= 1) {
           for (const mitigationId of weakness.mitigations) {
@@ -68,5 +77,24 @@ export class WeaknessDetail implements OnInit{
         this.cdr.markForCheck();
       }
     });
+  }
+
+  public addWeaknessPathToService() {
+    this.sharedPathService.setNextItem(`${this.weaknessId}: ${this.weakness?.name}`);
+
+    const lastItem = this.sharedPathService.getLastItem();
+
+    if (lastItem != `${this.weaknessId}: ${this.weakness?.name}`) {
+      this.sharedPathService.addItem(`${this.weaknessId}: ${this.weakness?.name}`)
+    }
+  }
+
+  public resetListPartialy(index: number) {
+    let list = this.sharedPathService.getList();
+
+    while ((list.length - 1) >= index) {
+      this.sharedPathService.removeLastItem();
+      list = this.sharedPathService.getList();
+    }
   }
 }

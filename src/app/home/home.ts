@@ -7,6 +7,7 @@ import { CategoryService } from '../services/category.service';
 import { Category } from '../models/category.model';
 import { Technique } from '../models/technique.model';
 import { TechniqueService } from '../services/technique.service';
+import { SharedPathService } from '../services/shared-path.service';
 
 @Component({
   selector: 'app-home',
@@ -32,10 +33,12 @@ export class Home implements OnInit {
     private categoryViewService: CategoryViewService,
     private categoryService: CategoryService,
     private techniqueService: TechniqueService,
+    private sharedPathService: SharedPathService,
     private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
+    this.sharedPathService.resetList();
     this.loadCategoryViews();
     this.loadCategories();
     this.loadTechniques();
@@ -144,6 +147,15 @@ export class Home implements OnInit {
 
   public toggleMissing() {
     this.showMissing = !this.showMissing;
+  }
+
+  public addViewPathToService() {
+    this.sharedPathService.addItem(`${this.selectedView?.name}`)
+  }
+
+  public addViewAndCategoryPathToService(category: Category) {
+    this.sharedPathService.addItem(`${this.selectedView?.name}`)
+    this.sharedPathService.addItem(`${category.id}: ${category.name}`)
   }
 
   @ViewChild('scrollContainer', {static: false }) scrollContainer!: ElementRef;
