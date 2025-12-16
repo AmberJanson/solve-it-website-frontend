@@ -7,11 +7,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6rem 2rem;
+    padding: 1rem 2rem;
     
     .footer-left {
         .logo {
-            height: 100px;
+            height: 90px;
             transition: transform 0.3s;
         }
 
@@ -30,7 +30,7 @@
         }
 
         .social-logo {
-            font-size: 50px;
+            font-size: 40px;
             color: white;
             transition: transform 0.3s;
         }
@@ -83,10 +83,10 @@
 @media only screen and (max-width: 824px) {
     .footer {
         flex-direction: column;
-        padding-top: 3rem;
+        padding-top: 1rem;
 
         .footer-left {
-            padding-bottom: 3rem;
+            padding-bottom: 2rem;
         }
 
         .footer-right  {
