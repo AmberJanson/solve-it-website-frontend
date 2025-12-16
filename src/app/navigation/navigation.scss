@@ -1,5 +1,6 @@
 .navbar {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     padding: 1rem 2rem;
@@ -11,13 +12,12 @@
     }
 
     .navbar-search {
-        flex: 1;
+        flex: 1 1 auto;
         display: flex;
         justify-content: center;
-        position: relative;
 
         input {
-            width: 50%;
+            width: 70%;
             padding: 0.5rem 0.5rem;
             border-color: white;
             border-radius: 10px;
@@ -79,6 +79,7 @@
     .navbar-links {
         display: flex;
         gap: 2rem;
+        margin-top: 1rem;
 
         a {
             color: white;
@@ -93,6 +94,110 @@
 
         a.active {
             text-decoration: underline;
+        }
+    }
+
+    .hamburger-button {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        gap: 6px;
+
+        span {
+            width: 28px;
+            height: 3px;
+            background-color: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        &.open span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        &.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        &.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+    }
+}
+
+// small laptops
+@media only screen and (max-width: 1300px) {
+    .navbar {
+        .hamburger-button {
+            display: flex;
+        }
+
+        .navbar-links {
+            display: none;
+            flex-direction: row;
+            justify-content: center;
+            width: 100%;
+            padding: 1rem;
+            gap: 2rem;
+        }
+
+        .navbar-links.open {
+            display: flex;
+        }
+    }
+}
+
+// vertical-held tablets
+@media only screen and (max-width: 793px) {
+    .navbar {
+        justify-content: space-between;
+    
+        .navbar-logo {
+            order: 1;
+            flex: 0 0 auto;
+        }
+
+        .hamburger-button {
+            order: 2;
+            flex: 0 0 auto;
+            justify-content: flex-end;
+        }
+
+        .navbar-search {
+            order: 3;
+            flex-basis: 100%;
+            justify-content: center;
+            margin-top: 1rem;
+
+            input {
+                width: 90%;
+            }
+        }
+
+        .navbar-links {
+            order: 4;
+        }
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .navbar {
+
+        .navbar-logo img {
+            height: 42px;
+        }
+
+        .navbar-links {
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .navbar {
+        .navbar-logo img {
+            height: 31px;
         }
     }
 }

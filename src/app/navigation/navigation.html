@@ -26,12 +26,20 @@
                 }
             </div>
 
-            <div class="navbar-links">
-                <a routerLink="/techniques" [routerLinkActive]="['active']">Techniques</a>
-                <a routerLink="/weaknesses" [routerLinkActive]="['active']">Weaknesses</a>
-                <a routerLink="/mitigations" [routerLinkActive]="['active']">Mitigations</a>
-                <a href="https://github.com/SOLVE-IT-DF/solve-it/tree/main/data" target="_blank">Github<i class="fas fa-arrow-up-right-from-square"></i></a>
-                <a routerLink="/about" [routerLinkActive]="['active']">About</a>
+            <div class="hamburger-button"
+                [class.open]="menuOpen"
+                (click)="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <div class="navbar-links" [class.open]="menuOpen">
+                <a (click)="closeMenu()" routerLink="/techniques" [routerLinkActive]="['active']">Techniques</a>
+                <a (click)="closeMenu()" routerLink="/weaknesses" [routerLinkActive]="['active']">Weaknesses</a>
+                <a (click)="closeMenu()" routerLink="/mitigations" [routerLinkActive]="['active']">Mitigations</a>
+                <a (click)="closeMenu()" href="https://github.com/SOLVE-IT-DF/solve-it/tree/main/data" target="_blank">Github<i class="fas fa-arrow-up-right-from-square"></i></a>
+                <a (click)="closeMenu()" routerLink="/about" [routerLinkActive]="['active']">About</a>
             </div>
         </nav>
     </body>
