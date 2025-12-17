@@ -5,6 +5,7 @@ import { MitigationService } from '../../services/mitigation.service';
 import { Technique } from '../../models/technique.model';
 import { TechniqueService } from '../../services/technique.service';
 import { SharedPathService } from '../../services/shared-path.service';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-mitigation-detail',
@@ -94,5 +95,49 @@ export class MitigationDetail implements OnInit {
       this.sharedPathService.removeLastItem();
       list = this.sharedPathService.getList();
     }
+  }
+
+  generatePDF() {
+    const doc = new jsPDF();
+    let x = 10;
+    let y = 10;
+    const pageWidth = doc.internal.pageSize.getWidth() - 20;
+    const lineHeight = 8;
+    const stepSpacing = 10;
+    const pageMargin = 10;
+    const pageHeight = doc.internal.pageSize.getHeight();
+    
+    this.pathList.forEach((page, index) => {
+      const numberText = `${index + 1}) `;
+      const pageText = page;
+
+      const numberWidth = doc.getTextWidth(numberText);
+      const availableWidth = pageWidth - numberWidth;
+      const lines: string[] = doc.splitTextToSize(pageText, availableWidth);
+
+      if (y + lines.length * lineHeight > pageHeight - pageMargin) {
+        doc.addPage();
+        y = pageMargin;
+      }
+
+      lines.forEach((line: string, i: number) => {
+        if (i === 0) {
+          doc.setFont('helvetica', 'bold');
+          doc.text(numberText, x, y);
+
+          doc.setFont('helvetica', 'normal');
+          doc.text(line, x + numberWidth, y);
+        } else {
+          doc.setFont('helvetica', 'normal');
+          doc.text(line, x + numberWidth, y);
+        }
+
+        y += lineHeight;
+      });
+
+      y += stepSpacing - lineHeight;
+    });
+
+    doc.save('Path.pdf')
   }
 }
