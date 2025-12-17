@@ -1,5 +1,8 @@
-<div class="page-layout">
-    <aside class="filters">
+<div class="page-layout" [class.open]="filtersOpen">
+    <aside class="filters" [class.open]="filtersOpen">
+
+        <button class="filters-close" (click)="toggleFilters()">X</button>
+
         <h2>Filters</h2>
 
         <p>Details:</p>
@@ -49,14 +52,14 @@
         @if (loadingWeaknesses) {
             <p>Loading weaknesses...</p>
         } @else {
-            <p class="page-path">
-                <a routerLink="" class="path-link">Home</a> 
-                > 
-                @for (path of pathList; track $index) {
-                        {{ path }} @if($index != (pathList.length - 1)){>}
-                }
-            </p>
             @if (weaknessList.length >= 1) {
+                <p class="page-path">
+                    <a routerLink="" class="path-link">Home</a> 
+                    > 
+                    @for (path of pathList; track $index) {
+                            {{ path }} @if($index != (pathList.length - 1)){>}
+                    }
+                </p>
 
                 <section>
                     <h1 class="title">Weaknesses</h1>
@@ -64,52 +67,84 @@
                 </section>
 
                 <section>
-                    <div class="selection-background selection-arrow">
-                        <select [(ngModel)]="selectedSort" (change)="applyFiltersAndSort()" class="selection">
-                            <option value="idAsc">ID (Low -> High)</option>
-                            <option value="idDesc">ID (High -> Low)</option>
-                            <option value="nameAsc">Name (A -> Z)</option>
-                            <option value="nameDesc">Name (Z -> A)</option>
-                        </select>
-                    </div>
+                    <section class="selection-bar">
+                        <div class="selection-background selection-arrow">
+                            <select [(ngModel)]="selectedSort" (change)="applyFiltersAndSort()" class="selection">
+                                <option value="idAsc">ID (Low -> High)</option>
+                                <option value="idDesc">ID (High -> Low)</option>
+                                <option value="nameAsc">Name (A -> Z)</option>
+                                <option value="nameDesc">Name (Z -> A)</option>
+                            </select>
+                        </div>
+
+                        <div class="selection-background filters-button">
+                            <button class="filters-toggle selection" (click)="toggleFilters()">
+                                @if (!filtersOpen) {
+                                    Show filters
+                                } @else {
+                                    Hide filters
+                                }
+
+                            </button>
+                        </div>
+                    </section>
 
                     <p class="entity-amount">Weaknesses: {{ weaknessList.length }}</p>
                     <div class="table-background">
-                        <table class="entities">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th class="risks">Risks</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                @for (weakness of weaknessList; track $index) {
+                        <div class="table-scroll">
+                            <table class="entities">
+                                <thead>
                                     <tr>
-                                        <td class="id">
-                                            <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.id }}</a>
-                                        </td>
-                                        <td class="name">
-                                            <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.name}}</a> ({{ weakness.mitigations.length }})
-                                        </td>
-                                        <td class="risks">
-                                            @for (risk of weakness.risks; track $index) {
-                                                {{ risk }}
-                                                @if ($index < weakness.risks.length - 1) {
-                                                    |
-                                                }
-                                            }
-                                        </td>
+                                        <th>ID</th>
+                                        <th class="name">Name</th>
+                                        <th class="risks">Risks</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+
+                                <tbody>
+                                    @for (weakness of weaknessList; track $index) {
+                                        <tr>
+                                            <td class="id">
+                                                <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.id }}</a>
+                                            </td>
+                                            <td class="name">
+                                                <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.name}}</a> ({{ weakness.mitigations.length }})
+                                            </td>
+                                            <td class="risks">
+                                                @for (risk of weakness.risks; track $index) {
+                                                    {{ risk }}
+                                                    @if ($index < weakness.risks.length - 1) {
+                                                        |
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </section>
 
             } @else {
+                <p class="page-path-no-weakness">
+                    <a routerLink="" class="path-link">Home</a> 
+                    > 
+                    @for (path of pathList; track $index) {
+                            {{ path }} @if($index != (pathList.length - 1)){>}
+                    }
+                </p>
                 <p class="not-found">No weaknesses found.</p>
+                <div class="selection-background filters-button no-weakness-filter-button">
+                    <button class="filters-toggle selection" (click)="toggleFilters()">
+                        @if (!filtersOpen) {
+                            Show filters
+                        } @else {
+                            Hide filters
+                        }
+
+                    </button>
+                </div>
             }
         }
     </main>
