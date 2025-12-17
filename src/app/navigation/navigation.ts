@@ -22,6 +22,8 @@ import { SharedPathService } from '../services/shared-path.service';
 export class Navigation implements OnInit {
   public searchTerm: string = '';
   public dropdownVisible = false;
+
+  public menuOpen = false;
   
   public allSearchItems: any[] = [];
   public filteredItems: any[] = [];
@@ -154,10 +156,15 @@ export class Navigation implements OnInit {
   clickOutside(event: MouseEvent) {
     const target = event.target as HTMLElement;
     const searchBar = document.querySelector('.navbar-search');
+    const navbar = document.querySelector('.navbar')
     if (searchBar && !searchBar.contains(target)) {
       this.dropdownVisible = false;
     } else if (searchBar && searchBar.contains(target)) {
       this.dropdownVisible = true;
+    }
+
+    if (navbar && !navbar.contains(target)) {
+      this.menuOpen = false;
     }
   }
 
@@ -180,5 +187,13 @@ export class Navigation implements OnInit {
       if (route != this.router.url) {
         this.resetPath();
       }
+  }
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  closeMenu() {
+    this.menuOpen = false;
   }
 }

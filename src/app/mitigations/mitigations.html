@@ -1,5 +1,8 @@
-<div class="page-layout">
-    <aside class="filters">
+<div class="page-layout" [class.open]="filtersOpen">
+    <aside class="filters" [class.open]="filtersOpen">
+
+        <button class="filters-close" (click)="toggleFilters()">X</button>
+
         <h2>Filters</h2>
 
         <p>Technique:</p>
@@ -25,14 +28,14 @@
         @if (loadingMitigations) {
             <p>Loading mitigations...</p>
         } @else {
-            <p class="page-path">
-                <a routerLink="" class="path-link">Home</a> 
-                > 
-                @for (path of pathList; track $index) {
-                        {{ path }} @if($index != (pathList.length - 1)){>}
-                }
-            </p>
             @if (mitigationList.length >= 1) {
+                <p class="page-path">
+                    <a routerLink="" class="path-link">Home</a> 
+                    > 
+                    @for (path of pathList; track $index) {
+                            {{ path }} @if($index != (pathList.length - 1)){>}
+                    }
+                </p>
 
                 <section>
                     <h1 class="title">Mitigations</h1>
@@ -40,14 +43,27 @@
                 </section>
 
                 <section>
-                    <div class="selection-background selection-arrow">
-                        <select [(ngModel)]="selectedSort" (change)="applyFiltersAndSort()" class="selection">
-                            <option value="idAsc">ID (Low -> High)</option>
-                            <option value="idDesc">ID (High -> Low)</option>
-                            <option value="nameAsc">Name (A -> Z)</option>
-                            <option value="nameDesc">Name (Z -> A)</option>
-                        </select>
-                    </div>
+                    <section class="selection-bar">
+                        <div class="selection-background selection-arrow">
+                            <select [(ngModel)]="selectedSort" (change)="applyFiltersAndSort()" class="selection">
+                                <option value="idAsc">ID (Low -> High)</option>
+                                <option value="idDesc">ID (High -> Low)</option>
+                                <option value="nameAsc">Name (A -> Z)</option>
+                                <option value="nameDesc">Name (Z -> A)</option>
+                            </select>
+                        </div>
+
+                        <div class="selection-background filters-button">
+                            <button class="filters-toggle selection" (click)="toggleFilters()">
+                                @if (!filtersOpen) {
+                                    Show filters
+                                } @else {
+                                    Hide filters
+                                }
+
+                            </button>
+                        </div>
+                    </section>
 
                     <p class="entity-amount">Mitigations: {{ mitigationList.length }}</p>
                     <div class="table-background">
@@ -55,7 +71,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Name</th>
+                                    <th class="name">Name</th>
                                 </tr>
                             </thead>
 
@@ -76,7 +92,24 @@
                 </section>
 
             } @else {
+                <p class="page-path-no-mitigation">
+                    <a routerLink="" class="path-link">Home</a> 
+                    > 
+                    @for (path of pathList; track $index) {
+                            {{ path }} @if($index != (pathList.length - 1)){>}
+                    }
+                </p>
                 <p class="not-found">No mitigations found.</p>
+                <div class="selection-background filters-button no-mitigation-filter-button">
+                    <button class="filters-toggle selection" (click)="toggleFilters()">
+                        @if (!filtersOpen) {
+                            Show filters
+                        } @else {
+                            Hide filters
+                        }
+
+                    </button>
+                </div>
             }
         }
     </main>

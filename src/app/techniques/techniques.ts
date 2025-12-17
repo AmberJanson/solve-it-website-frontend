@@ -18,6 +18,8 @@ import { SharedPathService } from '../services/shared-path.service';
 })
 export class Techniques implements OnInit{
 
+  public filtersOpen = false;
+
   public pathList: string[] = [];
 
   private allTechniques: Technique[] = [];
@@ -180,5 +182,9 @@ export class Techniques implements OnInit{
         this.techniqueList.sort((a, b) => b.name.localeCompare(a.name));
         break;
     }
+  }
+
+  toggleFilters() {
+    this.filtersOpen = !this.filtersOpen;
   }
 }

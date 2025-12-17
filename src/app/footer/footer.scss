@@ -7,11 +7,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6rem 2rem;
+    padding: 1rem 2rem;
     
     .footer-left {
         .logo {
-            height: 100px;
+            height: 90px;
             transition: transform 0.3s;
         }
 
@@ -30,13 +30,111 @@
         }
 
         .social-logo {
-            font-size: 50px;
+            font-size: 40px;
             color: white;
             transition: transform 0.3s;
         }
 
         .social-logo:hover {
             transform: scale(1.2);
+        }
+    }
+}
+
+// small laptops
+@media only screen and (max-width: 1300px) {
+    .footer {
+        .footer-left {
+            .logo {
+                height: 65px;
+            }
+        }
+
+        .footer-right  {
+            gap: 30px;
+
+            .social-logo {
+                font-size: 30px;
+            }
+        }
+    }
+}
+
+// tablets
+@media only screen and (max-width: 1024px) {
+    .footer {
+        .footer-left {
+            .logo {
+                height: 55px;
+            }
+        }
+
+        .footer-right  {
+            gap: 20px;
+
+            .social-logo {
+                font-size: 25px;
+            }
+        }
+    }
+}
+
+// vertical-held tablets
+@media only screen and (max-width: 824px) {
+    .footer {
+        flex-direction: column;
+        padding-top: 1rem;
+
+        .footer-left {
+            padding-bottom: 2rem;
+        }
+
+        .footer-right  {
+            text-align: center;
+            padding: 0;
+            gap: 25px;
+
+            .social-logo {
+                font-size: 30px;
+            }
+        }
+    }
+}
+
+// large mobiles
+@media only screen and (max-width: 600px) {
+    .footer {
+
+        .footer-left {
+            .logo{
+                height: 45px;
+            }
+        }
+
+        .footer-right {
+            .social-logo {
+                font-size: 25px;
+            }
+        }
+    }
+}
+
+// small mobiles
+@media only screen and (max-width: 400px) {
+    .footer {
+
+        .footer-left {
+            .logo{
+                height: 32px;
+            }
+        }
+
+        .footer-right {
+            gap: 20px;
+
+            .social-logo {
+                font-size: 20px;
+            }
         }
     }
 }

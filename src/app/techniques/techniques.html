@@ -1,5 +1,8 @@
-<div class="page-layout">
-    <aside class="filters">
+<div class="page-layout" [class.open]="filtersOpen">
+    <aside class="filters" [class.open]="filtersOpen">
+
+        <button class="filters-close" (click)="toggleFilters()">X</button>
+
         <h2>Filters</h2>
 
         <p>Description:</p>
@@ -84,6 +87,7 @@
         @if (loadingTechniques) {
             <p>Loading techniques...</p>
         } @else {
+            @if (techniqueList.length >= 1) {
                 <p class="page-path">
                     <a routerLink="" class="path-link">Home</a> 
                     > 
@@ -91,7 +95,6 @@
                             {{ path }} @if($index != (pathList.length - 1)){>}
                     }
                 </p>
-            @if (techniqueList.length >= 1) {
 
                 <section>
                     <h1 class="title">Techniques</h1>
@@ -99,71 +102,103 @@
                 </section>
 
                 <section>
-                    <div class="selection-background selection-arrow">
-                        <select [(ngModel)]="selectedSort" (change)="applyFiltersAndSort()" class="selection">
-                            <option value="idAsc">ID (Low -> High)</option>
-                            <option value="idDesc">ID (High -> Low)</option>
-                            <option value="nameAsc">Name (A -> Z)</option>
-                            <option value="nameDesc">Name (Z -> A)</option>
-                        </select>
-                    </div>
+                    <section class="selection-bar">
+                        <div class="selection-background selection-arrow">
+                            <select [(ngModel)]="selectedSort" (change)="applyFiltersAndSort()" class="selection">
+                                <option value="idAsc">ID (Low -> High)</option>
+                                <option value="idDesc">ID (High -> Low)</option>
+                                <option value="nameAsc">Name (A -> Z)</option>
+                                <option value="nameDesc">Name (Z -> A)</option>
+                            </select>
+                        </div>
+
+                        <div class="selection-background filters-button">
+                            <button class="filters-toggle selection" (click)="toggleFilters()">
+                                @if (!filtersOpen) {
+                                    Show filters
+                                } @else {
+                                    Hide filters
+                                }
+
+                            </button>
+                        </div>
+                    </section>
 
                     <p class="entity-amount">Techniques: {{ techniqueList.length }}</p>
 
                     <div class="table-background">
-                        <table class="entities">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th class="description">Description</th>
-                                    <th class="views-categories">Appears in</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                @for (technique of techniqueList; track $index) {
+                        <div class="table-scroll">
+                            <table class="entities">
+                                <thead>
                                     <tr>
-                                        <td class="id">
-                                            <a [routerLink]="['/techniques', technique.id]">{{ technique.id }} </a>
-                                        </td>
-                                        <td class="name">
-                                            <a [routerLink]="['/techniques', technique.id]">{{ technique.name}}</a> ({{ technique.weaknesses.length }})
-                                        </td>
-                                        <td class="description">
-                                            @if (technique.description == null || technique.description == "") {
-                                                <i class="fas fa-exclamation-triangle" style="color:red"></i>No description for this technique is known yet.
-                                            } @else {
-                                                {{ technique.description }}
-                                            }
-                                        </td>
-                                        <td class="views-categories">
-                                            @if (techniqueMap[technique.id]?.length) {
-                                                @for (viewGroup of techniqueMap[technique.id]; track $index) {
-                                                    <b>{{ viewGroup.view.id }}:</b> {{ viewGroup.view.name}}
-                                                    <hr>
-                                                    @for (category of viewGroup.categories; track $index) {
-                                                        <b>{{ category.id }}:</b> {{ category.name }}
-                                                        <br>
-                                                    }
-                                                    @if ($index + 1 !== techniqueMap[technique.id].length){
-                                                        <br>
-                                                        <br>
-                                                    }
-                                                }
-                                            } @else {
-                                                <i class="fas fa-exclamation-triangle" style="color:red"></i>This technique isn't added to any view or category.
-                                            }
-                                        </td>
+                                        <th>ID</th>
+                                        <th class="name">Name</th>
+                                        <th class="description">Description</th>
+                                        <th class="views-categories">Appears in</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+
+                                <tbody>
+                                    @for (technique of techniqueList; track $index) {
+                                        <tr>
+                                            <td class="id">
+                                                <a [routerLink]="['/techniques', technique.id]">{{ technique.id }} </a>
+                                            </td>
+                                            <td class="name">
+                                                <a [routerLink]="['/techniques', technique.id]">{{ technique.name}}</a> ({{ technique.weaknesses.length }})
+                                            </td>
+                                            <td class="description">
+                                                @if (technique.description == null || technique.description == "") {
+                                                    <i class="fas fa-exclamation-triangle" style="color:red"></i>No description for this technique is known yet.
+                                                } @else {
+                                                    {{ technique.description }}
+                                                }
+                                            </td>
+                                            <td class="views-categories">
+                                                @if (techniqueMap[technique.id]?.length) {
+                                                    @for (viewGroup of techniqueMap[technique.id]; track $index) {
+                                                        <b>{{ viewGroup.view.id }}:</b> {{ viewGroup.view.name}}
+                                                        <hr>
+                                                        @for (category of viewGroup.categories; track $index) {
+                                                            <b>{{ category.id }}:</b> {{ category.name }}
+                                                            <br>
+                                                        }
+                                                        @if ($index + 1 !== techniqueMap[technique.id].length){
+                                                            <br>
+                                                            <br>
+                                                        }
+                                                    }
+                                                } @else {
+                                                    <i class="fas fa-exclamation-triangle" style="color:red"></i>This technique isn't added to any view or category.
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </section>
 
             } @else {
+                <p class="page-path-no-technique">
+                    <a routerLink="" class="path-link">Home</a> 
+                    > 
+                    @for (path of pathList; track $index) {
+                            {{ path }} @if($index != (pathList.length - 1)){>}
+                    }
+                </p>
                 <p class="not-found">No techniques found.</p>
+                <div class="selection-background filters-button no-technique-filter-button">
+                    <button class="filters-toggle selection" (click)="toggleFilters()">
+                        @if (!filtersOpen) {
+                            Show filters
+                        } @else {
+                            Hide filters
+                        }
+
+                    </button>
+                </div>
             }
         }
     </main>
