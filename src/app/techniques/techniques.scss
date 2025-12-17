@@ -1,6 +1,7 @@
 .page-layout {
     display: flex;
     margin-top: -16px;
+    position: relative;
 }
 
 html {
@@ -32,6 +33,21 @@ html {
 }
 
 .page-path {
+    padding-top: 1rem;
+    font-size: 18px;
+
+    & a {
+        color: #006FFF;
+        font-weight: 800;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.page-path-no-technique {
     padding-top: 1rem;
     font-size: 18px;
 
@@ -206,4 +222,148 @@ html {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
+}
+
+.filters-button {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.selection-bar {
+    display: flex;
+    align-items: center;
+}
+
+.filters-close {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+// small laptops
+@media only screen and (max-width: 1350px) {
+    .content {
+        width: 100%;
+    }
+
+    .filters {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 320px;
+
+        height: 71vh;
+        overflow-y: auto;
+
+        background-color: #fffceb;
+        border-right: 10px solid #888787;
+        border-bottom: 10px solid #888787;
+
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+
+        border-radius: 0px 0px 12px 0px;
+
+        z-index: 1000;
+    }
+
+    .filters.open {
+        transform: translateX(0);
+    }
+
+    .filters-button {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        margin-left: 6rem;
+    }
+
+    .page-layout.open .not-found {
+        margin-left: 19rem;
+    }
+
+    .page-layout.open .page-path-no-technique {
+        margin-left: 19rem;
+    }
+
+    .page-layout.open .no-technique-filter-button {
+        margin-left: 21.8rem;
+    }
+
+    .no-technique-filter-button {
+        margin-left: 2.8rem;
+    }
+}
+
+// vertical-held tablets
+@media only screen and (max-width: 824px) {
+    .filters {
+        height: 60vh;
+    }
+}
+
+// large mobiles
+@media only screen and (max-width: 600px) {
+    .table-background {
+        overflow: hidden;
+        max-width: 85%;
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .entities {
+        min-width: 800px;
+    }
+
+    .selection-bar {  
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .selection-bar .filters-button {
+        margin-left: 3rem;
+    }
+
+    .filters-close {
+        display: block;
+    }
+
+    .page-layout.open .not-found {
+        margin-left: 0rem;
+    }
+
+    .page-layout.open .page-path-no-technique {
+        margin-left: 0rem;
+    }
+
+    .page-layout.open .no-technique-filter-button {
+        margin-left: 2.8rem;
+    }
+}
+
+// small mobiles (supported until min-width: 320px)
+@media only screen and (max-width: 400px) {
+    .table-background {
+        max-width: 75%;
+    }
+
+    .entities {
+        max-width: none;
+
+        th, td {
+            max-width: 75px;
+        }
+    }
 }
