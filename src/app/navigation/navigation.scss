@@ -15,6 +15,7 @@
         flex: 1 1 auto;
         display: flex;
         justify-content: center;
+        position: relative;
 
         input {
             width: 70%;
@@ -40,7 +41,7 @@
             top: 100%;
             left: 50%;
             transform: translateX(-50%);
-            width: 50%;
+            width: 70%;
             overflow-y: auto;
             background-color: #004D46;
             border: 2px solid white;
