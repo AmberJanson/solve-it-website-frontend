@@ -90,6 +90,7 @@ html {
     border-radius: 12px;
     display: inline-block;
     max-width: 90%;
+    min-width: 89%;
     margin-bottom: 3rem;
 }
 
@@ -338,6 +339,10 @@ html {
 @media only screen and (max-width: 824px) {
     .filters {
         height: 60vh;
+    }
+
+    .table-background {
+        min-width: 0%;
     }
 }
 
