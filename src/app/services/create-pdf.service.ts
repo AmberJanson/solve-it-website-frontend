@@ -33,36 +33,53 @@ export class PdfService {
         const stepSpacing = 10;
         const pageMargin = 10;
         const pageHeight = doc.internal.pageSize.getHeight();
+
+        const now = new Date();
+        const options: Intl.DateTimeFormatOptions = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute:'2-digit',
+            second: '2-digit',
+            timeZoneName: 'short'
+        };
+        const timestamp = now.toLocaleString(undefined, options);
+        doc.setFont('helvetica', 'italic');
+        doc.setFontSize(10);
+        doc.text(`Created on: ${timestamp}`, pageMargin, y);
+        y += lineHeight + 2;
         
+        doc.setFontSize(16);
         this.pathList.forEach((page, index) => {
-        const numberText = `${index + 1}) `;
-        const pageText = page;
+            const numberText = `${index + 1}) `;
+            const pageText = page;
 
-        const numberWidth = doc.getTextWidth(numberText);
-        const availableWidth = pageWidth - numberWidth;
-        const lines: string[] = doc.splitTextToSize(pageText, availableWidth);
+            const numberWidth = doc.getTextWidth(numberText);
+            const availableWidth = pageWidth - numberWidth;
+            const lines: string[] = doc.splitTextToSize(pageText, availableWidth);
 
-        if (y + lines.length * lineHeight > pageHeight - pageMargin) {
-            doc.addPage();
-            y = pageMargin;
-        }
-
-        lines.forEach((line: string, i: number) => {
-            if (i === 0) {
-                doc.setFont('helvetica', 'bold');
-                doc.text(numberText, x, y);
-
-                doc.setFont('helvetica', 'normal');
-                doc.text(line, x + numberWidth, y);
-            } else {
-                doc.setFont('helvetica', 'normal');
-                doc.text(line, x + numberWidth, y);
+            if (y + lines.length * lineHeight > pageHeight - pageMargin) {
+                doc.addPage();
+                y = pageMargin;
             }
 
-            y += lineHeight;
-        });
+            lines.forEach((line: string, i: number) => {
+                if (i === 0) {
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(numberText, x, y);
 
-        y += stepSpacing - lineHeight;
+                    doc.setFont('helvetica', 'normal');
+                    doc.text(line, x + numberWidth, y);
+                } else {
+                    doc.setFont('helvetica', 'normal');
+                    doc.text(line, x + numberWidth, y);
+                }
+
+                y += lineHeight;
+            });
+
+            y += stepSpacing - lineHeight;
         });
 
         this.pathList.forEach((pathPage) => {
