@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         @if (technique.description == null || technique.description == "") {
-                            <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No description for this technique is known yet.</p>
+                            <p class="technique-description"><i class="fas fa-exclamation-triangle" style="color:red"></i>No description for this technique is known yet.</p>
                         } @else {
                             <p class="technique-description">{{ technique.description }}</p>
                         }
