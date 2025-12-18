@@ -32,7 +32,10 @@
                         {{ path }} @if($index != (pathList.length - 1)){>}
                     }
                 }
-            </p> <button (click)="generatePDF()">Download PDF of seen data</button>
+            </p> 
+            <button class="pdf-button" (click)="generatePDF()">
+                <p>Download PDF of seen data</p>
+            </button>
             @if (mitigation) {
 
                 <section>

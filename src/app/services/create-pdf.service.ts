@@ -1,0 +1,176 @@
+import { Injectable } from "@angular/core";
+import { SharedPathService } from "./shared-path.service";
+import jsPDF from "jspdf";
+
+@Injectable({
+    providedIn: 'root'
+})
+export class PdfService {
+
+    public allData: any[] = [];
+    public pathList: string[] = [];
+
+    constructor(
+        private sharedPathService: SharedPathService
+    ) {}
+
+    public setAllData(data: any[]) {
+        this.allData = data;
+    }
+
+    public setPathList() {
+        this.sharedPathService.list$.subscribe(list => {
+            this.pathList = list;
+        });
+    }
+
+    createPdf() {
+        const doc = new jsPDF();
+        let x = 10;
+        let y = 10;
+        const pageWidth = doc.internal.pageSize.getWidth() - 20;
+        const lineHeight = 8;
+        const stepSpacing = 10;
+        const pageMargin = 10;
+        const pageHeight = doc.internal.pageSize.getHeight();
+        
+        this.pathList.forEach((page, index) => {
+        const numberText = `${index + 1}) `;
+        const pageText = page;
+
+        const numberWidth = doc.getTextWidth(numberText);
+        const availableWidth = pageWidth - numberWidth;
+        const lines: string[] = doc.splitTextToSize(pageText, availableWidth);
+
+        if (y + lines.length * lineHeight > pageHeight - pageMargin) {
+            doc.addPage();
+            y = pageMargin;
+        }
+
+        lines.forEach((line: string, i: number) => {
+            if (i === 0) {
+                doc.setFont('helvetica', 'bold');
+                doc.text(numberText, x, y);
+
+                doc.setFont('helvetica', 'normal');
+                doc.text(line, x + numberWidth, y);
+            } else {
+                doc.setFont('helvetica', 'normal');
+                doc.text(line, x + numberWidth, y);
+            }
+
+            y += lineHeight;
+        });
+
+        y += stepSpacing - lineHeight;
+        });
+
+        this.pathList.forEach((pathPage) => {
+            if (!pathPage.includes(':')) {
+                return;
+            }
+
+            doc.addPage();
+            let yDetail = pageMargin;
+
+            const cleanId = pathPage.split(':')[0].trim();
+
+            const dataItem = this.allData.find(item => item.id === cleanId);
+
+            if (!dataItem) {
+                doc.text(`No data found for id: ${cleanId}`, pageMargin, yDetail);
+            }
+
+            Object.keys(dataItem).forEach((key) => {
+                if (yDetail + lineHeight * 3 > pageHeight - pageMargin) {
+                    doc.addPage();
+                    yDetail = pageMargin;
+                }
+
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(16);
+                doc.text(key, pageMargin, yDetail);
+                yDetail += 2;
+                
+                doc.setLineWidth(0.5);
+                doc.line(pageMargin, yDetail, pageMargin + pageWidth, yDetail);
+                yDetail += lineHeight;
+
+                let value = dataItem[key];
+                let isEmpty = false;
+                let entity = ''
+
+                if (value === null || value === '' || (Array.isArray(value) && value.length === 0)) {
+                    if (dataItem.id.startsWith('M') && key === 'technique') {
+                        value = 'There is no technique linked to this mitigation.';
+                    } else {
+                        if (dataItem.id.startsWith('C')) {
+                            entity = 'category';
+                        } else if (dataItem.id.startsWith('T')) {
+                            entity = 'technique';
+                        } else if (dataItem.id.startsWith('W')) {
+                            entity = 'weakness';
+                        } else if (dataItem.id.startsWith('M')) {
+                            entity = 'mitigation';
+                        }
+                        value = `No ${key} for this ${entity} are known yet.`;
+                    }
+                    isEmpty = true;
+                }
+
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(12);
+                
+                if (Array.isArray(value)) {
+                    value.forEach((item: string) => {
+                        const wrappedLines = doc.splitTextToSize(`• ${item}`, pageWidth - 5);
+                        wrappedLines.forEach((line: string) => {
+                            if (yDetail + lineHeight > pageHeight - pageMargin) {
+                                doc.addPage();
+                                yDetail = pageMargin;
+                            }
+                            doc.text(line, pageMargin + 5, yDetail);
+                            yDetail += lineHeight;
+                        })
+                    })
+                } else {
+                    const wrappedLines = doc.splitTextToSize(String(value), pageWidth);
+                    wrappedLines.forEach((line: string, i: number) => {
+                        if (yDetail + lineHeight > pageHeight - pageMargin) {
+                            doc.addPage();
+                            yDetail = pageMargin;
+                        }
+
+                        if (isEmpty && i === 0) {
+                            const size = 4;
+                            doc.setDrawColor(255, 0, 0);
+                            doc.triangle(
+                                pageMargin, yDetail + size - 3.5,
+                                pageMargin + size, yDetail + size - 3.5,
+                                pageMargin + size / 2, yDetail - 3.5,
+                            );
+                            doc.setDrawColor(0, 0, 0);
+
+                            doc.setFont('helvetica', 'bold');
+                            doc.setFontSize(7);
+                            doc.setTextColor(255, 0, 0);
+                            doc.text('!', pageMargin + size / 2 - 0.36, yDetail - 3.4 + size*0.8);
+
+                            doc.setFont('helvetica', 'normal');
+                            doc.setFontSize(12);
+                            doc.setTextColor(0, 0, 0);
+                            doc.text(line, pageMargin + 8, yDetail);
+                        } else {
+                            doc.text(line, pageMargin, yDetail);
+                        }
+
+                        yDetail += lineHeight;
+                    });
+                }
+                yDetail += stepSpacing;
+            })
+        })
+
+        doc.save('Path.pdf')
+    }
+}

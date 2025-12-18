@@ -5,6 +5,7 @@ import { WeaknessService } from '../../services/weakness.service';
 import { Mitigation } from '../../models/mitigation.model';
 import { MitigationService } from '../../services/mitigation.service';
 import { SharedPathService } from '../../services/shared-path.service';
+import { PdfService } from '../../services/create-pdf.service';
 
 @Component({
   selector: 'app-weakness-detail',
@@ -26,6 +27,7 @@ export class WeaknessDetail implements OnInit{
     private weaknessService: WeaknessService,
     private mitigationService: MitigationService,
     private sharedPathService: SharedPathService,
+    private pdfService: PdfService,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -96,5 +98,10 @@ export class WeaknessDetail implements OnInit{
       this.sharedPathService.removeLastItem();
       list = this.sharedPathService.getList();
     }
+  }
+
+  generatePDF() {
+    this.pdfService.setPathList();
+    this.pdfService.createPdf();
   }
 }

@@ -5,6 +5,7 @@ import { Technique } from '../../models/technique.model';
 import { WeaknessService } from '../../services/weakness.service';
 import { Weakness } from '../../models/weakness.model';
 import { SharedPathService } from '../../services/shared-path.service';
+import { PdfService } from '../../services/create-pdf.service';
 
 @Component({
   selector: 'app-technique-detail',
@@ -27,6 +28,7 @@ export class TechniqueDetail  implements OnInit{
     private techniqueService: TechniqueService,
     private weaknessService: WeaknessService,
     private sharedPathService: SharedPathService,
+    private pdfService: PdfService,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -114,5 +116,10 @@ export class TechniqueDetail  implements OnInit{
       this.sharedPathService.removeLastItem();
       list = this.sharedPathService.getList();
     }
+  }
+
+  generatePDF() {
+    this.pdfService.setPathList();
+    this.pdfService.createPdf();
   }
 }
