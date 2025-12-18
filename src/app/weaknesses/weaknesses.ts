@@ -149,4 +149,19 @@ export class Weaknesses implements OnInit{
   toggleFilters() {
     this.filtersOpen = !this.filtersOpen;
   }
+
+  resetFilters() {
+    const resetObject = (obj: any) => {
+      Object.keys(obj).forEach(key => {
+        if (typeof obj[key] === 'object' && obj[key] !== null) {
+          resetObject(obj[key]);
+        } else {
+          obj[key] = '';
+        }
+      });
+    };
+
+    resetObject(this.selectedFilters);
+    this.applyFiltersAndSort();
+  }
 }

@@ -249,6 +249,49 @@ html {
     z-index: 1001;
 }
 
+.filters-header {
+    display: flex;
+    gap: 1rem;
+}
+
+.reset-button {
+    padding: 0.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem; 
+    background: #004D46; 
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.reset-button p {
+    background: #D9D9D9;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: 600;
+    margin: 0;
+    color: #000000;
+}
+
+.reset-button:hover {
+    background: #00665E;
+}
+
+// for the filter reset button
+@media only screen and (max-width: 1450px) {
+    .filters-header {
+        flex-direction: column;
+
+        & .reset-button {
+            margin-top: -1rem;
+            width: 70%;
+        }
+    }
+}
+
 // small laptops
 @media only screen and (max-width: 1350px) {
     .content {
@@ -303,6 +346,15 @@ html {
     .no-mitigation-filter-button {
         margin-left: 2.8rem;
     }
+
+    .filters-header {
+        flex-direction: row;
+
+        & .reset-button {
+            margin-top: 1.5rem;
+            width: 50%;
+        }
+    }
 }
 
 // vertical-held tablets
@@ -346,6 +398,15 @@ html {
 
     .page-layout.open .no-mitigation-filter-button {
         margin-left: 2.8rem;
+    }
+
+    .filters-header {
+        flex-direction: column;
+
+        & .reset-button {
+            margin-top: -1rem;
+            width: 70%;
+        }
     }
 }
 

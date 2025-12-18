@@ -107,4 +107,9 @@ export class Mitigations implements OnInit {
   toggleFilters() {
     this.filtersOpen = !this.filtersOpen;
   }
+
+  resetFilters() {
+    Object.keys(this.selectedFilters).forEach(key => this.selectedFilters[key] = '');
+    this.applyFiltersAndSort();
+  }
 }
