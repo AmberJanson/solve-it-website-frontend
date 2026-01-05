@@ -78,8 +78,8 @@ export class Home implements OnInit {
       .subscribe({next: (techniques) => {
         this.techniqueList = Object.values(techniques);
 
-        this.techniqueList.forEach(techique => {
-          this.techniqueMap[techique.id] = techique;
+        this.techniqueList.forEach(technique => {
+          this.techniqueMap[technique.id] = technique;
         })
 
         this.loadingTechniques = false;
@@ -122,15 +122,24 @@ export class Home implements OnInit {
       return [];
     }
 
-    const techniqueSet = new Set<Technique>();
+    const techniqueSet = new Map<string, Technique>();
 
     this.categoryList.forEach(category => {
       if (category.techniqueDetailed && category.techniqueDetailed.length) {
-        category.techniqueDetailed.forEach((technique: Technique) => techniqueSet.add(technique));
+        category.techniqueDetailed.forEach((technique: Technique) => {
+          techniqueSet.set(technique.id, technique);
+
+          technique.subtechniques?.forEach(sub => {
+            const fullSubtechnique = this.techniqueMap[sub];
+            if (fullSubtechnique) {
+              techniqueSet.set(fullSubtechnique.id, fullSubtechnique);
+            }
+          });
+        });
       }
     });
 
-    return Array.from(techniqueSet);
+    return Array.from(techniqueSet.values());
   }
 
   public get isMoreTechniquesThanInView(): boolean {
