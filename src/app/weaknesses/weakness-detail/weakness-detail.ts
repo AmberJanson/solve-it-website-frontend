@@ -5,17 +5,19 @@ import { WeaknessService } from '../../services/weakness.service';
 import { Mitigation } from '../../models/mitigation.model';
 import { MitigationService } from '../../services/mitigation.service';
 import { SharedPathService } from '../../services/shared-path.service';
+import { FormsModule } from '@angular/forms';
 import { PdfService } from '../../services/create-pdf.service';
 
 @Component({
   selector: 'app-weakness-detail',
-  imports: [RouterLink],
+  imports: [RouterLink, FormsModule],
   templateUrl: './weakness-detail.html',
   styleUrl: './weakness-detail.scss'
 })
 export class WeaknessDetail implements OnInit{
 
   public pathList: string[] = [];
+  public isChecked = false;
   
   public weakness: Weakness | null = null;
   public weaknessId?: string;
@@ -40,6 +42,8 @@ export class WeaknessDetail implements OnInit{
       this.loadWeakness(id);
     })
 
+    this.isChecked = this.pdfService.hasPdfItemList(this.weakness?.id + ": " + this.weakness?.name);
+
     this.sharedPathService.list$.subscribe(list => {
       this.pathList = list;
     });
@@ -52,6 +56,7 @@ export class WeaknessDetail implements OnInit{
     this.weaknessService.getWeaknessById(id)
       .subscribe({next: (weakness) => {
         this.weakness = weakness;
+        this.isChecked = this.pdfService.hasPdfItemList(this.weakness.id + ": " + this.weakness.name);
         this.addWeaknessPathToService();
 
         if (weakness.mitigations.length >= 1) {
@@ -100,8 +105,12 @@ export class WeaknessDetail implements OnInit{
     }
   }
 
-  generatePDF() {
-    this.pdfService.setPathList();
-    this.pdfService.createPdf();
+  onCheckboxChange(checked: boolean) {
+    if (checked) {
+      this.pdfService.addToPdfItemList(this.weakness?.id + ": " + this.weakness?.name);
+
+    } else {
+      this.pdfService.removeFromPdfItemList(this.weakness?.id + ": " + this.weakness?.name);
+    }
   }
 }

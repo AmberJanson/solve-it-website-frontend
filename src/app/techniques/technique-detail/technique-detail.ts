@@ -5,17 +5,19 @@ import { Technique } from '../../models/technique.model';
 import { WeaknessService } from '../../services/weakness.service';
 import { Weakness } from '../../models/weakness.model';
 import { SharedPathService } from '../../services/shared-path.service';
+import { FormsModule } from '@angular/forms';
 import { PdfService } from '../../services/create-pdf.service';
 
 @Component({
   selector: 'app-technique-detail',
-  imports: [RouterLink],
+  imports: [RouterLink, FormsModule],
   templateUrl: './technique-detail.html',
   styleUrls: ['./technique-detail.scss'],
 })
 export class TechniqueDetail  implements OnInit{
 
   public pathList: string[] = [];
+  public isChecked = false;
 
   public technique: Technique | null = null;
   public subtechniques: Technique[] = [];
@@ -41,6 +43,8 @@ export class TechniqueDetail  implements OnInit{
       this.loadTechnique(id);
     });
 
+    this.isChecked = this.pdfService.hasPdfItemList(this.technique?.id + ": " + this.technique?.name);
+
     this.sharedPathService.list$.subscribe(list => {
       this.pathList = list;
     });
@@ -54,6 +58,7 @@ export class TechniqueDetail  implements OnInit{
     this.techniqueService.getTechniquesById(id)
       .subscribe({next: (technique) => {
           this.technique = technique;
+          this.isChecked = this.pdfService.hasPdfItemList(this.technique.id + ": " + this.technique.name);
           this.addTechniquePathToService();
 
           if (technique.subtechniques.length >= 1) {
@@ -118,8 +123,12 @@ export class TechniqueDetail  implements OnInit{
     }
   }
 
-  generatePDF() {
-    this.pdfService.setPathList();
-    this.pdfService.createPdf();
+  onCheckboxChange(checked: boolean) {
+    if (checked) {
+      this.pdfService.addToPdfItemList(this.technique?.id + ": " + this.technique?.name);
+
+    } else {
+      this.pdfService.removeFromPdfItemList(this.technique?.id + ": " + this.technique?.name);
+    }
   }
 }

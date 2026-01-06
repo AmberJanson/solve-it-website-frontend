@@ -39,9 +39,9 @@
                         }
                     }
                 </p>
-                <button class="pdf-button" (click)="generatePDF()">
-                    <p>Download PDF of seen data</p>
-                </button>
+                <section class="pdf-checkbox">
+                    Item on pdf list: <input type="checkbox" [(ngModel)]="isChecked" (ngModelChange)="onCheckboxChange($event)">
+                </section>
                 @if (technique) {
 
                     <section id="description">

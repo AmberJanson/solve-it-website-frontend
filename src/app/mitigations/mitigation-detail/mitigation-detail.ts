@@ -110,6 +110,5 @@ export class MitigationDetail implements OnInit {
     } else {
       this.pdfService.removeFromPdfItemList(this.mitigation?.id + ": " + this.mitigation?.name);
     }
-    console.log(this.isChecked);
   }
 }
