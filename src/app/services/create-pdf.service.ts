@@ -42,6 +42,7 @@ export class PdfService {
         const stepSpacing = 10;
         const pageMargin = 10;
         const pageHeight = doc.internal.pageSize.getHeight();
+        const itemList = Array.from(this.pdfItemList);
 
         const now = new Date();
         const options: Intl.DateTimeFormatOptions = {
@@ -60,7 +61,7 @@ export class PdfService {
         y += lineHeight + 2;
         
         doc.setFontSize(16);
-        this.pdfItemList.forEach((item, index) => {
+        itemList.forEach((item, index) => {
             const numberText = `${index + 1}) `;
             const itemText = item;
 
@@ -91,7 +92,7 @@ export class PdfService {
             y += stepSpacing - lineHeight;
         });
 
-        this.pdfItemList.forEach((itemPage) => {
+        itemList.forEach((itemPage) => {
             if (!itemPage.includes(':')) {
                 return;
             }
