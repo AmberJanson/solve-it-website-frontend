@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { SharedPathService } from "./shared-path.service";
 import jsPDF from "jspdf";
 
 @Injectable({
@@ -8,20 +7,30 @@ import jsPDF from "jspdf";
 export class PdfService {
 
     public allData: any[] = [];
-    public pathList: string[] = [];
-
-    constructor(
-        private sharedPathService: SharedPathService
-    ) {}
+    public pdfItemList: Set<string> = new Set();
 
     public setAllData(data: any[]) {
         this.allData = data;
     }
 
-    public setPathList() {
-        this.sharedPathService.list$.subscribe(list => {
-            this.pathList = list;
-        });
+    public addToPdfItemList(item: string) {
+        this.pdfItemList.add(item);
+    }
+
+    public removeFromPdfItemList(item: string) {
+        this.pdfItemList.delete(item);
+    }
+
+    public resetPdfItemList() {
+        this.pdfItemList.clear();
+    }
+
+    public hasPdfItemList(item: string): boolean {
+        return this.pdfItemList.has(item);
+    }
+
+    public getPdfItemList(): string[] {
+        return Array.from(this.pdfItemList.values());
     }
 
     createPdf() {
@@ -51,13 +60,13 @@ export class PdfService {
         y += lineHeight + 2;
         
         doc.setFontSize(16);
-        this.pathList.forEach((page, index) => {
+        this.pdfItemList.forEach((item, index) => {
             const numberText = `${index + 1}) `;
-            const pageText = page;
+            const itemText = item;
 
             const numberWidth = doc.getTextWidth(numberText);
             const availableWidth = pageWidth - numberWidth;
-            const lines: string[] = doc.splitTextToSize(pageText, availableWidth);
+            const lines: string[] = doc.splitTextToSize(itemText, availableWidth);
 
             if (y + lines.length * lineHeight > pageHeight - pageMargin) {
                 doc.addPage();
@@ -82,15 +91,15 @@ export class PdfService {
             y += stepSpacing - lineHeight;
         });
 
-        this.pathList.forEach((pathPage) => {
-            if (!pathPage.includes(':')) {
+        this.pdfItemList.forEach((itemPage) => {
+            if (!itemPage.includes(':')) {
                 return;
             }
 
             doc.addPage();
             let yDetail = pageMargin;
 
-            const cleanId = pathPage.split(':')[0].trim();
+            const cleanId = itemPage.split(':')[0].trim();
 
             const dataItem = this.allData.find(item => item.id === cleanId);
 
@@ -188,6 +197,6 @@ export class PdfService {
             })
         })
 
-        doc.save('Path.pdf')
+        doc.save('Items.pdf')
     }
 }

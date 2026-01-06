@@ -6,16 +6,18 @@ import { Technique } from '../../models/technique.model';
 import { TechniqueService } from '../../services/technique.service';
 import { SharedPathService } from '../../services/shared-path.service';
 import { PdfService } from '../../services/create-pdf.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-mitigation-detail',
-  imports: [RouterLink],
+  imports: [RouterLink, FormsModule],
   templateUrl: './mitigation-detail.html',
   styleUrl: './mitigation-detail.scss'
 })
 export class MitigationDetail implements OnInit {
 
   public pathList: string[] = [];
+  public isChecked = false;
 
   public mitigation: Mitigation | null = null;
   public mitigationId?: string;
@@ -40,6 +42,8 @@ export class MitigationDetail implements OnInit {
       this.loadMitigation(id);
     })
 
+    this.isChecked = this.pdfService.hasPdfItemList(this.mitigation?.id + ": " + this.mitigation?.name);
+
     this.sharedPathService.list$.subscribe(list => {
       this.pathList = list;
     });
@@ -52,6 +56,7 @@ export class MitigationDetail implements OnInit {
     this.mitigationService.getMitigationById(id)
       .subscribe({next: (mitigation) => {
         this.mitigation = mitigation;
+        this.isChecked = this.pdfService.hasPdfItemList(this.mitigation.id + ": " + this.mitigation.name);
         this.addMitigationPathToService();
 
         if (mitigation.technique != null) {
@@ -98,8 +103,13 @@ export class MitigationDetail implements OnInit {
     }
   }
 
-  generatePDF() {
-    this.pdfService.setPathList();
-    this.pdfService.createPdf();
+  onCheckboxChange(checked: boolean) {
+    if (checked) {
+      this.pdfService.addToPdfItemList(this.mitigation?.id + ": " + this.mitigation?.name);
+
+    } else {
+      this.pdfService.removeFromPdfItemList(this.mitigation?.id + ": " + this.mitigation?.name);
+    }
+    console.log(this.isChecked);
   }
 }
