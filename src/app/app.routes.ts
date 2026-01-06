@@ -8,10 +8,12 @@ import { Techniques } from './techniques/techniques';
 import { Weaknesses } from './weaknesses/weaknesses';
 import { Mitigations } from './mitigations/mitigations';
 import { CategoryDetail } from './category-detail/category-detail';
+import { PdfList } from './pdf-list/pdf-list';
 
 export const routes: Routes = [
     { path: '', component: Home},
     { path: 'about', component: About},
+    { path: 'pdfList', component: PdfList},
     { path: 'categories/:categoryId', component: CategoryDetail},
     { path: 'techniques', component: Techniques},
     { path: 'techniques/:techniqueId', component: TechniqueDetail},

@@ -127,7 +127,7 @@
 }
 
 // small laptops
-@media only screen and (max-width: 1300px) {
+@media only screen and (max-width: 1405px) {
     .navbar {
         .hamburger-button {
             display: flex;
@@ -181,16 +181,18 @@
     }
 }
 
+@media only screen and (max-width: 735px) {
+    .navbar-links {
+        flex-wrap: wrap;
+        gap: 2rem;
+    }
+}
+
 @media only screen and (max-width: 600px) {
     .navbar {
 
         .navbar-logo img {
             height: 42px;
-        }
-
-        .navbar-links {
-            flex-wrap: wrap;
-            gap: 2rem;
         }
     }
 }
