@@ -1,6 +1,8 @@
 .page-layout {
     display: flex;
     margin-top: -16px;
+    align-items: stretch;
+    min-height: 77vh;
 }
 
 html {
