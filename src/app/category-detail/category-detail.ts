@@ -5,7 +5,6 @@ import { Technique } from '../models/technique.model';
 import { CategoryService } from '../services/category.service';
 import { TechniqueService } from '../services/technique.service';
 import { SharedPathService } from '../services/shared-path.service';
-import { PdfService } from '../services/create-pdf.service';
 
 @Component({
   selector: 'app-category-detail',
@@ -27,7 +26,6 @@ export class CategoryDetail implements OnInit{
     private categoryService: CategoryService,
     private techniqueService: TechniqueService,
     private sharedPathService: SharedPathService,
-    private pdfService: PdfService,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -89,10 +87,5 @@ export class CategoryDetail implements OnInit{
     if (lastItem != `${this.categoryId}: ${this.category?.name}`) {
       this.sharedPathService.addItem(`${this.categoryId}: ${this.category?.name}`)
     }
-  }
-
-  generatePDF() {
-    this.pdfService.setPathList();
-    this.pdfService.createPdf();
   }
 }
