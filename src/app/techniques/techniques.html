@@ -3,7 +3,12 @@
 
         <button class="filters-close" (click)="toggleFilters()">X</button>
 
-        <h2>Filters</h2>
+        <div class="filters-header">
+            <h2>Filters</h2>
+            <button class="reset-button" (click)="resetFilters()">
+                <p>Reset filters</p>
+            </button>
+        </div>
 
         <p>Description:</p>
         <div class="selection-filtering-background selection-arrow">

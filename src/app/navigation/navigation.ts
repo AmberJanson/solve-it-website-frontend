@@ -11,6 +11,7 @@ import { MitigationService } from '../services/mitigation.service';
 import { catchError, filter, forkJoin, of } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { SharedPathService } from '../services/shared-path.service';
+import { PdfService } from '../services/create-pdf.service';
 
 @Component({
   selector: 'app-navigation',
@@ -42,6 +43,7 @@ export class Navigation implements OnInit {
     private weaknessService: WeaknessService,
     private mitigationService: MitigationService,
     private sharedPathService: SharedPathService,
+    private pdfService: PdfService,
     private cdr: ChangeDetectorRef,
     private router: Router
   ) { 
@@ -95,6 +97,7 @@ export class Navigation implements OnInit {
       this.allSearchMitigations = mitigations ? Object.values(mitigations) : [];
 
       this.allSearchItems = [...this.allSearchCategories, ...this.allSearchTechniques, ...this.allSearchWeaknesses, ...this.allSearchMitigations];
+      this.pdfService.setAllData(this.allSearchItems);
       this.loadingAllSearchLists = false;
       this.cdr.markForCheck();
     })

@@ -1,0 +1,62 @@
+<main class="content">
+    <section id="description">
+        <div class="line-divider">
+            <div class="title-wrapper">
+                <h1 class="title">
+                    PDF Maker
+                </h1>
+            </div>
+        </div>
+        <p class="tool-description">
+            On this page, you can manage the selected data for the techniques, weaknesses and mitigations. In addition, a PDF-file containing all the details from the data can be downloaded at the bottom of the page.
+        </p>
+    </section>
+
+    @if (pdfItemList.length >= 1) {
+        <section id="items">
+            <h1 class="subtitle">Items</h1>
+                <div class="table-background">
+                    <table class="entities">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th style="color: rgb(153, 5, 5); cursor: pointer;" (click)="removeAllFromList()">Remove all</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @for (item of pdfItemList; track $index) {
+                                <tr>
+                                    <td class="id">
+                                        <a [routerLink]="
+                                            item.split(': ')[0].startsWith('T') ? ['/techniques', item.split(': ')[0]] :
+                                            item.split(': ')[0].startsWith('W') ? ['/weaknesses', item.split(': ')[0]] :
+                                            item.split(': ')[0].startsWith('M') ? ['/mitigations', item.split(': ')[0]] :
+                                            ['/']
+                                            ">{{ item.split(': ')[0]}}</a>
+                                    </td>
+                                    <td class="name">
+                                        <a [routerLink]="
+                                            item.split(': ')[0].startsWith('T') ? ['/techniques', item.split(': ')[0]] :
+                                            item.split(': ')[0].startsWith('W') ? ['/weaknesses', item.split(': ')[0]] :
+                                            item.split(': ')[0].startsWith('M') ? ['/mitigations', item.split(': ')[0]] :
+                                            ['/']
+                                        ">{{ item.split(': ')[1]}}</a>
+                                    </td>
+                                    <td>
+                                        <i class="fas fa-trash" style="color: red; cursor: pointer;" (click)="removeItem(item)"></i>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+        </section>
+        <button class="pdf-button" (click)="generatePDF()">
+            <p>Download PDF of selected data</p>
+        </button>
+    } @else {
+        <p class="not-found">No items in PDF-list found.</p>
+    }
+</main>
