@@ -39,7 +39,6 @@ describe('using the homepage', () => {
         cy.wait('@getTechniques');
     });
 
-
     // Test 1
     it('Should show dropdown menu for selecting the view when the homepage loads', () => {
 
