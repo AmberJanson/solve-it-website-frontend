@@ -32,11 +32,24 @@ describe('using the aboutpage', () => {
 
   // Test 1
   it('Should see all information about the website when on the aboutpage', () => {
-
+    cy.get('section.info-section')
+    .should('have.length', 4)
+    .each(($section) => {
+        cy.wrap($section).within(() => {
+            cy.get('h1').should('exist')
+            cy.get('p').should('exist')
+        });
+    });
   });
 
   // Test 2
-  it('Should go to an external link in a different tab when the contribution link is clicked', () => {
-
+  it('Should go to an external link in a different tab when the contribution link would be clicked', () => {
+    cy.get('#contribution')
+    .should('exist')
+    .within(() => {
+        cy.get('p.description a')
+        .should('have.attr', 'href', 'https://github.com/SOLVE-IT-DF/solve-it?tab=contributing-ov-file')
+        .and('have.attr', 'target', '_blank')
+    });
   });
 })
