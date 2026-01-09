@@ -53,9 +53,13 @@
                     </table>
                 </div>
         </section>
-        <button class="pdf-button" (click)="generatePDF()">
-            <p>Download PDF of selected data</p>
-        </button>
+        @if (isDownloaded) {
+            <b><p class="download-message" style="margin-top: 1rem;">The PDF-file has been downloaded!</p></b>
+        } @else {
+            <button class="pdf-button" (click)="generatePDF()">
+                <p>Download PDF of selected data</p>
+            </button>
+        }
     } @else {
         <p class="not-found">No items in PDF-list found.</p>
     }

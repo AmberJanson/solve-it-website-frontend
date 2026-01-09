@@ -12,6 +12,7 @@ import { RouterLink } from '@angular/router';
 export class PdfList implements OnInit {
 
   public pdfItemList: string[] = [];
+  public isDownloaded = false;
 
   constructor (
     private sharedPathService: SharedPathService,
@@ -36,5 +37,6 @@ export class PdfList implements OnInit {
 
   generatePDF() {
     this.pdfService.createPdf();
+    this.isDownloaded = true;
   }
 }
