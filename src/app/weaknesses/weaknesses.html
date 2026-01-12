@@ -12,7 +12,7 @@
 
         <p>Details:</p>
         <div class="selection-filtering-background selection-arrow">
-            <select [(ngModel)]="selectedFilters['details']" (change)="applyFiltersAndSort()" class="selection-filtering">
+            <select [(ngModel)]="selectedFilters['details']" (change)="applyFiltersAndSort()" class="selection-filtering" id="details">
                 <option value="">All</option>
                 <option value="present">Present</option>
                 <option value="absent">Absent</option>
@@ -23,7 +23,7 @@
         @for (risk of riskTypes; track $index) {
             <p class="risk-type">{{ risk }}:</p>
             <div class="selection-filtering-background-risk selection-arrow">
-                <select [(ngModel)]="selectedFilters['risks'][risk]" (change)="applyFiltersAndSort()" class="selection-filtering-risk">
+                <select [(ngModel)]="selectedFilters['risks'][risk]" (change)="applyFiltersAndSort()" class="selection-filtering-risk" id="risks">
                     <option value="">All</option>
                     <option value="present">Present</option>
                     <option value="absent">Absent</option>
@@ -33,7 +33,7 @@
 
         <p>Mitigations:</p>
         <div class="selection-filtering-background selection-arrow">
-            <select [(ngModel)]="selectedFilters['mitigations']" (change)="applyFiltersAndSort()" class="selection-filtering">
+            <select [(ngModel)]="selectedFilters['mitigations']" (change)="applyFiltersAndSort()" class="selection-filtering" id="mitigations">
                 <option value="">All</option>
                 <option value="0">0 entries</option>
                 <option value="1-2">1-2 entries</option>
@@ -44,7 +44,7 @@
 
         <p>References:</p>
         <div class="selection-filtering-background selection-arrow">
-            <select [(ngModel)]="selectedFilters['references']" (change)="applyFiltersAndSort()" class="selection-filtering">
+            <select [(ngModel)]="selectedFilters['references']" (change)="applyFiltersAndSort()" class="selection-filtering" id="references">
                 <option value="">All</option>
                 <option value="present">Present</option>
                 <option value="absent">Absent</option>

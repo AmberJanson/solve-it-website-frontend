@@ -12,7 +12,7 @@
 
         <p>Description:</p>
         <div class="selection-filtering-background selection-arrow">
-            <select [(ngModel)]="selectedFilters['description']" (change)="applyFiltersAndSort()" class="selection-filtering">
+            <select [(ngModel)]="selectedFilters['description']" (change)="applyFiltersAndSort()" class="selection-filtering" id="description">
                 <option value="">All</option>
                 <option value="present">Present</option>
                 <option value="absent">Absent</option>
@@ -21,7 +21,7 @@
 
         <p>Synonyms:</p>
         <div class="selection-filtering-background selection-arrow">
-            <select [(ngModel)]="selectedFilters['synonyms']" (change)="applyFiltersAndSort()" class="selection-filtering">
+            <select [(ngModel)]="selectedFilters['synonyms']" (change)="applyFiltersAndSort()" class="selection-filtering" id="synonyms">
                 <option value="">All</option>
                 <option value="present">Present</option>
                 <option value="absent">Absent</option>
@@ -30,7 +30,7 @@
 
         <p>Details:</p>
         <div class="selection-filtering-background selection-arrow">
-            <select [(ngModel)]="selectedFilters['details']" (change)="applyFiltersAndSort()" class="selection-filtering">
+            <select [(ngModel)]="selectedFilters['details']" (change)="applyFiltersAndSort()" class="selection-filtering" id="details">
                 <option value="">All</option>
                 <option value="present">Present</option>
                 <option value="absent">Absent</option>
@@ -39,7 +39,7 @@
 
         <p>Subtechniques:</p>
         <div class="selection-filtering-background selection-arrow">
-            <select [(ngModel)]="selectedFilters['subtechniques']" (change)="applyFiltersAndSort()" class="selection-filtering">
+            <select [(ngModel)]="selectedFilters['subtechniques']" (change)="applyFiltersAndSort()" class="selection-filtering" id="subtechniques">
                 <option value="">All</option>
                 <option value="0">0 entries</option>
                 <option value="1-2">1-2 entries</option>
@@ -50,7 +50,7 @@
 
         <p>Examples:</p>
         <div class="selection-filtering-background selection-arrow">
-            <select [(ngModel)]="selectedFilters['examples']" (change)="applyFiltersAndSort()" class="selection-filtering">
+            <select [(ngModel)]="selectedFilters['examples']" (change)="applyFiltersAndSort()" class="selection-filtering" id="examples">
                 <option value="">All</option>
                 <option value="present">Present</option>
                 <option value="absent">Absent</option>
@@ -59,7 +59,7 @@
 
         <p>Weaknesses:</p>
         <div class="selection-filtering-background selection-arrow">
-            <select [(ngModel)]="selectedFilters['weaknesses']" (change)="applyFiltersAndSort()" class="selection-filtering">
+            <select [(ngModel)]="selectedFilters['weaknesses']" (change)="applyFiltersAndSort()" class="selection-filtering" id="weaknesses">
                 <option value="">All</option>
                 <option value="0">0 entries</option>
                 <option value="1-2">1-2 entries</option>
@@ -70,7 +70,7 @@
 
         <p>Case Output Classes:</p>
         <div class="selection-filtering-background selection-arrow">
-            <select [(ngModel)]="selectedFilters['CASE_output_classes']" (change)="applyFiltersAndSort()" class="selection-filtering">
+            <select [(ngModel)]="selectedFilters['CASE_output_classes']" (change)="applyFiltersAndSort()" class="selection-filtering" id="CASE_output_classes">
                 <option value="">All</option>
                 <option value="present">Present</option>
                 <option value="absent">Absent</option>
@@ -79,7 +79,7 @@
 
         <p>References:</p>
         <div class="selection-filtering-background selection-arrow">
-            <select [(ngModel)]="selectedFilters['references']" (change)="applyFiltersAndSort()" class="selection-filtering">
+            <select [(ngModel)]="selectedFilters['references']" (change)="applyFiltersAndSort()" class="selection-filtering" id="references">
                 <option value="">All</option>
                 <option value="present">Present</option>
                 <option value="absent">Absent</option>

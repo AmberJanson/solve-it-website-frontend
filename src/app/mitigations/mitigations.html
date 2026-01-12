@@ -12,7 +12,7 @@
 
         <p>Technique:</p>
         <div class="selection-filtering-background selection-arrow">
-            <select [(ngModel)]="selectedFilters['technique']" (change)="applyFiltersAndSort()" class="selection-filtering">
+            <select [(ngModel)]="selectedFilters['technique']" (change)="applyFiltersAndSort()" class="selection-filtering" id="technique">
                 <option value="">All</option>
                 <option value="linked">Linked</option>
                 <option value="not linked to">Not linked</option>
@@ -21,7 +21,7 @@
 
         <p>References:</p>
         <div class="selection-filtering-background selection-arrow">
-            <select [(ngModel)]="selectedFilters['references']" (change)="applyFiltersAndSort()" class="selection-filtering">
+            <select [(ngModel)]="selectedFilters['references']" (change)="applyFiltersAndSort()" class="selection-filtering" id="references">
                 <option value="">All</option>
                 <option value="present">Present</option>
                 <option value="absent">Absent</option>
