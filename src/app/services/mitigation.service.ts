@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { environment } from "../environments/environment.development";
+import { environment } from "../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Mitigation } from "../models/mitigation.model";
@@ -8,7 +8,7 @@ import { Mitigation } from "../models/mitigation.model";
     providedIn: 'root'
 })
 export class MitigationService {
-    private baseUrl: string = environment.base_url + "/mitigations"
+    private baseUrl: string = `${environment.base_url}/api/mitigations`
 
     constructor(private http: HttpClient) { }
 

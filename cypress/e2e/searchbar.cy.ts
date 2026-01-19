@@ -48,7 +48,7 @@ describe('using the searchbar', () => {
     });
 
     // Test 2
-    it('Should not show dropdown of search options when typing something in the search bar that does not exists', () => {
+    it('Should not show dropdown of search options when typing something in the search bar that does not exist', () => {
       cy.get('input').type('category3');
 
       cy.get('ul.search-dropdown').should('not.exist');

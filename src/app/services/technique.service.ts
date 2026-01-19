@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { environment } from "../environments/environment.development";
+import { environment } from "../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Technique } from "../models/technique.model";
@@ -8,7 +8,7 @@ import { Technique } from "../models/technique.model";
     providedIn: 'root'
 })
 export class TechniqueService {
-    private baseUrl: string = environment.base_url + "/techniques"
+    private baseUrl: string = `${environment.base_url}/api/techniques`
 
     constructor(private http: HttpClient) { }
 

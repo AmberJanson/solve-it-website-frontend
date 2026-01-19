@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { environment } from "../environments/environment.development";
+import { environment } from "../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Weakness } from "../models/weakness.model";
@@ -8,7 +8,7 @@ import { Weakness } from "../models/weakness.model";
     providedIn: 'root'
 })
 export class WeaknessService {
-    private baseUrl: string = environment.base_url + "/weaknesses"
+    private baseUrl: string = `${environment.base_url}/api/weaknesses`
 
     constructor(private http: HttpClient) { }
 
