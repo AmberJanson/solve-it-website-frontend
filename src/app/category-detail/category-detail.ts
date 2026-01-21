@@ -52,27 +52,17 @@ export class CategoryDetail implements OnInit{
         this.category = category;
         this.addCategoryPathToService();
 
-        let completed = 0;
-
         if (category.techniques.length >= 1) {
           for (const techniqueId of category.techniques) {
             this.techniqueService.getTechniquesById(techniqueId)
               .subscribe({next: (technique) => {
-                this.techniques.push(technique);
-                completed++
-                if (completed === category.techniques.length) {
-                  this.techniques.sort((a, b) => a.id.localeCompare(b.id));
-                  this.loadingCategory = false;
-                  this.cdr.markForCheck();
-                }
+                this.techniques[category.techniques.indexOf(techniqueId)] = technique;
+                this.loadingCategory = false;
+                this.cdr.markForCheck();
               }, error: err => {
                 console.error("Error occurred: ", err);
-                completed++
-                if (completed === category.techniques.length) {
-                  this.techniques.sort((a, b) => a.id.localeCompare(b.id));
-                  this.loadingCategory = false;
-                  this.cdr.markForCheck();
-                }
+                this.loadingCategory = false;
+                this.cdr.markForCheck();
               }
             });
           }

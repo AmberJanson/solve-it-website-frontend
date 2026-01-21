@@ -131,7 +131,6 @@ export class Home implements OnInit {
       techniqueDetailed: category.techniques
         .map(id => this.techniqueMap[id])
         .filter(technique => !!technique)
-        .sort((a, b) => a.id.localeCompare(b.id))
     }))
 
     this.categoryList.sort((a, b) => a.id.localeCompare(b.id));
