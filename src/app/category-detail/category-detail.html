@@ -18,7 +18,20 @@
                         <a routerLink="" class="path-link">Home</a> 
                         > 
                         @for (path of pathList; track $index) {
-                            {{ path }} @if($index != (pathList.length - 1)){>}
+                            @if ((pathList.length - 1) != $index) {
+                                <a (click)="onClickPath(path, $index)" [routerLink]="
+                                path.startsWith('C1') ? '/categories/' + path.split(':')[0] :
+                                path.startsWith('T1') ? '/techniques/' + path.split(':')[0] :
+                                path.startsWith('W1') ? '/weaknesses/' + path.split(':')[0] :
+                                path.startsWith('M1') ? '/mitigations/' + path.split(':')[0] :
+                                path.match('^Techniques$') ? '/techniques/' :
+                                path.match('^Weaknesses$') ? '/weaknesses/' :
+                                path.match('^Mitigations$') ? '/mitigations/' :
+                                ''
+                                "> {{ path }} </a>> 
+                            } @else {
+                                {{ path }} @if($index != (pathList.length - 1)){>}
+                            }
                         }
                     </p>
 

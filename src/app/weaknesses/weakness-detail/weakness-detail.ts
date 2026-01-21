@@ -59,17 +59,27 @@ export class WeaknessDetail implements OnInit{
         this.isChecked = this.pdfService.hasPdfItemList(this.weakness.id + ": " + this.weakness.name);
         this.addWeaknessPathToService();
 
+        let completed = 0;
+
         if (weakness.mitigations.length >= 1) {
           for (const mitigationId of weakness.mitigations) {
             this.mitigationService.getMitigationById(mitigationId)
               .subscribe({next: (mitigation) => {
                 this.mitigations.push(mitigation);
-                this.loadingWeakness = false;
-                this.cdr.markForCheck();
+                completed++
+                if (completed === weakness.mitigations.length) {
+                  this.mitigations.sort((a, b) => a.id.localeCompare(b.id));
+                  this.loadingWeakness = false;
+                  this.cdr.markForCheck();
+                }
               }, error: err => {
                 console.error("Error occurred: ", err)
-                this.loadingWeakness = false;
-                this.cdr.markForCheck();
+                completed++
+                if (completed === weakness.mitigations.length) {
+                  this.mitigations.sort((a, b) => a.id.localeCompare(b.id));
+                  this.loadingWeakness = false;
+                  this.cdr.markForCheck();
+                }
               }
             })
           }
@@ -103,6 +113,23 @@ export class WeaknessDetail implements OnInit{
       this.sharedPathService.removeLastItem();
       list = this.sharedPathService.getList();
     }
+  }
+
+  onClickPath(path: string, index: number): void {
+    const toHome = 
+      !path.startsWith('C1') &&
+      !path.startsWith('T1') &&
+      !path.startsWith('W1') &&
+      !path.startsWith('M1') &&
+      !/^Techniques$/.test(path) &&
+      !/^Weaknesses$/.test(path) &&
+      !/^Mitigations$/.test(path);
+    
+      if (toHome) {
+        this.sharedPathService.setSelectedView(path);
+      }
+
+      this.resetListPartialy(index);
   }
 
   onCheckboxChange(checked: boolean) {

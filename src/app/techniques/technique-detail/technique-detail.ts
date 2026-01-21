@@ -61,33 +61,53 @@ export class TechniqueDetail  implements OnInit{
           this.isChecked = this.pdfService.hasPdfItemList(this.technique.id + ": " + this.technique.name);
           this.addTechniquePathToService();
 
+          let completedSubtechniques = 0;
+
           if (technique.subtechniques.length >= 1) {
             for (const subtechniqueId of technique.subtechniques) {
               this.techniqueService.getTechniquesById(subtechniqueId)
                 .subscribe({next: (subtechnique) => {
                   this.subtechniques.push(subtechnique);
-                  this.loadingTechnique = false;
-                  this.cdr.markForCheck();
+                  completedSubtechniques++
+                  if (completedSubtechniques === technique.subtechniques.length) {
+                    this.subtechniques.sort((a, b) => a.id.localeCompare(b.id));
+                    this.loadingTechnique = false;
+                    this.cdr.markForCheck();
+                  }
                 }, error: err => {
                   console.error("Error occurred: ", err);
-                  this.loadingTechnique = false;
-                  this.cdr.markForCheck();
+                  completedSubtechniques++
+                  if (completedSubtechniques === technique.subtechniques.length) {
+                    this.subtechniques.sort((a, b) => a.id.localeCompare(b.id));
+                    this.loadingTechnique = false;
+                    this.cdr.markForCheck();
+                  }
                 }
               });
             }
           }
+
+          let completedWeaknesses = 0;
 
           if (technique.weaknesses.length >= 1) {
             for (const weaknessId of technique.weaknesses) {
               this.weaknessService.getWeaknessById(weaknessId)
                 .subscribe({next: (weakness) => {
                   this.weaknesses.push(weakness);
-                  this.loadingTechnique = false;
-                  this.cdr.markForCheck();
+                  completedWeaknesses++
+                  if (completedWeaknesses === this.weaknesses.length) {
+                    this.weaknesses.sort((a, b) => a.id.localeCompare(b.id));
+                    this.loadingTechnique = false;
+                    this.cdr.markForCheck();
+                  }
                 }, error: err => {
                   console.error("Error occurred: ", err);
-                  this.loadingTechnique = false;
-                  this.cdr.markForCheck();
+                  completedWeaknesses++
+                  if (completedWeaknesses === this.weaknesses.length) {
+                    this.weaknesses.sort((a, b) => a.id.localeCompare(b.id));
+                    this.loadingTechnique = false;
+                    this.cdr.markForCheck();
+                  }
                 }
               })
             }
@@ -121,6 +141,23 @@ export class TechniqueDetail  implements OnInit{
       this.sharedPathService.removeLastItem();
       list = this.sharedPathService.getList();
     }
+  }
+
+  onClickPath(path: string, index: number): void {
+    const toHome = 
+      !path.startsWith('C1') &&
+      !path.startsWith('T1') &&
+      !path.startsWith('W1') &&
+      !path.startsWith('M1') &&
+      !/^Techniques$/.test(path) &&
+      !/^Weaknesses$/.test(path) &&
+      !/^Mitigations$/.test(path);
+    
+      if (toHome) {
+        this.sharedPathService.setSelectedView(path);
+      }
+
+      this.resetListPartialy(index);
   }
 
   onCheckboxChange(checked: boolean) {

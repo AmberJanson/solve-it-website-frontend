@@ -7,6 +7,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 export class SharedPathService {
     private listSubject: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
     private nextItemToAdd: string | null = null;
+    public selectedView: string = "";
 
     list$: Observable<string[]> = this.listSubject.asObservable();
 
@@ -42,5 +43,17 @@ export class SharedPathService {
 
     getNextItem(): string | null {
         return this.nextItemToAdd;
+    }
+
+    setSelectedView(view: string) {
+        this.selectedView = view;
+    }
+
+    getSelectedView() {
+        return this.selectedView;
+    }
+
+    resetSelectedView() {
+        this.selectedView = "";
     }
 }

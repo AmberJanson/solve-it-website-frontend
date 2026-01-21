@@ -13,8 +13,8 @@
         
         <p class="select-text">Select an overview of how the techniques are divided:</p>
         <div class="selection-background selection-arrow">
-            <select #categorySelect class="selection" (change)="getCategoriesByView(categorySelect.value)">
-                <option value="" disabled selected hidden>- Select -</option>
+            <select #categorySelect [value]="selectedView ? selectedView.id : ''" class="selection" (change)="getCategoriesByView(categorySelect.value)">
+                <option value="" disabled hidden>- Select -</option>
                 @for (categoryView of categoryViewList; track $index) {
                     <option [value]="categoryView.id">{{ categoryView.name }}: {{ categoryView.short_description }}</option>
                 }
@@ -53,7 +53,7 @@
                         <div class="technique-list">
                             @for (technique of category.techniqueDetailed; track $index) {
                                 <div class="technique-item">
-                                    <a (click)="addViewAndCategoryPathToService(category)" [routerLink]="['/techniques', technique.id]">{{ technique.name }}</a> ({{ technique.weaknesses.length }})
+                                    <b>{{ technique.id }}: </b> <a (click)="addViewAndCategoryPathToService(category)" [routerLink]="['/techniques', technique.id]">{{ technique.name }}</a> ({{ technique.weaknesses.length }})
                                 </div>
                             }
                         </div>

@@ -52,17 +52,27 @@ export class CategoryDetail implements OnInit{
         this.category = category;
         this.addCategoryPathToService();
 
+        let completed = 0;
+
         if (category.techniques.length >= 1) {
           for (const techniqueId of category.techniques) {
             this.techniqueService.getTechniquesById(techniqueId)
               .subscribe({next: (technique) => {
                 this.techniques.push(technique);
-                this.loadingCategory = false;
-                this.cdr.markForCheck();
+                completed++
+                if (completed === category.techniques.length) {
+                  this.techniques.sort((a, b) => a.id.localeCompare(b.id));
+                  this.loadingCategory = false;
+                  this.cdr.markForCheck();
+                }
               }, error: err => {
                 console.error("Error occurred: ", err);
-                this.loadingCategory = false;
-                this.cdr.markForCheck();
+                completed++
+                if (completed === category.techniques.length) {
+                  this.techniques.sort((a, b) => a.id.localeCompare(b.id));
+                  this.loadingCategory = false;
+                  this.cdr.markForCheck();
+                }
               }
             });
           }
@@ -77,6 +87,21 @@ export class CategoryDetail implements OnInit{
           this.cdr.markForCheck();
       }
     })
+  }
+
+  onClickPath(path: string, index: number): void {
+    const toHome = 
+      !path.startsWith('C1') &&
+      !path.startsWith('T1') &&
+      !path.startsWith('W1') &&
+      !path.startsWith('M1') &&
+      !/^Techniques$/.test(path) &&
+      !/^Weaknesses$/.test(path) &&
+      !/^Mitigations$/.test(path);
+    
+      if (toHome) {
+        this.sharedPathService.setSelectedView(path);
+      }
   }
 
   public addCategoryPathToService() {

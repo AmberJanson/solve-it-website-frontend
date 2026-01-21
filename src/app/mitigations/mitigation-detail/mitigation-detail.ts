@@ -103,6 +103,23 @@ export class MitigationDetail implements OnInit {
     }
   }
 
+  onClickPath(path: string, index: number): void {
+    const toHome = 
+      !path.startsWith('C1') &&
+      !path.startsWith('T1') &&
+      !path.startsWith('W1') &&
+      !path.startsWith('M1') &&
+      !/^Techniques$/.test(path) &&
+      !/^Weaknesses$/.test(path) &&
+      !/^Mitigations$/.test(path);
+    
+      if (toHome) {
+        this.sharedPathService.setSelectedView(path);
+      }
+
+      this.resetListPartialy(index);
+  }
+  
   onCheckboxChange(checked: boolean) {
     if (checked) {
       this.pdfService.addToPdfItemList(this.mitigation?.id + ": " + this.mitigation?.name);
