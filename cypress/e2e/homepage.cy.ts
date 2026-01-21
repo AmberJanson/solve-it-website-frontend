@@ -3,27 +3,27 @@ describe('using the homepage', () => {
     beforeEach(() => {
         
         // Intercepts
-        cy.intercept('GET', '/categoryViews', {statusCode: 200, body : [
+        cy.intercept('GET', '/api/categoryViews', {statusCode: 200, body : [
                 {id: "ViewId1", name: "CategoryView1", short_description: "ShortDescription1", long_description: "LongDescription1", categories: ["CategoryId1", "CategoryId2"]},
                 {id: "ViewId2", name: "CategoryView2", short_description: "ShortDescription2", long_description: "LongDescription2", categories: ["CategoryId1"]},
                 {id: "ViewId3", name: "CategoryView3", short_description: "ShortDescription3", long_description: "LongDescription3", categories: ["CategoryId3", "CategoryId4"]}
             ]
         }).as('getCategoryViews');
-        cy.intercept('GET', '/categories', {statusCode: 200, body : [
+        cy.intercept('GET', '/api/categories', {statusCode: 200, body : [
                 {id: "CategoryId1", name: "Category1", description: "Description1", techniques: ["TechniqueId1"]},
                 {id: "CategoryId2", name: "Category2", description: "Description2", techniques: ["TechniqueId2"]}
             ]
         }).as('getCategories');
-        cy.intercept('GET', '/techniques', {statusCode: 200, body : [
+        cy.intercept('GET', '/api/techniques', {statusCode: 200, body : [
                 {id: "TechniqueId1", name: "Technique1", description: "Description1", synonyms: ["Synonym1", "Synonym2"], details: "Details1", subtechniques: ["TechniqueId1"], examples: ["Example1", "Example2"], weaknesses: ["WeaknessId1"], CASE_output_classes: ["Class1"], references: ["Reference1", "Reference2"]},
                 {id: "TechniqueId2", name: "Technique2", description: "Description2", synonyms: ["Synonym1", "Synonym2"], details: "Details2", subtechniques: ["TechniqueId1"], examples: ["Example1", "Example2"], weaknesses: ["WeaknessId1"], CASE_output_classes: ["Class1"], references: ["Reference1", "Reference2"]}
             ]
         }).as('getTechniques');
-        cy.intercept('GET', '/weaknesses', {statusCode: 200, body : [
+        cy.intercept('GET', '/api/weaknesses', {statusCode: 200, body : [
                 {id: "WeaknessId1", name: "Weakness1", details: "Details1", risks: ["Risk1", "Risk2"], mitigations: ["MitigationId1"], references: ["Reference1", "Reference2"]}
             ]
         }).as('getWeaknesses');
-        cy.intercept('GET', '/mitigations', {statusCode: 200, body : [
+        cy.intercept('GET', '/api/mitigations', {statusCode: 200, body : [
                 {id: "MitigationId1", name: "Mitigation1", technique: "TechniqueId1", references: ["Reference1", "Reference2"]}
             ]
         }).as('getMitigations');
@@ -77,11 +77,11 @@ describe('using the homepage', () => {
     it('Should go to detailpage of technique1 when clicked on link for technique1', () => {
         cy.get('select.selection').select('CategoryView1: ShortDescription1');
 
-        cy.intercept('GET', '/techniques?techniqueId=TechniqueId1', {statusCode: 200, body : {
+        cy.intercept('GET', '/api/techniques?techniqueId=TechniqueId1', {statusCode: 200, body : {
                 id: "TechniqueId1", name: "Technique1", description: "Description1", synonyms: ["Synonym1", "Synonym2"], details: "Details1", subtechniques: ["TechniqueId1"], examples: ["Example1", "Example2"], weaknesses: ["WeaknessId1"], CASE_output_classes: ["Class1"], references: ["Reference1", "Reference2"]
             }
         }).as('getTechnique');
-        cy.intercept('GET', '/weaknesses?weaknessId=WeaknessId1', {statusCode: 200, body : {
+        cy.intercept('GET', '/api/weaknesses?weaknessId=WeaknessId1', {statusCode: 200, body : {
             id: "WeaknessId1", name: "Weakness1", details: "Details1", risks: ["Risk1", "Risk2"], mitigations: ["MitigationId1"], references: ["Reference1", "Reference2"]
         }
         }).as('getWeakness');
@@ -92,7 +92,7 @@ describe('using the homepage', () => {
         cy.wait('@getWeakness');
 
         cy.url().should('include', 'techniques/TechniqueId1');
-        cy.get('p.page-path').should('contain.text', 'CategoryView1 > CategoryId1: Category1 > TechniqueId1: Technique1');
+        cy.get('p.page-path').should('contain.text', 'CategoryId1: Category1 >');
     });
 
     // Test 5

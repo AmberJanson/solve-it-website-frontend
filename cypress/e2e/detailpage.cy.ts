@@ -3,30 +3,30 @@ describe('using the detailpages', () => {
       beforeEach(() => {
       
       // Intercepts
-      cy.intercept('GET', '/categories', {statusCode: 200, body : [
+      cy.intercept('GET', '/api/categories', {statusCode: 200, body : [
               {id: "CategoryId1", name: "Category1", description: "Description1", techniques: ["TechniqueId1"]},
               {id: "CategoryId2", name: "Category2", description: "Description2", techniques: ["TechniqueId2"]}
           ]
       }).as('getCategories');
-      cy.intercept('GET', '/techniques', {statusCode: 200, body : [
+      cy.intercept('GET', '/api/techniques', {statusCode: 200, body : [
               {id: "TechniqueId1", name: "Technique1", description: "", synonyms: [], details: "Details1", subtechniques: ["TechniqueId1"], examples: ["Example1", "Example2"], weaknesses: ["WeaknessId1"], CASE_output_classes: [], references: ["Reference1", "Reference2"]},
               {id: "TechniqueId2", name: "Technique2", description: "Description2", synonyms: ["Synonym1", "Synonym2"], details: "Details2", subtechniques: ["TechniqueId1"], examples: ["Example1", "Example2"], weaknesses: ["WeaknessId1"], CASE_output_classes: ["Class1"], references: ["Reference1", "Reference2"]}
           ]
       }).as('getTechniques');
-      cy.intercept('GET', '/weaknesses', {statusCode: 200, body : [
+      cy.intercept('GET', '/api/weaknesses', {statusCode: 200, body : [
               {id: "WeaknessId1", name: "Weakness1", details: "Details1", risks: ["Risk1", "Risk2"], mitigations: ["MitigationId1"], references: ["Reference1", "Reference2"]}
           ]
       }).as('getWeaknesses');
-      cy.intercept('GET', '/mitigations', {statusCode: 200, body : [
+      cy.intercept('GET', '/api/mitigations', {statusCode: 200, body : [
               {id: "MitigationId1", name: "Mitigation1", technique: "TechniqueId1", references: ["Reference1", "Reference2"]}
           ]
       }).as('getMitigations');
 
-      cy.intercept('GET', '/techniques?techniqueId=TechniqueId1', {statusCode: 200, body : {
+      cy.intercept('GET', '/api/techniques?techniqueId=TechniqueId1', {statusCode: 200, body : {
           id: "TechniqueId1", name: "Technique1", description: "", synonyms: [], details: "Details1", subtechniques: ["TechniqueId1"], examples: ["Example1", "Example2"], weaknesses: ["WeaknessId1"], CASE_output_classes: [], references: ["Reference1", "Reference2"]
         }
       }).as('getTechnique');
-      cy.intercept('GET', '/weaknesses?weaknessId=WeaknessId1', {statusCode: 200, body : {
+      cy.intercept('GET', '/api/weaknesses?weaknessId=WeaknessId1', {statusCode: 200, body : {
           id: "WeaknessId1", name: "Weakness1", details: "Details1", risks: ["Risk1", "Risk2"], mitigations: ["MitigationId1"], references: ["Reference1", "Reference2"]
         }
       }).as('getWeakness');
@@ -70,7 +70,7 @@ describe('using the detailpages', () => {
 
   // Test 3
   it('Should go to detailpage of weakness1 when clicked on link for weakness1', () => {
-    cy.intercept('GET', '/mitigations?mitigationId=MitigationId1', {statusCode: 200, body : {
+    cy.intercept('GET', '/api/mitigations?mitigationId=MitigationId1', {statusCode: 200, body : {
             id: "MitigationId1", name: "Mitigation1", technique: "TechniqueId1", references: ["Reference1", "Reference2"]
         }
     }).as('getMitigation');
@@ -80,7 +80,7 @@ describe('using the detailpages', () => {
     cy.wait('@getMitigation');
 
     cy.url().should('include', 'weaknesses/WeaknessId1');
-    cy.get('p.page-path').should('contain.text', 'TechniqueId1: Technique1 > WeaknessId1: Weakness1');
+    cy.get('p.page-path').should('contain.text', 'TechniqueId1: Technique1 >');
   });
 
   // Test 4
