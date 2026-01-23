@@ -62,6 +62,20 @@
 
                 <section id="risks">
                     <h1 class="subtitle">Risks</h1>
+                    <p class="risks-label">
+                        <span class="info-icon" 
+                            matTooltip="- INCOMP: incompleteness
+                                        - INAC-EX: inaccuracy:existence
+                                        - INAC-AS: inaccuracy:association
+                                        - INAC-ALT: inaccuracy:alteration
+                                        - INAC-COR: inaccuracy:corruption
+                                        - MISINT: potential misinterpretation
+                                        " 
+                            [matTooltipPosition]="positionOption" 
+                            matTooltipClass="custom-tooltip">
+                            i
+                        </span>
+                    </p>
                     @if (weakness.risks == null || weakness.risks.length == 0) {
                         <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No risks for this weakness are known yet.</p>
                     } @else {

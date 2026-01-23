@@ -7,10 +7,11 @@ import { MitigationService } from '../../services/mitigation.service';
 import { SharedPathService } from '../../services/shared-path.service';
 import { FormsModule } from '@angular/forms';
 import { PdfService } from '../../services/create-pdf.service';
+import { MatTooltipModule, TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-weakness-detail',
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, MatTooltipModule],
   templateUrl: './weakness-detail.html',
   styleUrl: './weakness-detail.scss'
 })
@@ -18,6 +19,8 @@ export class WeaknessDetail implements OnInit{
 
   public pathList: string[] = [];
   public isChecked = false;
+
+  public positionOption: TooltipPosition = 'right';
   
   public weakness: Weakness | null = null;
   public weaknessId?: string;

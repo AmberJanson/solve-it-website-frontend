@@ -310,6 +310,37 @@ html {
     background: #00665E;
 }
 
+.risks-label {
+    position: relative;
+    display: inline-block;
+}
+
+.info-icon {
+    position: absolute;
+    top: -6px;
+    right: -20px;
+    font-size: 13px;
+    text-align: center;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1.5px solid #000000;
+    cursor: pointer;
+}
+
+::ng-deep .custom-tooltip .mdc-tooltip__surface {
+    background-color: #888787;
+    color: #000000;
+    font-size: 14px;
+    border-radius: 6px;
+    padding: 10px;
+    position: relative;
+    border: 1px solid #000000;
+    white-space: pre-line;
+    max-width: unset !important;
+}
+
 // for the filter reset button
 @media only screen and (max-width: 1450px) {
     .filters-header {

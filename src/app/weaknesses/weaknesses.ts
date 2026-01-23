@@ -4,10 +4,11 @@ import { Weakness } from '../models/weakness.model';
 import { WeaknessService } from '../services/weakness.service';
 import { FormsModule } from '@angular/forms';
 import { SharedPathService } from '../services/shared-path.service';
+import {TooltipPosition, MatTooltipModule} from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-weaknesses',
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, MatTooltipModule],
   templateUrl: './weaknesses.html',
   styleUrl: './weaknesses.scss'
 })
@@ -16,6 +17,8 @@ export class Weaknesses implements OnInit{
   public filtersOpen = false;
 
   public pathList: string[] = [];
+
+  public positionOption: TooltipPosition = 'below';
 
   private allWeaknesses: Weakness[] = [];
   public weaknessList: Weakness[] = [];
