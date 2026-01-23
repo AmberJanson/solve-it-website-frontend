@@ -113,8 +113,7 @@ export class Navigation implements OnInit {
     }
 
     this.filteredItems = this.allSearchItems
-      .filter(item => item.name && item.name.toLowerCase().includes(term.toLowerCase()))
-      .slice(0, 5);
+      .filter(item => item.name && item.name.toLowerCase().includes(term.toLowerCase()));
 
     this.dropdownVisible = true;
   }
