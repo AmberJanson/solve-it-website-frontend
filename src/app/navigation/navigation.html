@@ -16,9 +16,8 @@
                 <ul class="search-dropdown">
                     @for (item of filteredItems; track $index) {
                         <li (click)="onItemClick(item, $event)">
-                            {{ item.id }}: 
-                            @for (part of getNameParts(item.name); track $index) {
-                                <span [class.highlight]="part.highlight">{{ part.text }}</span>
+                            @for (part of getParts(item.id + ": " + item.name); track $index) {
+                                <span [class.highlight]="part.highlight">{{ part.highlightedText }}</span>
                             }
                         </li>
                     }

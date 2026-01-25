@@ -42,7 +42,7 @@
             left: 50%;
             transform: translateX(-50%);
             width: 70%;
-            height: 500%;
+            max-height: 500%;
             overflow-y: auto;
             background-color: #004D46;
             border: 2px solid white;

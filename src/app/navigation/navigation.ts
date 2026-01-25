@@ -113,7 +113,10 @@ export class Navigation implements OnInit {
     }
 
     this.filteredItems = this.allSearchItems
-      .filter(item => item.name && item.name.toLowerCase().includes(term.toLowerCase()));
+      .filter(item => {
+        const searchableText = `${item.id}: ${item.name}`.toLowerCase();
+        return searchableText.includes(term.toLowerCase());
+      });
 
     this.dropdownVisible = true;
   }
@@ -124,26 +127,26 @@ export class Navigation implements OnInit {
     }
   }
 
-  getNameParts(itemName: string): {text: string, highlight: boolean}[] {
-    if (!this.searchTerm) return [{ text: itemName, highlight: false}];
+  getParts(text: string): {highlightedText: string, highlight: boolean}[] {
+    if (!this.searchTerm || !text) return [{ highlightedText: text, highlight: false}];
 
     const term = this.searchTerm.toLowerCase();
-    const lowerName = itemName.toLowerCase();
-    const parts: { text: string, highlight: boolean}[] = [];
+    const lowerText = text.toLowerCase();
+    const parts: { highlightedText: string, highlight: boolean}[] = [];
     let currentIndex = 0;
 
-    while (currentIndex < itemName.length) {
-      const matchIndex = lowerName.indexOf(term, currentIndex);
-      if (matchIndex == -1) {
-        parts.push({ text: itemName.slice(currentIndex), highlight: false });
+    while (currentIndex < text.length) {
+      const matchIndex = lowerText.indexOf(term, currentIndex);
+      if (matchIndex === -1) {
+        parts.push({ highlightedText: text.slice(currentIndex), highlight: false });
         break;
       }
 
       if (matchIndex > currentIndex) {
-        parts.push({ text: itemName.slice(currentIndex, matchIndex), highlight: false });
+        parts.push({ highlightedText: text.slice(currentIndex, matchIndex), highlight: false });
       }
 
-      parts.push({ text: itemName.slice(matchIndex, matchIndex + term.length), highlight: true });
+      parts.push({ highlightedText: text.slice(matchIndex, matchIndex + term.length), highlight: true });
       currentIndex = matchIndex + term.length;
     }
 
