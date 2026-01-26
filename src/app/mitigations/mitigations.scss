@@ -2,6 +2,7 @@
     display: flex;
     margin-top: -16px;
     position: relative;
+    top: var(--navbar-height);
 }
 
 html {
@@ -15,7 +16,9 @@ html {
 
 .content {
     flex: 1;
-    width: 100%;
+    width: 80%;
+    margin-left: 20%;
+    margin-bottom: 90px;
 }
 
 .content section {
@@ -182,11 +185,14 @@ html {
 
 .filters {
     width: 20%;
-    position: sticky;
-    top: 0;
+    position: fixed;
     border-right: 10px solid #888787;
+    border-bottom: 10px solid #888787;
+    border-radius: 0px 0px 12px 0px;
     padding-left: 2rem;
     background-color: #fffceb;
+    height: 51vh;
+    overflow-y: auto;
 
     & h2 {
         font-size: 32px;
@@ -240,7 +246,7 @@ html {
     display: none;
     position: absolute;
     top: 10px;
-    right: 10px;
+    right: 5px;
     background: transparent;
     border: none;
     font-size: 24px;
@@ -290,22 +296,26 @@ html {
             width: 70%;
         }
     }
+
+    .filters {
+        height: 56vh;
+    }
 }
 
 // small laptops
 @media only screen and (max-width: 1350px) {
     .content {
         width: 100%;
+        margin-left: 0%;
     }
 
     .filters {
-        position: absolute;
-        top: 0;
+        position: fixed;
         left: 0;
 
         width: 320px;
 
-        height: 71vh;
+        height: 48vh;
         overflow-y: auto;
 
         background-color: #fffceb;
@@ -318,6 +328,10 @@ html {
         border-radius: 0px 0px 12px 0px;
 
         z-index: 1000;
+    }
+
+    .filters-close {
+        display: block;
     }
 
     .filters.open {
@@ -359,10 +373,6 @@ html {
 
 // vertical-held tablets
 @media only screen and (max-width: 824px) {
-    .filters {
-        height: 60vh;
-    }
-
     .table-background {
         min-width: 0%;
     }
@@ -370,6 +380,10 @@ html {
 
 // large mobiles
 @media only screen and (max-width: 600px) {
+    .filters {
+        height: 56vh;
+    }
+
     .table-background {
         overflow: hidden;
         max-width: 85%;
@@ -385,7 +399,7 @@ html {
     }
 
     .filters-close {
-        display: block;
+        right: 10pxs;
     }
 
     .page-layout.open .not-found {

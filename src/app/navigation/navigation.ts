@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NavigationStart, Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { Mitigation } from '../models/mitigation.model';
 import { Category } from '../models/category.model';
@@ -20,7 +20,10 @@ import { PdfService } from '../services/create-pdf.service';
   templateUrl: './navigation.html',
   styleUrl: './navigation.scss',
 })
-export class Navigation implements OnInit {
+export class Navigation implements OnInit, AfterViewInit {
+
+  @ViewChild('navbar') navbar!: ElementRef<HTMLElement>;
+
   public searchTerm: string = '';
   public dropdownVisible = false;
 
@@ -70,6 +73,19 @@ export class Navigation implements OnInit {
 
   ngOnInit(): void {
     this.loadAllSearchLists();
+  }
+
+  ngAfterViewInit(): void {
+    this.setNavbarHeight();
+    window.addEventListener('resize', this.setNavbarHeight)
+  }
+
+  setNavbarHeight = () => {
+    const height = this.navbar.nativeElement.getBoundingClientRect().height;
+    document.documentElement.style.setProperty(
+      '--navbar-height',
+      `${height}px`
+    )
   }
 
   loadAllSearchLists() {

@@ -168,4 +168,12 @@ export class TechniqueDetail  implements OnInit{
       this.pdfService.removeFromPdfItemList(this.technique?.id + ": " + this.technique?.name);
     }
   }
+
+  scrollTo(id: string) {
+    const element = document.getElementById(id);
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.pageYOffset - 90;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    }
+  }
 }

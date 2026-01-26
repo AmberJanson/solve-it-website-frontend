@@ -4,8 +4,8 @@
         <h2>Contents</h2>
 
         <ul>
-            <li><a [routerLink]="[]" fragment="technique">Technique</a></li>
-            <li><a [routerLink]="[]" fragment="references">References</a></li>
+            <li><a (click)="scrollTo('technique')">Technique</a></li>
+            <li><a (click)="scrollTo('references')">References</a></li>
         </ul>
     </aside>
 
@@ -82,7 +82,7 @@
                     }
                 </section>
 
-                <section id="references" style="margin-bottom: 10rem;">
+                <section id="references" style="margin-bottom: 2rem;">
                     <h1 class="subtitle">References</h1>
                     @if (mitigation.references == null || mitigation.references.length == 0) {
                         <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No references for this mitigation are known yet.</p>

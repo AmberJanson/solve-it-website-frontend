@@ -1,4 +1,6 @@
-body {
+main {
+    position: relative;
+    top: var(--navbar-height);
 
     p.description {
         margin-top: 3rem;
@@ -64,6 +66,7 @@ body {
         width: 85%;
         padding: 1rem;
         margin: 0 auto 3rem auto;
+        margin-bottom: 12rem;
         background: #004D46;
         border-radius: 12px;
 

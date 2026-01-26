@@ -103,4 +103,12 @@ export class CategoryDetail implements OnInit{
       this.sharedPathService.addItem(`${this.categoryId}: ${this.category?.name}`)
     }
   }
+
+  scrollTo(id: string) {
+    const element = document.getElementById(id);
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.pageYOffset - 90;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    }
+  }
 }

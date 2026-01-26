@@ -128,4 +128,12 @@ export class MitigationDetail implements OnInit {
       this.pdfService.removeFromPdfItemList(this.mitigation?.id + ": " + this.mitigation?.name);
     }
   }
+
+  scrollTo(id: string) {
+    const element = document.getElementById(id);
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.pageYOffset - 90;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    }
+  }
 }

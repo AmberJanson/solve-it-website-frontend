@@ -143,4 +143,12 @@ export class WeaknessDetail implements OnInit{
       this.pdfService.removeFromPdfItemList(this.weakness?.id + ": " + this.weakness?.name);
     }
   }
+
+  scrollTo(id: string) {
+    const element = document.getElementById(id);
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.pageYOffset - 90;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    }
+  }
 }

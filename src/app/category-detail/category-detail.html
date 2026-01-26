@@ -4,8 +4,8 @@
         <h2>Contents</h2>
 
         <ul>
-            <li><a [routerLink]="[]" fragment="description">Description</a></li>
-            <li><a [routerLink]="[]" fragment="techniques">Techniques</a></li>
+            <li><a (click)="scrollTo('description')">Description</a></li>
+            <li><a (click)="scrollTo('techniques')">Techniques</a></li>
         </ul>
     </aside>
 

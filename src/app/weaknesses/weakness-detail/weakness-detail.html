@@ -4,10 +4,10 @@
         <h2>Contents</h2>
 
         <ul>
-            <li><a [routerLink]="[]" fragment="details">Details</a></li>
-            <li><a [routerLink]="[]" fragment="risks">Risks</a></li>
-            <li><a [routerLink]="[]" fragment="mitigations">Mitigations</a></li>
-            <li><a [routerLink]="[]" fragment="references">References</a></li>
+            <li><a (click)="scrollTo('details')">Details</a></li>
+            <li><a (click)="scrollTo('risks')">Risks</a></li>
+            <li><a (click)="scrollTo('mitigations')">Mitigations</a></li>
+            <li><a (click)="scrollTo('references')">References</a></li>
         </ul>
     </aside>
 

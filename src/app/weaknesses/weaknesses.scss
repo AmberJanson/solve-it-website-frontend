@@ -2,6 +2,7 @@
     display: flex;
     margin-top: -16px;
     position: relative;
+    top: var(--navbar-height);
 }
 
 html {
@@ -15,7 +16,9 @@ html {
 
 .content {
     flex: 1;
-    width: 100%;
+    width: 80%;
+    margin-left: 20%;
+    margin-bottom: 90px;
 }
 
 .content section {
@@ -182,11 +185,14 @@ html {
 
 .filters {
     width: 20%;
-    position: sticky;
-    top: 0;
+    position: fixed;
     border-right: 10px solid #888787;
+    border-bottom: 10px solid #888787;
+    border-radius: 0px 0px 12px 0px;
     padding-left: 2rem;
     background-color: #fffceb;
+    height: 71.1vh;
+    overflow-y: auto;
 
     & h2 {
         font-size: 32px;
@@ -270,7 +276,7 @@ html {
     display: none;
     position: absolute;
     top: 10px;
-    right: 10px;
+    right: 5px;
     background: transparent;
     border: none;
     font-size: 24px;
@@ -357,11 +363,11 @@ html {
 @media only screen and (max-width: 1350px) {
     .content {
         width: 100%;
+        margin-left: 0%;
     }
 
     .filters {
-        position: absolute;
-        top: 0;
+        position: fixed;
         left: 0;
 
         width: 320px;
@@ -379,6 +385,10 @@ html {
         border-radius: 0px 0px 12px 0px;
 
         z-index: 1000;
+    }
+
+    .filters-close {
+        display: block;
     }
 
     .filters.open {
@@ -455,7 +465,7 @@ html {
     }
 
     .filters-close {
-        display: block;
+        right: 10px;
     }
 
     .page-layout.open .not-found {

@@ -4,14 +4,14 @@
         <h2>Contents</h2>
 
         <ul>
-            <li><a [routerLink]="[]" fragment="description">Description</a></li>
-            <li><a [routerLink]="[]" fragment="synonyms">Synonyms</a></li>
-            <li><a [routerLink]="[]" fragment="details">Details</a></li>
-            <li><a [routerLink]="[]" fragment="subtechniques">Subtechniques</a></li>
-            <li><a [routerLink]="[]" fragment="examples">Examples</a></li>
-            <li><a [routerLink]="[]" fragment="weaknesses">Weaknesses</a></li>
-            <li><a [routerLink]="[]" fragment="case_output_classes">Case Output Classes</a></li>
-            <li><a [routerLink]="[]" fragment="references">References</a></li>
+            <li><a (click)="scrollTo('description')">Description</a></li>
+            <li><a (click)="scrollTo('synonyms')">Synonyms</a></li>
+            <li><a (click)="scrollTo('details')">Details</a></li>
+            <li><a (click)="scrollTo('subtechniques')">Subtechniques</a></li>
+            <li><a (click)="scrollTo('examples')">Examples</a></li>
+            <li><a (click)="scrollTo('weaknesses')">Weaknesses</a></li>
+            <li><a (click)="scrollTo('case_output_classes')">Case Output Classes</a></li>
+            <li><a (click)="scrollTo('references')">References</a></li>
         </ul>
     </aside>
 

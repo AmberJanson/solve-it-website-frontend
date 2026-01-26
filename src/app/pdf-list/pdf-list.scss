@@ -5,6 +5,8 @@
 
 .content {
     flex: 1;
+    position: relative;
+    top: var(--navbar-height);
 }
 
 .content section {
@@ -140,7 +142,7 @@
 .pdf-button {
     padding: 0.5rem; 
     margin-left: 3rem; 
-    margin-bottom: 1rem; 
+    margin-bottom: 8rem; 
     margin-top: 1rem;
     background: #004D46; 
     border-radius: 12px;
