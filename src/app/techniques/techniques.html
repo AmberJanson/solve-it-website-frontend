@@ -1,8 +1,15 @@
-<div class="page-layout" [class.open]="filtersOpen">
+<div class="page-layout">
+
+    <button
+        class="filters-toggle"
+        (click)="toggleFilters()"
+        [class.open]="filtersOpen"
+        aria-label="Toggle filters"
+    >
+    ->
+    </button>
+
     <aside class="filters" [class.open]="filtersOpen">
-
-        <button class="filters-close" (click)="toggleFilters()">X</button>
-
         <div class="filters-header">
             <h2>Filters</h2>
             <button class="reset-button" (click)="resetFilters()">
@@ -116,17 +123,6 @@
                                 <option value="nameDesc">Name (Z -> A)</option>
                             </select>
                         </div>
-
-                        <div class="selection-background filters-button">
-                            <button class="filters-toggle selection" (click)="toggleFilters()">
-                                @if (!filtersOpen) {
-                                    Show filters
-                                } @else {
-                                    Hide filters
-                                }
-
-                            </button>
-                        </div>
                     </section>
 
                     <p class="entity-amount">Techniques: {{ techniqueList.length }}</p>
@@ -194,16 +190,6 @@
                     }
                 </p>
                 <p class="not-found">No techniques found.</p>
-                <div class="selection-background filters-button no-technique-filter-button">
-                    <button class="filters-toggle selection" (click)="toggleFilters()">
-                        @if (!filtersOpen) {
-                            Show filters
-                        } @else {
-                            Hide filters
-                        }
-
-                    </button>
-                </div>
             }
         }
     </main>

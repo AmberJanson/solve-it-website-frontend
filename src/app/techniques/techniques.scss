@@ -231,28 +231,13 @@ html {
     -moz-appearance: none;
 }
 
-.filters-button {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
+.filters-toggle {
+    display: none;
 }
 
 .selection-bar {
     display: flex;
     align-items: center;
-}
-
-.filters-close {
-    display: none;
-    position: absolute;
-    top: 10px;
-    right: 5px;
-    background: transparent;
-    border: none;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 1001;
 }
 
 .filters-header {
@@ -306,39 +291,37 @@ html {
     }
 
     .filters {
-        position: fixed;
-        left: 0;
-
-        width: 320px;
-
-        height: 71vh;
-        overflow-y: auto;
-
-        background-color: #fffceb;
-        border-right: 10px solid #888787;
-        border-bottom: 10px solid #888787;
-
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-
-        border-radius: 0px 0px 12px 0px;
-
-        z-index: 1000;
-    }
-
-    .filters-close {
-        display: block;
+        width: 280px;
+        left: -280px;
+        height: 71.1vh;
+        z-index: 2;
+        transition: left 0.3s ease;
     }
 
     .filters.open {
-        transform: translateX(0);
+        left: 0;
     }
 
-    .filters-button {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-        margin-left: 6rem;
+    .filters-toggle {
+        display: block;
+        position: fixed;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        background-color: #888787;
+        color: white;
+        border: none;
+        padding: 0.6rem 0.4rem;
+        font-size: 1.4rem;
+        cursor: pointer;
+        z-index: 3;
+        border-radius: 0 6px 6px 0;
+        transition: transform 0.3s ease;
+    }
+
+    .filters-toggle.open {
+        transform: translateY(-50%) translateX(280px) rotate(180deg);
+        border-radius: 6px 0 0 6px;
     }
 
     .page-layout.open .not-found {
@@ -347,14 +330,6 @@ html {
 
     .page-layout.open .page-path-no-technique {
         margin-left: 19rem;
-    }
-
-    .page-layout.open .no-technique-filter-button {
-        margin-left: 21.8rem;
-    }
-
-    .no-technique-filter-button {
-        margin-left: 2.8rem;
     }
 
     .filters-header {
@@ -403,24 +378,12 @@ html {
         align-items: flex-start;
     }
 
-    .selection-bar .filters-button {
-        margin-left: 3rem;
-    }
-
-    .filters-close {
-        right: 10px;
-    }
-
     .page-layout.open .not-found {
         margin-left: 0rem;
     }
 
     .page-layout.open .page-path-no-technique {
         margin-left: 0rem;
-    }
-
-    .page-layout.open .no-technique-filter-button {
-        margin-left: 2.8rem;
     }
 
     .filters-header {

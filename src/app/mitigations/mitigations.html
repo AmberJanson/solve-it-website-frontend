@@ -1,7 +1,15 @@
-<div class="page-layout" [class.open]="filtersOpen">
-    <aside class="filters" [class.open]="filtersOpen">
+<div class="page-layout">
 
-        <button class="filters-close" (click)="toggleFilters()">X</button>
+    <button
+        class="filters-toggle"
+        (click)="toggleFilters()"
+        [class.open]="filtersOpen"
+        aria-label="Toggle filters"
+    >
+    ->
+    </button>
+
+    <aside class="filters" [class.open]="filtersOpen">
 
         <div class="filters-header">
             <h2>Filters</h2>
@@ -57,17 +65,6 @@
                                 <option value="nameDesc">Name (Z -> A)</option>
                             </select>
                         </div>
-
-                        <div class="selection-background filters-button">
-                            <button class="filters-toggle selection" (click)="toggleFilters()">
-                                @if (!filtersOpen) {
-                                    Show filters
-                                } @else {
-                                    Hide filters
-                                }
-
-                            </button>
-                        </div>
                     </section>
 
                     <p class="entity-amount">Mitigations: {{ mitigationList.length }}</p>
@@ -107,16 +104,6 @@
                     }
                 </p>
                 <p class="not-found">No mitigations found.</p>
-                <div class="selection-background filters-button no-mitigation-filter-button">
-                    <button class="filters-toggle selection" (click)="toggleFilters()">
-                        @if (!filtersOpen) {
-                            Show filters
-                        } @else {
-                            Hide filters
-                        }
-
-                    </button>
-                </div>
             }
         }
     </main>
