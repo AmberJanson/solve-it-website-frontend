@@ -72,27 +72,29 @@
 
                     <p class="entity-amount">Mitigations: {{ mitigationList.length }}</p>
                     <div class="table-background">
-                        <table class="entities">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th class="name">Name</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                @for (mitigation of mitigationList; track $index) {
+                        <div class="table-scroll">
+                            <table class="entities">
+                                <thead>
                                     <tr>
-                                        <td class="id">
-                                            <a [routerLink]="['/mitigations', mitigation.id]">{{ mitigation.id }}</a>
-                                        </td>
-                                        <td class="name">
-                                            <a [routerLink]="['/mitigations', mitigation.id]">{{ mitigation.name}}</a>
-                                        </td>
+                                        <th>ID</th>
+                                        <th class="name">Name</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+
+                                <tbody>
+                                    @for (mitigation of mitigationList; track $index) {
+                                        <tr>
+                                            <td class="id">
+                                                <a [routerLink]="['/mitigations', mitigation.id]">{{ mitigation.id }}</a>
+                                            </td>
+                                            <td class="name">
+                                                <a [routerLink]="['/mitigations', mitigation.id]">{{ mitigation.name}}</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </section>
 

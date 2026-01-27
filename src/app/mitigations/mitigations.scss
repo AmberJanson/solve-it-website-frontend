@@ -376,6 +376,10 @@ html {
     .table-background {
         min-width: 0%;
     }
+
+    .content {
+        margin-bottom: 8rem;
+    }
 }
 
 // large mobiles
@@ -387,6 +391,15 @@ html {
     .table-background {
         overflow: hidden;
         max-width: 85%;
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .entities {
+        min-width: 300px;
     }
 
     .selection-bar {  
@@ -428,5 +441,13 @@ html {
 @media only screen and (max-width: 400px) {
     .table-background {
         max-width: 75%;
+    }
+
+    .entities {
+        max-width: none;
+
+        th, td {
+            max-width: 75px;
+        }
     }
 }
