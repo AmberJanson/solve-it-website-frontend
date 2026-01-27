@@ -140,3 +140,10 @@
         }
     }
 }
+
+// vertical-held tablets
+@media only screen and (max-width: 800px) {
+    .table-background {
+        margin-right: 50px;
+    }
+}
