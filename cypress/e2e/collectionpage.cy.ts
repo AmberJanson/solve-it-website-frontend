@@ -64,7 +64,7 @@ describe('using the collectionpages', () => {
 
   // Test 3
   it('Should filter techniques out when they do not match the filters', () => {
-    cy.get('.filters-button').click();
+    cy.get('.filters-toggle').click();
     cy.get('#synonyms').select('Present');
     cy.get('#details').select('Present');
     cy.get('#subtechniques').select('1-2 entries');
@@ -82,7 +82,7 @@ describe('using the collectionpages', () => {
 
   // Test 4
   it('Should show that no techniques are found when no technique matches the filters', () => {
-    cy.get('.filters-button').click();
+    cy.get('.filters-toggle').click();
     cy.get('#description').select('Absent');
     cy.get('#synonyms').select('Present');
     cy.get('#details').select('Present');
@@ -91,7 +91,7 @@ describe('using the collectionpages', () => {
     cy.get('#subtechniques').select('1-2 entries');
     cy.get('#CASE_output_classes').select('Present');
     cy.get('#references').select('Absent');
-    cy.get('.filters-button').click();
+    cy.get('.filters-toggle').click();
 
     cy.get('.entities').should('not.exist');
     cy.get('.not-found').should('exist');
@@ -99,7 +99,7 @@ describe('using the collectionpages', () => {
 
   // Test 5
   it('Should show all techniques again when reset filters is clicked', () => {
-    cy.get('.filters-button').click();
+    cy.get('.filters-toggle').click();
     cy.get('#description').select('Absent');
     cy.get('#synonyms').select('Present');
     cy.get('#details').select('Present');

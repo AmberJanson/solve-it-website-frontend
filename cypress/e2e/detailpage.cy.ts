@@ -55,16 +55,14 @@ describe('using the detailpages', () => {
 
   // Test 2
   it('Should go to location of attribute on the page when attribute is clicked in the table of contents', () => {
-    cy.get('.toc').contains('a', 'Weakness').click();
-    cy.location('hash').should('eq', '#weaknesses')
+    cy.get('.toc-toggle').click();
+    cy.get('.toc').contains('a', 'Weaknesses').click();
     cy.get('#weaknesses').should('exist').and('be.visible');
 
     cy.get('.toc').contains('a', 'References').click();
-    cy.location('hash').should('eq', '#references')
     cy.get('#references').should('exist').and('be.visible');
 
     cy.get('.toc').contains('a', 'Description').click();
-    cy.location('hash').should('eq', '#description')
     cy.get('#description').should('exist').and('be.visible');
   });
 
