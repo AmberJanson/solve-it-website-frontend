@@ -128,9 +128,14 @@ html {
     }
 }
 
+.toc-toggle {
+    display: none;
+}
+
 .table-background {
     padding: 1rem;
     margin-left: 3rem;
+    margin-right: 50px;
     background: #004D46;
     border-radius: 12px;
     display: inline-block;
@@ -214,4 +219,89 @@ html {
 
 .pdf-button:hover {
     background: #00665E;
+}
+
+// very small laptops
+@media only screen and (max-width: 1050px) {
+    .toc {
+        width: 270px;
+        left: -270px;
+        height: 22vh;
+        z-index: 2;
+        transition: left 0.3s ease;
+    }
+
+    .toc.open {
+        left: 0
+    }
+
+    .toc-toggle {
+        display: block;
+        position: fixed;
+        top: 28%;
+        left: 0;
+        transform: translateY(-50%);
+        background-color: #888787;
+        color: white;
+        border: none;
+        padding: 0.6rem 0.7rem;
+        font-size: 1.4rem;
+        cursor: pointer;
+        z-index: 3;
+        border-radius: 0 6px 6px 0;
+        transition: transform 0.3s ease;
+    }
+
+    .toc-toggle.open {
+        transform: translateY(-50%) translateX(270px) rotate(180deg);
+        border-radius: 6px 0 0 6px;
+    }
+
+    .content {
+        margin-left: 0%;
+        margin-bottom: 8rem;
+        border: none;
+    }
+}
+
+// vertical-held tablets
+@media only screen and (max-width: 800px) {
+    .content {
+        margin-bottom: 10rem;
+    }
+}
+
+// large mobiles
+@media only screen and (max-width: 700px) {
+    .table-background {
+        min-width: 0%;
+        overflow: hidden;
+        max-width: 85%;
+        display: block;
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .entities {
+        max-width: none;
+        min-width: 500px;
+
+        th, td {
+            max-width: 200px;
+        }
+    }
+
+    .page-path {
+        margin-right: 30px;
+    }
+}
+
+// small mobiles (supported until min-width: 320px)
+@media only screen and (max-width: 400px) {
+    .table-background {
+        max-width: 75%;
+    }
 }

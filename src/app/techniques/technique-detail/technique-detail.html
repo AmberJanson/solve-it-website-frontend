@@ -1,6 +1,15 @@
 <div class="page-layout">
 
-    <aside class="toc">
+    <button
+        class="toc-toggle"
+        (click)="toggleToc()"
+        [class.open]="tocOpen"
+        aria-label="Toggle table of contents"
+    >
+    ->
+    </button>
+
+    <aside class="toc" [class.open]="tocOpen">
         <h2>Contents</h2>
 
         <ul>
@@ -65,11 +74,13 @@
                         @if (technique.synonyms == null || technique.synonyms.length == 0) {
                             <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No synonyms for this technique are known yet.</p>
                         } @else {
-                            @for (synonym of technique.synonyms; track $index) {
-                                <div class="entry-background">
-                                    <p>{{ synonym }}</p>
-                                </div>
-                            }
+                            <div class="entries">
+                                @for (synonym of technique.synonyms; track $index) {
+                                    <div class="entry-background">
+                                        <p>{{ synonym }}</p>
+                                    </div>
+                                }
+                            </div>
                         }
                     </section>
 
@@ -88,35 +99,37 @@
                             <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No subtechniques for this technique are known yet.</p>
                         } @else {
                             <div class="table-background">
-                                <table class="entities">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th class="description">Description</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        @for (subtechnique of subtechniques; track $index) {
+                                <div class="table-scroll">
+                                    <table class="entities">
+                                        <thead>
                                             <tr>
-                                                <td class="id">
-                                                    <a [routerLink]="['/techniques', subtechnique.id]">{{ subtechnique.id }}</a>
-                                                </td>
-                                                <td class="name">
-                                                    <a [routerLink]="['/techniques', subtechnique.id]">{{ subtechnique.name}}</a>
-                                                </td>
-                                                <td class="description">
-                                                    @if (subtechnique.description == null || subtechnique.description == "") {
-                                                        <i class="fas fa-exclamation-triangle" style="color:red"></i>No description for this subtechnique is known yet.
-                                                    } @else {
-                                                        {{ subtechnique.description }}
-                                                    }
-                                                </td>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th class="description">Description</th>
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                                        </thead>
+
+                                        <tbody>
+                                            @for (subtechnique of subtechniques; track $index) {
+                                                <tr>
+                                                    <td class="id">
+                                                        <a [routerLink]="['/techniques', subtechnique.id]">{{ subtechnique.id }}</a>
+                                                    </td>
+                                                    <td class="name">
+                                                        <a [routerLink]="['/techniques', subtechnique.id]">{{ subtechnique.name}}</a>
+                                                    </td>
+                                                    <td class="description">
+                                                        @if (subtechnique.description == null || subtechnique.description == "") {
+                                                            <i class="fas fa-exclamation-triangle" style="color:red"></i>No description for this subtechnique is known yet.
+                                                        } @else {
+                                                            {{ subtechnique.description }}
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         }
                     </section>
@@ -127,17 +140,19 @@
                             <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No examples for this technique are known yet.</p>
                         } @else {
                             <div class="table-background">
-                                <table class="entities">
-                                    <tbody>
-                                        @for (example of technique.examples; track $index) {
-                                            <tr>
-                                                <td>
-                                                    {{ example }}
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                                <div class="table-scroll">
+                                    <table class="entities">
+                                        <tbody>
+                                            @for (example of technique.examples; track $index) {
+                                                <tr>
+                                                    <td>
+                                                        {{ example }}
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         }
                     </section>
@@ -148,36 +163,38 @@
                             <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No weaknesses for this technique are known yet.</p>
                         } @else {
                             <div class="table-background">
-                                <table class="entities">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th class="risks">Risks</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        @for (weakness of weaknesses; track $index) {
+                                <div class="table-scroll">
+                                    <table class="entities">
+                                        <thead>
                                             <tr>
-                                                <td class="id">
-                                                    <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.id }}</a>
-                                                </td>
-                                                <td class="name">
-                                                    <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.name}}</a> ({{ weakness.mitigations.length }})
-                                                </td>
-                                                <td class="risks">
-                                                    @for (risk of weakness.risks; track $index) {
-                                                        {{ risk }}
-                                                        @if ($index < weakness.risks.length - 1) {
-                                                            |
-                                                        }
-                                                    }
-                                                </td>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th class="risks">Risks</th>
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                                        </thead>
+
+                                        <tbody>
+                                            @for (weakness of weaknesses; track $index) {
+                                                <tr>
+                                                    <td class="id">
+                                                        <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.id }}</a>
+                                                    </td>
+                                                    <td class="name">
+                                                        <a [routerLink]="['/weaknesses', weakness.id]">{{ weakness.name}}</a> ({{ weakness.mitigations.length }})
+                                                    </td>
+                                                    <td class="risks">
+                                                        @for (risk of weakness.risks; track $index) {
+                                                            {{ risk }}
+                                                            @if ($index < weakness.risks.length - 1) {
+                                                                |
+                                                            }
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         }
                     </section>
@@ -187,11 +204,13 @@
                         @if (technique.CASE_output_classes == null || technique.CASE_output_classes.length == 0) {
                             <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No case output classes for this technique are known yet.</p>
                         } @else {
-                            @for (CASE_output_class of technique.CASE_output_classes; track $index) {
-                                <div class="entry-background">
-                                    <p>{{ CASE_output_class }}</p>
-                                </div>
-                            }
+                            <div class="entries">
+                                @for (CASE_output_class of technique.CASE_output_classes; track $index) {
+                                    <div class="entry-background">
+                                        <p>{{ CASE_output_class }}</p>
+                                    </div>
+                                }
+                            </div>
                         }
                     </section>
 
@@ -201,17 +220,19 @@
                             <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No references for this technique are known yet.</p>
                         } @else {
                             <div class="table-background">
-                                <table class="entities">
-                                    <tbody>
-                                        @for (reference of technique.references; track $index) {
-                                            <tr>
-                                                <td>
-                                                    {{ reference }}
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                                <div class="table-scroll">
+                                    <table class="entities">
+                                        <tbody>
+                                            @for (reference of technique.references; track $index) {
+                                                <tr>
+                                                    <td>
+                                                        {{ reference }}
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         }
                     </section>

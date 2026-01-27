@@ -19,6 +19,8 @@ export class TechniqueDetail  implements OnInit{
   public pathList: string[] = [];
   public isChecked = false;
 
+  public tocOpen = false;
+
   public technique: Technique | null = null;
   public subtechniques: Technique[] = [];
   public weaknesses: Weakness[] = [];
@@ -175,5 +177,9 @@ export class TechniqueDetail  implements OnInit{
       const y = element.getBoundingClientRect().top + window.pageYOffset - 90;
       window.scrollTo({top: y, behavior: 'smooth'});
     }
+  }
+
+  toggleToc() {
+    this.tocOpen = !this.tocOpen;
   }
 }

@@ -16,6 +16,8 @@ export class CategoryDetail implements OnInit{
 
   public pathList: string[] = [];
 
+  public tocOpen = false;
+
   public category: Category | null = null;
   public categoryId?: string;
   public techniques: Technique[] = [];
@@ -110,5 +112,9 @@ export class CategoryDetail implements OnInit{
       const y = element.getBoundingClientRect().top + window.pageYOffset - 90;
       window.scrollTo({top: y, behavior: 'smooth'});
     }
+  }
+
+  toggleToc() {
+    this.tocOpen = !this.tocOpen;
   }
 }

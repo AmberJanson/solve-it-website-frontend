@@ -20,6 +20,8 @@ export class WeaknessDetail implements OnInit{
   public pathList: string[] = [];
   public isChecked = false;
 
+  public tocOpen = false;
+
   public positionOption: TooltipPosition = 'right';
   
   public weakness: Weakness | null = null;
@@ -150,5 +152,9 @@ export class WeaknessDetail implements OnInit{
       const y = element.getBoundingClientRect().top + window.pageYOffset - 90;
       window.scrollTo({top: y, behavior: 'smooth'});
     }
+  }
+
+  toggleToc() {
+    this.tocOpen = !this.tocOpen;
   }
 }
