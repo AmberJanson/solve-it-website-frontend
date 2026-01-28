@@ -20,7 +20,7 @@ html {
     flex: 1;
     width: 80%;
     margin-left: 20%;
-    margin-bottom: 96px;
+    margin-bottom: 4px;
     border-left: 5px solid #D9D9D9;
 }
 
@@ -269,7 +269,6 @@ html {
 
     .content {
         margin-left: 0%;
-        margin-bottom: 8rem;
         border: none;
     }
 }
@@ -277,7 +276,7 @@ html {
 // vertical-held tablets
 @media only screen and (max-width: 800px) {
     .content {
-        margin-bottom: 10rem;
+        margin-bottom: 4rem;
     }
 
     .title {
