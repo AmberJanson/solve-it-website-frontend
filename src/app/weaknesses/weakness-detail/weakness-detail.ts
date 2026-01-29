@@ -138,8 +138,14 @@ export class WeaknessDetail implements OnInit{
   }
 
   onCheckboxChange(checked: boolean) {
+
+    let pathString = '';
+    this.pathList.forEach((item) => {
+      pathString += '> ' + item.toString() + ' ';
+    });
+
     if (checked) {
-      this.pdfService.addToPdfItemList(this.weakness?.id + ": " + this.weakness?.name);
+      this.pdfService.addToPdfItemList(this.weakness?.id + ": " + this.weakness?.name, pathString);
 
     } else {
       this.pdfService.removeFromPdfItemList(this.weakness?.id + ": " + this.weakness?.name);

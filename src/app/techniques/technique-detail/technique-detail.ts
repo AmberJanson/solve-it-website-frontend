@@ -163,8 +163,14 @@ export class TechniqueDetail  implements OnInit{
   }
 
   onCheckboxChange(checked: boolean) {
+
+    let pathString = '';
+    this.pathList.forEach((item) => {
+      pathString += '> ' + item.toString() + ' ';
+    });
+
     if (checked) {
-      this.pdfService.addToPdfItemList(this.technique?.id + ": " + this.technique?.name);
+      this.pdfService.addToPdfItemList(this.technique?.id + ": " + this.technique?.name, pathString);
 
     } else {
       this.pdfService.removeFromPdfItemList(this.technique?.id + ": " + this.technique?.name);

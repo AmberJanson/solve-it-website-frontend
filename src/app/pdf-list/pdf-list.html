@@ -16,47 +16,49 @@
         <section id="items">
             <h1 class="subtitle">Items</h1>
                 <div class="table-background">
-                    <table class="entities">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th style="color: rgb(153, 5, 5); cursor: pointer;" (click)="removeAllFromList()">Remove all</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @for (item of pdfItemList; track $index) {
+                    <div class="table-scroll">
+                        <table class="entities">
+                            <thead>
                                 <tr>
-                                    <td class="id">
-                                        <a [routerLink]="
-                                            item.split(': ')[0].startsWith('T') ? ['/techniques', item.split(': ')[0]] :
-                                            item.split(': ')[0].startsWith('W') ? ['/weaknesses', item.split(': ')[0]] :
-                                            item.split(': ')[0].startsWith('M') ? ['/mitigations', item.split(': ')[0]] :
-                                            ['/']
-                                            ">{{ item.split(': ')[0]}}</a>
-                                    </td>
-                                    <td class="name">
-                                        <a [routerLink]="
-                                            item.split(': ')[0].startsWith('T') ? ['/techniques', item.split(': ')[0]] :
-                                            item.split(': ')[0].startsWith('W') ? ['/weaknesses', item.split(': ')[0]] :
-                                            item.split(': ')[0].startsWith('M') ? ['/mitigations', item.split(': ')[0]] :
-                                            ['/']
-                                        ">{{ item.split(': ')[1]}}</a>
-                                    </td>
-                                    <td>
-                                        <i class="fas fa-trash" style="color: red; cursor: pointer;" (click)="removeItem(item)"></i>
-                                    </td>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th style="color: rgb(153, 5, 5); cursor: pointer;" (click)="removeAllFromList()">Remove all</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+
+                            <tbody>
+                                @for (item of pdfItemList; track $index) {
+                                    <tr>
+                                        <td class="id">
+                                            <a [routerLink]="
+                                                item.split(': ')[0].startsWith('T') ? ['/techniques', item.split(': ')[0]] :
+                                                item.split(': ')[0].startsWith('W') ? ['/weaknesses', item.split(': ')[0]] :
+                                                item.split(': ')[0].startsWith('M') ? ['/mitigations', item.split(': ')[0]] :
+                                                ['/']
+                                                ">{{ item.split(': ')[0]}}</a>
+                                        </td>
+                                        <td class="name">
+                                            <a [routerLink]="
+                                                item.split(': ')[0].startsWith('T') ? ['/techniques', item.split(': ')[0]] :
+                                                item.split(': ')[0].startsWith('W') ? ['/weaknesses', item.split(': ')[0]] :
+                                                item.split(': ')[0].startsWith('M') ? ['/mitigations', item.split(': ')[0]] :
+                                                ['/']
+                                            ">{{ item.split(': ')[1]}}</a>
+                                        </td>
+                                        <td>
+                                            <i class="fas fa-trash" style="color: red; cursor: pointer;" (click)="removeItem(item)"></i>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
         </section>
         @if (isDownloaded) {
-            <b><p class="download-message" style="margin-top: 1rem;">The PDF-file has been downloaded!</p></b>
+            <b><p class="download-message" style="margin-top: 3rem; margin-bottom: 12rem;">The PDF-file has been downloaded!</p></b>
         } @else {
-            <button class="pdf-button" (click)="generatePDF()">
+            <button class="pdf-button" (click)="generatePDF()" style="margin-top: 3rem; margin-bottom: 12rem;">
                 <p>Download PDF of selected data</p>
             </button>
         }
