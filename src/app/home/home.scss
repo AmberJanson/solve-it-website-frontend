@@ -64,7 +64,8 @@ main {
     }
 
     .category-background {
-        width: 85%;
+        max-width: 85%;
+        width: fit-content;
         padding: 1rem;
         margin: 0 auto 3rem auto;
         margin-bottom: 12rem;
