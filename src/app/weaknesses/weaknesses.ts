@@ -63,7 +63,7 @@ export class Weaknesses implements OnInit{
     });
   }
 
-  loadWeaknesses() {
+  public loadWeaknesses() {
     this.weaknessList = [];
 
     this.weaknessService.getAllWeaknesses()
@@ -105,7 +105,7 @@ export class Weaknesses implements OnInit{
     return weakness.risks.includes(risk);
   }
 
-  applyFiltersAndSort() {
+  public applyFiltersAndSort() {
     this.weaknessList = this.allWeaknesses.filter(weakness => {
       for (let key of ['details', 'references']) {
         const filterValue = this.selectedFilters[key] as keyof typeof this.selectedFilters;
@@ -132,7 +132,7 @@ export class Weaknesses implements OnInit{
     this.sortList();
   }
 
-  sortList() {
+  public sortList() {
     switch (this.selectedSort) {
       case 'idAsc':
         this.weaknessList.sort((a, b) => a.id.localeCompare(b.id));
@@ -149,11 +149,11 @@ export class Weaknesses implements OnInit{
     }
   }
 
-  toggleFilters() {
+  public toggleFilters() {
     this.filtersOpen = !this.filtersOpen;
   }
 
-  resetFilters() {
+  public resetFilters() {
     const resetObject = (obj: any) => {
       Object.keys(obj).forEach(key => {
         if (typeof obj[key] === 'object' && obj[key] !== null) {

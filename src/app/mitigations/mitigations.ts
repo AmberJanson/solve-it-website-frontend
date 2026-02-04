@@ -43,7 +43,7 @@ export class Mitigations implements OnInit {
     });
   }
 
-  loadMitigations() {
+  public loadMitigations() {
     this.mitigationList = [];
 
     this.mitigationService.getAllMitigations()
@@ -68,7 +68,7 @@ export class Mitigations implements OnInit {
     return true;
   }
 
-  applyFiltersAndSort() {
+  public applyFiltersAndSort() {
     this.mitigationList = this.allMitigations.filter(mitigation => {
       for (let key of ['technique', 'references']) {
         const filterValue = this.selectedFilters[key] as keyof typeof this.selectedFilters;
@@ -87,7 +87,7 @@ export class Mitigations implements OnInit {
     this.sortList();
   }
 
-  sortList() {
+  public sortList() {
     switch (this.selectedSort) {
       case 'idAsc':
         this.mitigationList.sort((a, b) => a.id.localeCompare(b.id));
@@ -104,11 +104,11 @@ export class Mitigations implements OnInit {
     }
   }
 
-  toggleFilters() {
+  public toggleFilters() {
     this.filtersOpen = !this.filtersOpen;
   }
 
-  resetFilters() {
+  public resetFilters() {
     Object.keys(this.selectedFilters).forEach(key => this.selectedFilters[key] = '');
     this.applyFiltersAndSort();
   }

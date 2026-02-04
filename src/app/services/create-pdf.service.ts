@@ -33,7 +33,7 @@ export class PdfService {
         return Array.from(this.pdfItemList.keys());
     }
 
-    createPdf() {
+    public createPdf() {
         const doc = new jsPDF();
         let x = 10;
         let y = 10;

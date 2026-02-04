@@ -35,7 +35,7 @@ export class PdfList implements OnInit {
     this.pdfItemList = [];
   }
 
-  generatePDF() {
+  public generatePDF() {
     this.pdfService.createPdf();
     this.isDownloaded = true;
   }

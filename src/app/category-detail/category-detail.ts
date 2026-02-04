@@ -45,7 +45,7 @@ export class CategoryDetail implements OnInit{
     });
   }
 
-  loadCategory(id: string) {
+  public loadCategory(id: string) {
     this.loadingCategory = true;
     this.techniques = [];
 
@@ -81,7 +81,7 @@ export class CategoryDetail implements OnInit{
     })
   }
 
-  onClickPath(path: string, index: number): void {
+  public onClickPath(path: string, index: number): void {
     const toHome = 
       !path.startsWith('C1') &&
       !path.startsWith('T1') &&
@@ -106,7 +106,7 @@ export class CategoryDetail implements OnInit{
     }
   }
 
-  scrollTo(id: string) {
+  public scrollTo(id: string) {
     const element = document.getElementById(id);
     if (element) {
       const y = element.getBoundingClientRect().top + window.pageYOffset - 90;
@@ -114,7 +114,7 @@ export class CategoryDetail implements OnInit{
     }
   }
 
-  toggleToc() {
+  public toggleToc() {
     this.tocOpen = !this.tocOpen;
   }
 }
