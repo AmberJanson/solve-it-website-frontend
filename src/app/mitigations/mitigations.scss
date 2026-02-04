@@ -2,6 +2,7 @@
     display: flex;
     margin-top: -16px;
     position: relative;
+    top: var(--navbar-height);
 }
 
 html {
@@ -15,7 +16,9 @@ html {
 
 .content {
     flex: 1;
-    width: 100%;
+    width: 80%;
+    margin-left: 20%;
+    margin-bottom: 90px;
 }
 
 .content section {
@@ -182,11 +185,14 @@ html {
 
 .filters {
     width: 20%;
-    position: sticky;
-    top: 0;
+    position: fixed;
     border-right: 10px solid #888787;
+    border-bottom: 10px solid #888787;
+    border-radius: 0px 0px 12px 0px;
     padding-left: 2rem;
     background-color: #fffceb;
+    height: 51vh;
+    overflow-y: auto;
 
     & h2 {
         font-size: 32px;
@@ -225,28 +231,13 @@ html {
     -moz-appearance: none;
 }
 
-.filters-button {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
+.filters-toggle {
+    display: none;
 }
 
 .selection-bar {
     display: flex;
     align-items: center;
-}
-
-.filters-close {
-    display: none;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: transparent;
-    border: none;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 1001;
 }
 
 .filters-header {
@@ -290,45 +281,51 @@ html {
             width: 70%;
         }
     }
+
+    .filters {
+        height: 56vh;
+    }
 }
 
 // small laptops
 @media only screen and (max-width: 1350px) {
     .content {
         width: 100%;
+        margin-left: 0%;
     }
 
     .filters {
-        position: absolute;
-        top: 0;
-        left: 0;
-
-        width: 320px;
-
-        height: 71vh;
-        overflow-y: auto;
-
-        background-color: #fffceb;
-        border-right: 10px solid #888787;
-        border-bottom: 10px solid #888787;
-
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-
-        border-radius: 0px 0px 12px 0px;
-
-        z-index: 1000;
+        width: 280px;
+        left: -280px;
+        height: 48vh;
+        z-index: 2;
+        transition: left 0.3s ease;
     }
 
     .filters.open {
-        transform: translateX(0);
+        left: 0;
     }
 
-    .filters-button {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-        margin-left: 6rem;
+    .filters-toggle {
+        display: block;
+        position: fixed;
+        top: 40%;
+        left: 0;
+        transform: translateY(-50%);
+        background-color: #888787;
+        color: white;
+        border: none;
+        padding: 0.6rem 0.4rem;
+        font-size: 1.4rem;
+        cursor: pointer;
+        z-index: 3;
+        border-radius: 0 6px 6px 0;
+        transition: transform 0.3s ease;
+    }
+
+    .filters-toggle.open {
+        transform: translateY(-50%) translateX(280px) rotate(180deg);
+        border-radius: 6px 0 0 6px;
     }
 
     .page-layout.open .not-found {
@@ -337,14 +334,6 @@ html {
 
     .page-layout.open .page-path-no-mitigation {
         margin-left: 19rem;
-    }
-
-    .page-layout.open .no-mitigation-filter-button {
-        margin-left: 21.8rem;
-    }
-
-    .no-mitigation-filter-button {
-        margin-left: 2.8rem;
     }
 
     .filters-header {
@@ -359,33 +348,38 @@ html {
 
 // vertical-held tablets
 @media only screen and (max-width: 824px) {
-    .filters {
-        height: 60vh;
-    }
-
     .table-background {
         min-width: 0%;
+    }
+
+    .content {
+        margin-bottom: 8rem;
     }
 }
 
 // large mobiles
 @media only screen and (max-width: 600px) {
+    .filters {
+        height: 56vh;
+    }
+
     .table-background {
         overflow: hidden;
         max-width: 85%;
     }
 
+    .table-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .entities {
+        min-width: 300px;
+    }
+
     .selection-bar {  
         flex-direction: column;
         align-items: flex-start;
-    }
-
-    .selection-bar .filters-button {
-        margin-left: 3rem;
-    }
-
-    .filters-close {
-        display: block;
     }
 
     .page-layout.open .not-found {
@@ -394,10 +388,6 @@ html {
 
     .page-layout.open .page-path-no-mitigation {
         margin-left: 0rem;
-    }
-
-    .page-layout.open .no-mitigation-filter-button {
-        margin-left: 2.8rem;
     }
 
     .filters-header {
@@ -414,5 +404,13 @@ html {
 @media only screen and (max-width: 400px) {
     .table-background {
         max-width: 75%;
+    }
+
+    .entities {
+        max-width: none;
+
+        th, td {
+            max-width: 75px;
+        }
     }
 }

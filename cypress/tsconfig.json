@@ -1,0 +1,7 @@
+{
+    "compilerOptions": {
+        "types": ["cypress", "node"],
+        "lib": ["ES2015", "DOM"]
+    },
+    "include": ["**/*.ts"]
+}

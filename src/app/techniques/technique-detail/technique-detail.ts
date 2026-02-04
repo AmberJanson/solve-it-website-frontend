@@ -19,6 +19,8 @@ export class TechniqueDetail  implements OnInit{
   public pathList: string[] = [];
   public isChecked = false;
 
+  public tocOpen = false;
+
   public technique: Technique | null = null;
   public subtechniques: Technique[] = [];
   public weaknesses: Weakness[] = [];
@@ -61,33 +63,53 @@ export class TechniqueDetail  implements OnInit{
           this.isChecked = this.pdfService.hasPdfItemList(this.technique.id + ": " + this.technique.name);
           this.addTechniquePathToService();
 
+          let completedSubtechniques = 0;
+
           if (technique.subtechniques.length >= 1) {
             for (const subtechniqueId of technique.subtechniques) {
               this.techniqueService.getTechniquesById(subtechniqueId)
                 .subscribe({next: (subtechnique) => {
                   this.subtechniques.push(subtechnique);
-                  this.loadingTechnique = false;
-                  this.cdr.markForCheck();
+                  completedSubtechniques++
+                  if (completedSubtechniques === technique.subtechniques.length) {
+                    this.subtechniques.sort((a, b) => a.id.localeCompare(b.id));
+                    this.loadingTechnique = false;
+                    this.cdr.markForCheck();
+                  }
                 }, error: err => {
                   console.error("Error occurred: ", err);
-                  this.loadingTechnique = false;
-                  this.cdr.markForCheck();
+                  completedSubtechniques++
+                  if (completedSubtechniques === technique.subtechniques.length) {
+                    this.subtechniques.sort((a, b) => a.id.localeCompare(b.id));
+                    this.loadingTechnique = false;
+                    this.cdr.markForCheck();
+                  }
                 }
               });
             }
           }
+
+          let completedWeaknesses = 0;
 
           if (technique.weaknesses.length >= 1) {
             for (const weaknessId of technique.weaknesses) {
               this.weaknessService.getWeaknessById(weaknessId)
                 .subscribe({next: (weakness) => {
                   this.weaknesses.push(weakness);
-                  this.loadingTechnique = false;
-                  this.cdr.markForCheck();
+                  completedWeaknesses++
+                  if (completedWeaknesses === this.weaknesses.length) {
+                    this.weaknesses.sort((a, b) => a.id.localeCompare(b.id));
+                    this.loadingTechnique = false;
+                    this.cdr.markForCheck();
+                  }
                 }, error: err => {
                   console.error("Error occurred: ", err);
-                  this.loadingTechnique = false;
-                  this.cdr.markForCheck();
+                  completedWeaknesses++
+                  if (completedWeaknesses === this.weaknesses.length) {
+                    this.weaknesses.sort((a, b) => a.id.localeCompare(b.id));
+                    this.loadingTechnique = false;
+                    this.cdr.markForCheck();
+                  }
                 }
               })
             }
@@ -123,12 +145,47 @@ export class TechniqueDetail  implements OnInit{
     }
   }
 
+  onClickPath(path: string, index: number): void {
+    const toHome = 
+      !path.startsWith('C1') &&
+      !path.startsWith('T1') &&
+      !path.startsWith('W1') &&
+      !path.startsWith('M1') &&
+      !/^Techniques$/.test(path) &&
+      !/^Weaknesses$/.test(path) &&
+      !/^Mitigations$/.test(path);
+    
+      if (toHome) {
+        this.sharedPathService.setSelectedView(path);
+      }
+
+      this.resetListPartialy(index);
+  }
+
   onCheckboxChange(checked: boolean) {
+
+    let pathString = '';
+    this.pathList.forEach((item) => {
+      pathString += '> ' + item.toString() + ' ';
+    });
+
     if (checked) {
-      this.pdfService.addToPdfItemList(this.technique?.id + ": " + this.technique?.name);
+      this.pdfService.addToPdfItemList(this.technique?.id + ": " + this.technique?.name, pathString);
 
     } else {
       this.pdfService.removeFromPdfItemList(this.technique?.id + ": " + this.technique?.name);
     }
+  }
+
+  scrollTo(id: string) {
+    const element = document.getElementById(id);
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.pageYOffset - 90;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    }
+  }
+
+  toggleToc() {
+    this.tocOpen = !this.tocOpen;
   }
 }

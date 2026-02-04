@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NavigationStart, Router, RouterLink, RouterLinkActive } from "@angular/router";
 import { Mitigation } from '../models/mitigation.model';
 import { Category } from '../models/category.model';
@@ -20,7 +20,10 @@ import { PdfService } from '../services/create-pdf.service';
   templateUrl: './navigation.html',
   styleUrl: './navigation.scss',
 })
-export class Navigation implements OnInit {
+export class Navigation implements OnInit, AfterViewInit {
+
+  @ViewChild('navbar') navbar!: ElementRef<HTMLElement>;
+
   public searchTerm: string = '';
   public dropdownVisible = false;
 
@@ -72,6 +75,19 @@ export class Navigation implements OnInit {
     this.loadAllSearchLists();
   }
 
+  ngAfterViewInit(): void {
+    this.setNavbarHeight();
+    window.addEventListener('resize', this.setNavbarHeight)
+  }
+
+  setNavbarHeight = () => {
+    const height = this.navbar.nativeElement.getBoundingClientRect().height;
+    document.documentElement.style.setProperty(
+      '--navbar-height',
+      `${height}px`
+    )
+  }
+
   loadAllSearchLists() {
     forkJoin({
       categories: this.categoryService.getAllCategories().pipe(catchError(err => {
@@ -113,8 +129,10 @@ export class Navigation implements OnInit {
     }
 
     this.filteredItems = this.allSearchItems
-      .filter(item => item.name && item.name.toLowerCase().includes(term.toLowerCase()))
-      .slice(0, 5);
+      .filter(item => {
+        const searchableText = `${item.id}: ${item.name}`.toLowerCase();
+        return searchableText.includes(term.toLowerCase());
+      });
 
     this.dropdownVisible = true;
   }
@@ -125,26 +143,26 @@ export class Navigation implements OnInit {
     }
   }
 
-  getNameParts(itemName: string): {text: string, highlight: boolean}[] {
-    if (!this.searchTerm) return [{ text: itemName, highlight: false}];
+  getParts(text: string): {highlightedText: string, highlight: boolean}[] {
+    if (!this.searchTerm || !text) return [{ highlightedText: text, highlight: false}];
 
     const term = this.searchTerm.toLowerCase();
-    const lowerName = itemName.toLowerCase();
-    const parts: { text: string, highlight: boolean}[] = [];
+    const lowerText = text.toLowerCase();
+    const parts: { highlightedText: string, highlight: boolean}[] = [];
     let currentIndex = 0;
 
-    while (currentIndex < itemName.length) {
-      const matchIndex = lowerName.indexOf(term, currentIndex);
-      if (matchIndex == -1) {
-        parts.push({ text: itemName.slice(currentIndex), highlight: false });
+    while (currentIndex < text.length) {
+      const matchIndex = lowerText.indexOf(term, currentIndex);
+      if (matchIndex === -1) {
+        parts.push({ highlightedText: text.slice(currentIndex), highlight: false });
         break;
       }
 
       if (matchIndex > currentIndex) {
-        parts.push({ text: itemName.slice(currentIndex, matchIndex), highlight: false });
+        parts.push({ highlightedText: text.slice(currentIndex, matchIndex), highlight: false });
       }
 
-      parts.push({ text: itemName.slice(matchIndex, matchIndex + term.length), highlight: true });
+      parts.push({ highlightedText: text.slice(matchIndex, matchIndex + term.length), highlight: true });
       currentIndex = matchIndex + term.length;
     }
 

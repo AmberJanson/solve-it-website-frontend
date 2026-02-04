@@ -4,7 +4,7 @@
         <title>SOLVE-IT</title>
     </head>
     <body>
-        <nav class="navbar">
+        <nav #navbar class="navbar">
             <div class="navbar-logo">
                 <a href=""><img src="/assets/logo.png" alt="Logo image"></a>
             </div>
@@ -16,9 +16,8 @@
                 <ul class="search-dropdown">
                     @for (item of filteredItems; track $index) {
                         <li (click)="onItemClick(item, $event)">
-                            {{ item.id }}: 
-                            @for (part of getNameParts(item.name); track $index) {
-                                <span [class.highlight]="part.highlight">{{ part.text }}</span>
+                            @for (part of getParts(item.id + ": " + item.name); track $index) {
+                                <span [class.highlight]="part.highlight">{{ part.highlightedText }}</span>
                             }
                         </li>
                     }
@@ -39,7 +38,7 @@
                 <a (click)="closeMenu()" routerLink="/weaknesses" [routerLinkActive]="['active']">Weaknesses</a>
                 <a (click)="closeMenu()" routerLink="/mitigations" [routerLinkActive]="['active']">Mitigations</a>
                 <a (click)="closeMenu()" href="https://github.com/SOLVE-IT-DF/solve-it/tree/main/data" target="_blank">Github<i class="fas fa-arrow-up-right-from-square"></i></a>
-                <a (click)="closeMenu()" routerLink="/pdfList" [routerLinkActive]="['active']">PDF Maker<i class="fas fa-clipboard-list"></i></a>
+                <a (click)="closeMenu()" routerLink="/pdfMaker" [routerLinkActive]="['active']">PDF Maker<i class="fas fa-clipboard-list"></i></a>
                 <a (click)="closeMenu()" routerLink="/about" [routerLinkActive]="['active']">About</a>
             </div>
         </nav>

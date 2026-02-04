@@ -6,6 +6,9 @@
     padding: 1rem 2rem;
     background-color: #004D46;
     color: white;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
 
     .navbar-logo img {
         height: 60px;
@@ -42,6 +45,7 @@
             left: 50%;
             transform: translateX(-50%);
             width: 70%;
+            max-height: 500%;
             overflow-y: auto;
             background-color: #004D46;
             border: 2px solid white;

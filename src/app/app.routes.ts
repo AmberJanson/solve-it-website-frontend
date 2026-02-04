@@ -13,7 +13,7 @@ import { PdfList } from './pdf-list/pdf-list';
 export const routes: Routes = [
     { path: '', component: Home},
     { path: 'about', component: About},
-    { path: 'pdfList', component: PdfList},
+    { path: 'pdfMaker', component: PdfList},
     { path: 'categories/:categoryId', component: CategoryDetail},
     { path: 'techniques', component: Techniques},
     { path: 'techniques/:techniqueId', component: TechniqueDetail},

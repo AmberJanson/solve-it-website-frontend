@@ -7,30 +7,30 @@ import jsPDF from "jspdf";
 export class PdfService {
 
     public allData: any[] = [];
-    public pdfItemList: Set<string> = new Set();
+    public pdfItemList: Map<string, string> = new Map();
 
     public setAllData(data: any[]) {
         this.allData = data;
     }
 
-    public addToPdfItemList(item: string) {
-        this.pdfItemList.add(item);
+    public addToPdfItemList(itemKey: string, itemValue: string) {
+        this.pdfItemList.set(itemKey, itemValue);
     }
 
-    public removeFromPdfItemList(item: string) {
-        this.pdfItemList.delete(item);
+    public removeFromPdfItemList(key: string) {
+        this.pdfItemList.delete(key);
     }
 
     public resetPdfItemList() {
         this.pdfItemList.clear();
     }
 
-    public hasPdfItemList(item: string): boolean {
-        return this.pdfItemList.has(item);
+    public hasPdfItemList(key: string): boolean {
+        return this.pdfItemList.has(key);
     }
 
     public getPdfItemList(): string[] {
-        return Array.from(this.pdfItemList.values());
+        return Array.from(this.pdfItemList.keys());
     }
 
     createPdf() {
@@ -61,9 +61,11 @@ export class PdfService {
         y += lineHeight + 2;
         
         doc.setFontSize(16);
-        itemList.forEach((item, index) => {
+        itemList.forEach(([key, value], index) => {
             const numberText = `${index + 1}) `;
-            const itemText = item;
+            const itemText = key;
+
+            doc.setFontSize(16);
 
             const numberWidth = doc.getTextWidth(numberText);
             const availableWidth = pageWidth - numberWidth;
@@ -89,10 +91,29 @@ export class PdfService {
                 y += lineHeight;
             });
 
-            y += stepSpacing - lineHeight;
+            doc.setFont('helvetica', 'italic');
+            doc.setFontSize(12);
+
+            const valueIndent = x + numberWidth + 5;
+            const valueLines: string[] = doc.splitTextToSize(
+                value,
+                pageWidth - valueIndent
+            );
+
+            valueLines.forEach((valueLine: string) => {
+                if (y + lineHeight > pageHeight - pageMargin) {
+                    doc.addPage();
+                    y = pageMargin;
+                }
+
+                doc.text(valueLine, valueIndent, y);
+                y += lineHeight;
+            })
+
+            y += stepSpacing - lineHeight + 10;
         });
 
-        itemList.forEach((itemPage) => {
+        itemList.forEach(([itemPage]) => {
             if (!itemPage.includes(':')) {
                 return;
             }

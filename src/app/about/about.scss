@@ -1,5 +1,8 @@
 .content {
     flex: 1;
+    position: relative;
+    top: var(--navbar-height);
+    margin-bottom: 10rem;
 
     a {
         color: #006FFF;
@@ -135,5 +138,12 @@
                 text-decoration: underline;
             }
         }
+    }
+}
+
+// vertical-held tablets
+@media only screen and (max-width: 800px) {
+    .table-background {
+        margin-right: 50px;
     }
 }

@@ -1,11 +1,20 @@
 <div class="page-layout">
 
-    <aside class="toc">
+    <button
+        class="toc-toggle"
+        (click)="toggleToc()"
+        [class.open]="tocOpen"
+        aria-label="Toggle table of contents"
+    >
+    ->
+    </button>
+
+    <aside class="toc" [class.open]="tocOpen">
         <h2>Contents</h2>
 
         <ul>
-            <li><a [routerLink]="[]" fragment="technique">Technique</a></li>
-            <li><a [routerLink]="[]" fragment="references">References</a></li>
+            <li><a (click)="scrollTo('technique')">Technique</a></li>
+            <li><a (click)="scrollTo('references')">References</a></li>
         </ul>
     </aside>
 
@@ -18,8 +27,8 @@
                     <a routerLink="" class="path-link">Home</a> 
                     > 
                     @for (path of pathList; track $index) {
-                        @if ((pathList.length - 1) != $index && (path.match('^C1') || path.match('^T1') || path.match('^W1') || path.match('^M1') || path.match('^Techniques$') || path.match('^Weaknesses$') || path.match('^Mitigations$'))) {
-                            <a (click)="resetListPartialy($index)" [routerLink]="
+                        @if ((pathList.length - 1) != $index) {
+                            <a (click)="onClickPath(path, $index)" [routerLink]="
                             path.startsWith('C1') ? '/categories/' + path.split(':')[0] :
                             path.startsWith('T1') ? '/techniques/' + path.split(':')[0] :
                             path.startsWith('W1') ? '/weaknesses/' + path.split(':')[0] :
@@ -27,7 +36,7 @@
                             path.match('^Techniques$') ? '/techniques/' :
                             path.match('^Weaknesses$') ? '/weaknesses/' :
                             path.match('^Mitigations$') ? '/mitigations/' :
-                            '/other/'
+                            ''
                             "> {{ path }} </a>> 
                         } @else {
                             {{ path }} @if($index != (pathList.length - 1)){>}
@@ -49,56 +58,60 @@
                         </div>
                 </section>
 
-                <section id="technique">
+                <section id="technique" style="margin-top: 2rem;">
                     <h1 class="subtitle">Technique</h1>
                     @if (technique == null) {
                         <p>There is no technique linked to this mitigation.</p>
                     } @else {
                         <div class="table-background">
-                            <table class="entities">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th class="description">Description</th>
-                                    </tr>
-                                </thead>
+                            <div class="table-scroll">
+                                <table class="entities">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th class="description">Description</th>
+                                        </tr>
+                                    </thead>
 
-                                <tbody>
-                                    <tr>
-                                        <td class="id">
-                                            <a [routerLink]="['/techniques', technique.id]">{{ technique.id }}</a>
-                                        </td>
-                                        <td class="name">
-                                            <a [routerLink]="['/techniques', technique.id]">{{ technique.name}}</a> ({{ technique.weaknesses.length }})
-                                        </td>
-                                        <td class="description">
-                                            {{ technique.description }}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    <tbody>
+                                        <tr>
+                                            <td class="id">
+                                                <a [routerLink]="['/techniques', technique.id]">{{ technique.id }}</a>
+                                            </td>
+                                            <td class="name">
+                                                <a [routerLink]="['/techniques', technique.id]">{{ technique.name}}</a> ({{ technique.weaknesses.length }})
+                                            </td>
+                                            <td class="description">
+                                                {{ technique.description }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     }
                 </section>
 
-                <section id="references" style="margin-bottom: 10rem;">
+                <section id="references" style="margin-bottom: 8rem; margin-top: 2rem;">
                     <h1 class="subtitle">References</h1>
                     @if (mitigation.references == null || mitigation.references.length == 0) {
                         <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No references for this mitigation are known yet.</p>
                     } @else {
                         <div class="table-background">
-                            <table class="entities">
-                                <tbody>
-                                    @for (reference of mitigation.references; track $index) {
-                                        <tr>
-                                            <td>
-                                                {{ reference }}
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
+                            <div class="table-scroll">
+                                <table class="entities">
+                                    <tbody>
+                                        @for (reference of mitigation.references; track $index) {
+                                            <tr>
+                                                <td>
+                                                    {{ reference }}
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     }
                 </section>

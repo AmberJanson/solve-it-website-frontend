@@ -1,7 +1,15 @@
-<div class="page-layout" [class.open]="filtersOpen">
-    <aside class="filters" [class.open]="filtersOpen">
+<div class="page-layout">
 
-        <button class="filters-close" (click)="toggleFilters()">X</button>
+    <button
+        class="filters-toggle"
+        (click)="toggleFilters()"
+        [class.open]="filtersOpen"
+        aria-label="Toggle filters"
+    >
+    ->
+    </button>
+
+    <aside class="filters" [class.open]="filtersOpen">
 
         <div class="filters-header">
             <h2>Filters</h2>
@@ -12,16 +20,16 @@
 
         <p>Technique:</p>
         <div class="selection-filtering-background selection-arrow">
-            <select [(ngModel)]="selectedFilters['technique']" (change)="applyFiltersAndSort()" class="selection-filtering">
+            <select [(ngModel)]="selectedFilters['technique']" (change)="applyFiltersAndSort()" class="selection-filtering" id="technique">
                 <option value="">All</option>
                 <option value="linked">Linked</option>
-                <option value="not linked to">Not linked</option>
+                <option value="not linked">Not linked</option>
             </select>
         </div>
 
         <p>References:</p>
         <div class="selection-filtering-background selection-arrow">
-            <select [(ngModel)]="selectedFilters['references']" (change)="applyFiltersAndSort()" class="selection-filtering">
+            <select [(ngModel)]="selectedFilters['references']" (change)="applyFiltersAndSort()" class="selection-filtering" id="references">
                 <option value="">All</option>
                 <option value="present">Present</option>
                 <option value="absent">Absent</option>
@@ -57,42 +65,33 @@
                                 <option value="nameDesc">Name (Z -> A)</option>
                             </select>
                         </div>
-
-                        <div class="selection-background filters-button">
-                            <button class="filters-toggle selection" (click)="toggleFilters()">
-                                @if (!filtersOpen) {
-                                    Show filters
-                                } @else {
-                                    Hide filters
-                                }
-
-                            </button>
-                        </div>
                     </section>
 
                     <p class="entity-amount">Mitigations: {{ mitigationList.length }}</p>
                     <div class="table-background">
-                        <table class="entities">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th class="name">Name</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                @for (mitigation of mitigationList; track $index) {
+                        <div class="table-scroll">
+                            <table class="entities">
+                                <thead>
                                     <tr>
-                                        <td class="id">
-                                            <a [routerLink]="['/mitigations', mitigation.id]">{{ mitigation.id }}</a>
-                                        </td>
-                                        <td class="name">
-                                            <a [routerLink]="['/mitigations', mitigation.id]">{{ mitigation.name}}</a>
-                                        </td>
+                                        <th>ID</th>
+                                        <th class="name">Name</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+
+                                <tbody>
+                                    @for (mitigation of mitigationList; track $index) {
+                                        <tr>
+                                            <td class="id">
+                                                <a [routerLink]="['/mitigations', mitigation.id]">{{ mitigation.id }}</a>
+                                            </td>
+                                            <td class="name">
+                                                <a [routerLink]="['/mitigations', mitigation.id]">{{ mitigation.name}}</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </section>
 
@@ -105,16 +104,6 @@
                     }
                 </p>
                 <p class="not-found">No mitigations found.</p>
-                <div class="selection-background filters-button no-mitigation-filter-button">
-                    <button class="filters-toggle selection" (click)="toggleFilters()">
-                        @if (!filtersOpen) {
-                            Show filters
-                        } @else {
-                            Hide filters
-                        }
-
-                    </button>
-                </div>
             }
         }
     </main>

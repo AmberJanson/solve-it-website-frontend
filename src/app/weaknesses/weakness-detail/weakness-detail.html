@@ -1,13 +1,22 @@
 <div class="page-layout">
 
-    <aside class="toc">
+    <button
+        class="toc-toggle"
+        (click)="toggleToc()"
+        [class.open]="tocOpen"
+        aria-label="Toggle table of contents"
+    >
+    ->
+    </button>
+
+    <aside class="toc" [class.open]="tocOpen">
         <h2>Contents</h2>
 
         <ul>
-            <li><a [routerLink]="[]" fragment="details">Details</a></li>
-            <li><a [routerLink]="[]" fragment="risks">Risks</a></li>
-            <li><a [routerLink]="[]" fragment="mitigations">Mitigations</a></li>
-            <li><a [routerLink]="[]" fragment="references">References</a></li>
+            <li><a (click)="scrollTo('details')">Details</a></li>
+            <li><a (click)="scrollTo('risks')">Risks</a></li>
+            <li><a (click)="scrollTo('mitigations')">Mitigations</a></li>
+            <li><a (click)="scrollTo('references')">References</a></li>
         </ul>
     </aside>
 
@@ -20,8 +29,8 @@
                     <a routerLink="" class="path-link">Home</a> 
                     > 
                     @for (path of pathList; track $index) {
-                        @if ((pathList.length - 1) != $index && (path.match('^C1') || path.match('^T1') || path.match('^W1') || path.match('^M1') || path.match('^Techniques$') || path.match('^Weaknesses$') || path.match('^Mitigations$'))) {
-                            <a (click)="resetListPartialy($index)" [routerLink]="
+                        @if ((pathList.length - 1) != $index) {
+                            <a (click)="onClickPath(path, $index)" [routerLink]="
                             path.startsWith('C1') ? '/categories/' + path.split(':')[0] :
                             path.startsWith('T1') ? '/techniques/' + path.split(':')[0] :
                             path.startsWith('W1') ? '/weaknesses/' + path.split(':')[0] :
@@ -29,7 +38,7 @@
                             path.match('^Techniques$') ? '/techniques/' :
                             path.match('^Weaknesses$') ? '/weaknesses/' :
                             path.match('^Mitigations$') ? '/mitigations/' :
-                            '/other/'
+                            ''
                             "> {{ path }} </a>> 
                         } @else {
                             {{ path }} @if($index != (pathList.length - 1)){>}
@@ -62,14 +71,30 @@
 
                 <section id="risks">
                     <h1 class="subtitle">Risks</h1>
+                    <p class="risks-label">
+                        <span class="info-icon" 
+                            matTooltip="- INCOMP: incompleteness
+                                        - INAC-EX: inaccuracy:existence
+                                        - INAC-AS: inaccuracy:association
+                                        - INAC-ALT: inaccuracy:alteration
+                                        - INAC-COR: inaccuracy:corruption
+                                        - MISINT: potential misinterpretation
+                                        " 
+                            [matTooltipPosition]="positionOption" 
+                            matTooltipClass="custom-tooltip">
+                            i
+                        </span>
+                    </p>
                     @if (weakness.risks == null || weakness.risks.length == 0) {
                         <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No risks for this weakness are known yet.</p>
                     } @else {
-                        @for (risk of weakness.risks; track $index) {
-                            <div class="entry-background">
-                                <p>{{ risk }}</p>
-                            </div>
-                        }
+                        <div class="entries">
+                            @for (risk of weakness.risks; track $index) {
+                                <div class="entry-background">
+                                    <p>{{ risk }}</p>
+                                </div>
+                            }
+                        </div>
                     }
                 </section>
 
@@ -79,48 +104,52 @@
                         <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No mitigations for this weakness are known yet.</p>
                     } @else {
                         <div class="table-background">
-                            <table class="entities">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    @for (mitigation of mitigations; track $index) {
+                            <div class="table-scroll">
+                                <table class="entities">
+                                    <thead>
                                         <tr>
-                                            <td class="id">
-                                                <a [routerLink]="['/mitigations', mitigation.id]">{{ mitigation.id }}</a>
-                                            </td>
-                                            <td class="name">
-                                                <a [routerLink]="['/mitigations', mitigation.id]">{{ mitigation.name}}</a>
-                                            </td>
+                                            <th>ID</th>
+                                            <th>Name</th>
                                         </tr>
-                                    }
-                                </tbody>
-                            </table>
+                                    </thead>
+
+                                    <tbody>
+                                        @for (mitigation of mitigations; track $index) {
+                                            <tr>
+                                                <td class="id">
+                                                    <a [routerLink]="['/mitigations', mitigation.id]">{{ mitigation.id }}</a>
+                                                </td>
+                                                <td class="name">
+                                                    <a [routerLink]="['/mitigations', mitigation.id]">{{ mitigation.name}}</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     }
                 </section>
 
-                <section id="references" style="margin-bottom: 2rem;">
+                <section id="references" style="margin-bottom: 8rem;">
                     <h1 class="subtitle">References</h1>
                     @if (weakness.references == null || weakness.references.length == 0) {
                         <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No references for this weakness are known yet.</p>
                     } @else {
                         <div class="table-background">
-                            <table class="entities">
-                                <tbody>
-                                    @for (reference of weakness.references; track $index) {
-                                        <tr>
-                                            <td>
-                                                {{ reference }}
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
+                            <div class="table-scroll">
+                                <table class="entities">
+                                    <tbody>
+                                        @for (reference of weakness.references; track $index) {
+                                            <tr>
+                                                <td>
+                                                    {{ reference }}
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     }
                 </section>

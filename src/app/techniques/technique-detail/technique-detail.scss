@@ -3,6 +3,8 @@
     margin-top: -16px;
     align-items: stretch;
     min-height: 77vh;
+    position: relative;
+    top: var(--navbar-height);
 }
 
 html {
@@ -17,6 +19,8 @@ html {
 .content {
     flex: 1;
     width: 80%;
+    margin-left: 20%;
+    border-left: 5px solid #D9D9D9;
 }
 
 .content section {
@@ -125,11 +129,14 @@ html {
 
 .toc {
     width: 20%;
-    position: sticky;
-    top: 0;
+    position: fixed;
     border-right: 10px solid #888787;
+    border-bottom: 10px solid #888787;
+    border-radius: 0px 0px 12px 0px;
     padding-left: 2rem;
     background-color: #fffceb;
+    height: 52vh;
+    overflow-y: auto;
 
     & h2 {
         font-size: 32px;
@@ -158,9 +165,14 @@ html {
     }
 }
 
+.toc-toggle {
+    display: none;
+}
+
 .table-background {
     padding: 1rem;
     margin-left: 3rem;
+    margin-right: 50px;
     background: #004D46;
     border-radius: 12px;
     display: inline-block;
@@ -238,4 +250,115 @@ html {
     text-align: left;
     font-weight: 600;
     margin: 0;
+}
+
+// very small laptops
+@media only screen and (max-width: 1050px) {
+    .toc {
+        width: 270px;
+        left: -270px;
+        height: 50vh;
+        z-index: 2;
+        transition: left 0.3s ease;
+    }
+
+    .toc.open {
+        left: 0
+    }
+
+    .toc-toggle {
+        display: block;
+        position: fixed;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        background-color: #888787;
+        color: white;
+        border: none;
+        padding: 0.6rem 0.7rem;
+        font-size: 1.4rem;
+        cursor: pointer;
+        z-index: 3;
+        border-radius: 0 6px 6px 0;
+        transition: transform 0.3s ease;
+    }
+
+    .toc-toggle.open {
+        transform: translateY(-50%) translateX(270px) rotate(180deg);
+        border-radius: 6px 0 0 6px;
+    }
+
+    .content {
+        margin-left: 0%;
+        margin-bottom: 8rem;
+        border: none;
+    }
+
+    .entry-background {
+        max-width: 80%;
+    }
+}
+
+// vertical-held tablets
+@media only screen and (max-width: 800px) {
+    .content {
+        margin-bottom: 10rem;
+    }
+
+    .title {
+        align-self: flex-start;
+    }
+
+    .title-link {
+        align-self: flex-end;
+    }
+
+    .title-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+// large mobiles
+@media only screen and (max-width: 700px) {
+    .table-background {
+        min-width: 0%;
+        overflow: hidden;
+        max-width: 85%;
+        display: block;
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .entries {
+        margin-right: 20;
+    }
+
+    .entities {
+        max-width: none;
+        min-width: 500px;
+
+        th, td {
+            max-width: 200px;
+        }
+    }
+
+    .page-path {
+        margin-right: 30px;
+    }
+}
+
+// small mobiles (supported until min-width: 320px)
+@media only screen and (max-width: 400px) {
+    .table-background {
+        max-width: 75%;
+    }
+
+    .entry-background p {
+        white-space: normal;
+        word-break: break-word;
+    }
 }

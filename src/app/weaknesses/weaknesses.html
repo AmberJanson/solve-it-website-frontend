@@ -1,7 +1,15 @@
-<div class="page-layout" [class.open]="filtersOpen">
-    <aside class="filters" [class.open]="filtersOpen">
+<div class="page-layout">
 
-        <button class="filters-close" (click)="toggleFilters()">X</button>
+    <button
+        class="filters-toggle"
+        (click)="toggleFilters()"
+        [class.open]="filtersOpen"
+        aria-label="Toggle filters"
+    >
+    ->
+    </button>
+
+    <aside class="filters" [class.open]="filtersOpen">
 
         <div class="filters-header">
             <h2>Filters</h2>
@@ -12,7 +20,7 @@
 
         <p>Details:</p>
         <div class="selection-filtering-background selection-arrow">
-            <select [(ngModel)]="selectedFilters['details']" (change)="applyFiltersAndSort()" class="selection-filtering">
+            <select [(ngModel)]="selectedFilters['details']" (change)="applyFiltersAndSort()" class="selection-filtering" id="details">
                 <option value="">All</option>
                 <option value="present">Present</option>
                 <option value="absent">Absent</option>
@@ -23,7 +31,7 @@
         @for (risk of riskTypes; track $index) {
             <p class="risk-type">{{ risk }}:</p>
             <div class="selection-filtering-background-risk selection-arrow">
-                <select [(ngModel)]="selectedFilters['risks'][risk]" (change)="applyFiltersAndSort()" class="selection-filtering-risk">
+                <select [(ngModel)]="selectedFilters['risks'][risk]" (change)="applyFiltersAndSort()" class="selection-filtering-risk" id="risks">
                     <option value="">All</option>
                     <option value="present">Present</option>
                     <option value="absent">Absent</option>
@@ -33,7 +41,7 @@
 
         <p>Mitigations:</p>
         <div class="selection-filtering-background selection-arrow">
-            <select [(ngModel)]="selectedFilters['mitigations']" (change)="applyFiltersAndSort()" class="selection-filtering">
+            <select [(ngModel)]="selectedFilters['mitigations']" (change)="applyFiltersAndSort()" class="selection-filtering" id="mitigations">
                 <option value="">All</option>
                 <option value="0">0 entries</option>
                 <option value="1-2">1-2 entries</option>
@@ -44,7 +52,7 @@
 
         <p>References:</p>
         <div class="selection-filtering-background selection-arrow">
-            <select [(ngModel)]="selectedFilters['references']" (change)="applyFiltersAndSort()" class="selection-filtering">
+            <select [(ngModel)]="selectedFilters['references']" (change)="applyFiltersAndSort()" class="selection-filtering" id="references">
                 <option value="">All</option>
                 <option value="present">Present</option>
                 <option value="absent">Absent</option>
@@ -81,17 +89,6 @@
                                 <option value="nameDesc">Name (Z -> A)</option>
                             </select>
                         </div>
-
-                        <div class="selection-background filters-button">
-                            <button class="filters-toggle selection" (click)="toggleFilters()">
-                                @if (!filtersOpen) {
-                                    Show filters
-                                } @else {
-                                    Hide filters
-                                }
-
-                            </button>
-                        </div>
                     </section>
 
                     <p class="entity-amount">Weaknesses: {{ weaknessList.length }}</p>
@@ -102,7 +99,22 @@
                                     <tr>
                                         <th>ID</th>
                                         <th class="name">Name</th>
-                                        <th class="risks">Risks</th>
+                                        <th class="risks">
+                                            <span class="risks-label">Risks 
+                                                <span class="info-icon" 
+                                                    matTooltip="- INCOMP: incompleteness
+                                                                - INAC-EX: inaccuracy:existence
+                                                                - INAC-AS: inaccuracy:association
+                                                                - INAC-ALT: inaccuracy:alteration
+                                                                - INAC-COR: inaccuracy:corruption
+                                                                - MISINT: potential misinterpretation
+                                                                " 
+                                                    [matTooltipPosition]="positionOption" 
+                                                    matTooltipClass="custom-tooltip">
+                                                    i
+                                                </span>
+                                            </span>
+                                        </th>
                                     </tr>
                                 </thead>
 
@@ -140,16 +152,6 @@
                     }
                 </p>
                 <p class="not-found">No weaknesses found.</p>
-                <div class="selection-background filters-button no-weakness-filter-button">
-                    <button class="filters-toggle selection" (click)="toggleFilters()">
-                        @if (!filtersOpen) {
-                            Show filters
-                        } @else {
-                            Hide filters
-                        }
-
-                    </button>
-                </div>
             }
         }
     </main>

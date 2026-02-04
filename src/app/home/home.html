@@ -3,7 +3,7 @@
     <head>
         <title>SOLVE-IT</title>
     </head>
-    <body>
+    <main>
         <p class="description">This website contains the SOLVE-IT framework. 
             Below, you can adjust the overview to suit your specific needs. 
             The digital forensic investigation techniques from SOLVE-IT are divided according to the selected overview. 
@@ -13,8 +13,8 @@
         
         <p class="select-text">Select an overview of how the techniques are divided:</p>
         <div class="selection-background selection-arrow">
-            <select #categorySelect class="selection" (change)="getCategoriesByView(categorySelect.value)">
-                <option value="" disabled selected hidden>- Select -</option>
+            <select #categorySelect [value]="selectedView ? selectedView.id : ''" class="selection" (change)="getCategoriesByView(categorySelect.value)">
+                <option value="" disabled hidden>- Select -</option>
                 @for (categoryView of categoryViewList; track $index) {
                     <option [value]="categoryView.id">{{ categoryView.name }}: {{ categoryView.short_description }}</option>
                 }
@@ -22,7 +22,7 @@
         </div>
 
         @if (categoryList.length >= 1) {
-            <p class="description" style="margin-top: 0;">{{ selectedView?.long_description }}</p>
+            <p class="description" style="margin-top: -8rem;">{{ selectedView?.long_description }}</p>
             @if (isMoreTechniquesThanInView) {
                 <p class="missing-warning">
                     <i class="fas fa-exclamation-triangle" style="color:red"></i>
@@ -53,7 +53,7 @@
                         <div class="technique-list">
                             @for (technique of category.techniqueDetailed; track $index) {
                                 <div class="technique-item">
-                                    <a (click)="addViewAndCategoryPathToService(category)" [routerLink]="['/techniques', technique.id]">{{ technique.name }}</a> ({{ technique.weaknesses.length }})
+                                    <b>{{ technique.id }}: </b> <a (click)="addViewAndCategoryPathToService(category)" [routerLink]="['/techniques', technique.id]">{{ technique.name }}</a> ({{ technique.weaknesses.length }})
                                 </div>
                             }
                         </div>
@@ -64,5 +64,5 @@
             <p class="not-found">No categories found.</p>
         }
 
-    </body>
+    </main>
 </html>

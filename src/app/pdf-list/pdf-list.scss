@@ -5,6 +5,8 @@
 
 .content {
     flex: 1;
+    position: relative;
+    top: var(--navbar-height);
 }
 
 .content section {
@@ -75,6 +77,7 @@
 .table-background {
     padding: 1rem;
     margin-left: 3rem;
+    margin-right: 50px;
     background: #004D46;
     border-radius: 12px;
     display: inline-block;
@@ -140,13 +143,18 @@
 .pdf-button {
     padding: 0.5rem; 
     margin-left: 3rem; 
-    margin-bottom: 1rem; 
+    margin-bottom: 8rem;
+    margin-right: 50px;
     margin-top: 1rem;
     background: #004D46; 
     border-radius: 12px;
     border: none;
     cursor: pointer;
     display: inline-block;
+}
+
+.download-message {
+    margin-right: 50px;
 }
 
 .pdf-button p {
@@ -161,4 +169,29 @@
 
 .pdf-button:hover {
     background: #00665E;
+}
+
+// small mobiles (supported until min-width: 320px)
+@media only screen and (max-width: 450px) {
+
+    .table-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .table-background {
+        min-width: 0%;
+        overflow: hidden;
+        display: block;
+        max-width: 75%;
+    }
+
+    .entities {
+        max-width: none;
+        min-width: 400px;
+
+        th, td {
+            max-width: 160px;
+        }
+    }
 }

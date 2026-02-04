@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Technique } from '../models/technique.model';
 import { TechniqueService } from '../services/technique.service';
@@ -191,5 +191,15 @@ export class Techniques implements OnInit{
   resetFilters() {
     Object.keys(this.selectedFilters).forEach(key => this.selectedFilters[key] = '');
     this.applyFiltersAndSort();
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const hamburgerButton = document.querySelector('.hamburger-button');
+
+    if (hamburgerButton?.contains(target) && this.filtersOpen) {
+      this.filtersOpen = !this.filtersOpen;
+    }
   }
 }

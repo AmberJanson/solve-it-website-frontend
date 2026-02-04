@@ -1,13 +1,14 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Weakness } from '../models/weakness.model';
 import { WeaknessService } from '../services/weakness.service';
 import { FormsModule } from '@angular/forms';
 import { SharedPathService } from '../services/shared-path.service';
+import {TooltipPosition, MatTooltipModule} from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-weaknesses',
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, MatTooltipModule],
   templateUrl: './weaknesses.html',
   styleUrl: './weaknesses.scss'
 })
@@ -16,6 +17,8 @@ export class Weaknesses implements OnInit{
   public filtersOpen = false;
 
   public pathList: string[] = [];
+
+  public positionOption: TooltipPosition = 'below';
 
   private allWeaknesses: Weakness[] = [];
   public weaknessList: Weakness[] = [];
@@ -163,5 +166,15 @@ export class Weaknesses implements OnInit{
 
     resetObject(this.selectedFilters);
     this.applyFiltersAndSort();
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const hamburgerButton = document.querySelector('.hamburger-button');
+
+    if (hamburgerButton?.contains(target) && this.filtersOpen) {
+      this.filtersOpen = !this.filtersOpen;
+    }
   }
 }

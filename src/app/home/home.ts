@@ -37,59 +37,80 @@ export class Home implements OnInit {
     private cdr: ChangeDetectorRef
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.sharedPathService.resetList();
-    this.loadCategoryViews();
-    this.loadCategories();
-    this.loadTechniques();
+    await this.loadCategoryViews();
+    await this.loadCategories();
+    await this.loadTechniques();
+
+    const selectedPath = this.sharedPathService.getSelectedView();
+    setTimeout(() => {
+      this.selectedView = this.categoryViewList.find(
+        view => view.name === selectedPath 
+      ) ?? null;
+
+      if (this.selectedView?.name == selectedPath) {
+        this.getCategoriesByView(this.selectedView.id);
+      }
+    })
+    this.sharedPathService.resetSelectedView();
   }
 
-  private loadCategoryViews() {
-    this.categoryViewService.getAllCategoryViews()
-      .subscribe({next: (categoryViews) => {
-        this.categoryViewList = Object.values(categoryViews);
-        this.categoryViewList.sort((a, b) => a.id.localeCompare(b.id))
-        this.loadingCategoryViews = false;
-        this.cdr.markForCheck();
-      }, error: err => {
-        console.error("Error occurred: ", err)
-        this.loadingCategoryViews = false;
-        this.cdr.markForCheck();
-      }
-    });
+  private loadCategoryViews(): Promise<void> {
+    return new Promise(resolve => {
+      this.categoryViewService.getAllCategoryViews()
+        .subscribe({next: (categoryViews) => {
+          this.categoryViewList = Object.values(categoryViews);
+          this.categoryViewList.sort((a, b) => a.id.localeCompare(b.id));        
+          this.loadingCategoryViews = false;
+          this.cdr.markForCheck();
+          resolve();
+        }, error: err => {
+          console.error("Error occurred: ", err)
+          this.loadingCategoryViews = false;
+          this.cdr.markForCheck();
+        }
+      });
+    })
   }
 
-  private loadCategories() {
-    this.categoryService.getAllCategories()
-      .subscribe({next: (categories) => {
-        this.allCategories = Object.values(categories);
-        this.loadingCategories = false;
-        this.cdr.markForCheck();
-      }, error: err => {
-        console.error("Error occurred: ", err)
-        this.loadingCategories = false;
-        this.cdr.markForCheck();
-      }
-    });
+  private loadCategories(): Promise<void> {
+    return new Promise(resolve => {
+      this.categoryService.getAllCategories()
+        .subscribe({next: (categories) => {
+          this.allCategories = Object.values(categories);
+          this.loadingCategories = false;
+          this.cdr.markForCheck();
+          resolve();
+        }, error: err => {
+          console.error("Error occurred: ", err)
+          this.loadingCategories = false;
+          this.cdr.markForCheck();
+        }
+      });
+    })
   }
 
-  private loadTechniques() {
-    this.techniqueService.getAllTechniques()
-      .subscribe({next: (techniques) => {
-        this.techniqueList = Object.values(techniques);
+  private loadTechniques(): Promise<void> {
+    return new Promise(resolve => {
+      this.techniqueService.getAllTechniques()
+        .subscribe({next: (techniques) => {
+          this.techniqueList = Object.values(techniques);
 
-        this.techniqueList.forEach(technique => {
-          this.techniqueMap[technique.id] = technique;
-        })
+          this.techniqueList.forEach(technique => {
+            this.techniqueMap[technique.id] = technique;
+          })
 
-        this.loadingTechniques = false;
-        this.cdr.markForCheck();
-      }, error: err => {
-        console.error("Error occurred: ", err)
-        this.loadingTechniques = false;
-        this.cdr.markForCheck();
-      }
-    });
+          this.loadingTechniques = false;
+          this.cdr.markForCheck();
+          resolve();
+        }, error: err => {
+          console.error("Error occurred: ", err)
+          this.loadingTechniques = false;
+          this.cdr.markForCheck();
+        }
+      });
+    })
   }
 
   public getCategoriesByView(viewId: string) {
@@ -112,7 +133,7 @@ export class Home implements OnInit {
         .filter(technique => !!technique)
     }))
 
-    this.categoryList.sort((a, b) => a.id.localeCompare(b.id))
+    this.categoryList.sort((a, b) => a.id.localeCompare(b.id));
 
     this.cdr.markForCheck();
   }

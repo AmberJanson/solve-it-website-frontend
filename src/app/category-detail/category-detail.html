@@ -1,11 +1,20 @@
 <div class="page-layout">
 
-    <aside class="toc">
+    <button
+        class="toc-toggle"
+        (click)="toggleToc()"
+        [class.open]="tocOpen"
+        aria-label="Toggle table of contents"
+    >
+    ->
+    </button>
+
+    <aside class="toc" [class.open]="tocOpen">
         <h2>Contents</h2>
 
         <ul>
-            <li><a [routerLink]="[]" fragment="description">Description</a></li>
-            <li><a [routerLink]="[]" fragment="techniques">Techniques</a></li>
+            <li><a (click)="scrollTo('description')">Description</a></li>
+            <li><a (click)="scrollTo('techniques')">Techniques</a></li>
         </ul>
     </aside>
 
@@ -18,7 +27,20 @@
                         <a routerLink="" class="path-link">Home</a> 
                         > 
                         @for (path of pathList; track $index) {
-                            {{ path }} @if($index != (pathList.length - 1)){>}
+                            @if ((pathList.length - 1) != $index) {
+                                <a (click)="onClickPath(path, $index)" [routerLink]="
+                                path.startsWith('C1') ? '/categories/' + path.split(':')[0] :
+                                path.startsWith('T1') ? '/techniques/' + path.split(':')[0] :
+                                path.startsWith('W1') ? '/weaknesses/' + path.split(':')[0] :
+                                path.startsWith('M1') ? '/mitigations/' + path.split(':')[0] :
+                                path.match('^Techniques$') ? '/techniques/' :
+                                path.match('^Weaknesses$') ? '/weaknesses/' :
+                                path.match('^Mitigations$') ? '/mitigations/' :
+                                ''
+                                "> {{ path }} </a>> 
+                            } @else {
+                                {{ path }} @if($index != (pathList.length - 1)){>}
+                            }
                         }
                     </p>
 
@@ -31,41 +53,43 @@
                         }
                     </section>
 
-                    <section id="techniques" style="margin-bottom: 2rem;">
+                    <section id="techniques" style="margin-bottom: 10rem;">
                         <h1 class="subtitle">Techniques</h1>
                         @if (category.techniques == null || category.techniques.length == 0) {
                             <p><i class="fas fa-exclamation-triangle" style="color:red"></i>No techniques for this category are known yet.</p>
                         } @else {
                             <div class="table-background">
-                                <table class="entities">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th class="description">Description</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        @for (technique of techniques; track $index) {
+                                <div class="table-scroll">
+                                    <table class="entities">
+                                        <thead>
                                             <tr>
-                                                <td class="id">
-                                                    <a [routerLink]="['/techniques', technique.id]">{{ technique.id }}</a>
-                                                </td>
-                                                <td class="name">
-                                                    <a [routerLink]="['/techniques', technique.id]">{{ technique.name}}</a>
-                                                </td>
-                                                <td class="description">
-                                                    @if (technique.description == null || technique.description == "") {
-                                                        <i class="fas fa-exclamation-triangle" style="color:red"></i>No description for this technique is known yet.
-                                                    } @else {
-                                                        {{ technique.description }}
-                                                    }
-                                                </td>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th class="description">Description</th>
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
+                                        </thead>
+
+                                        <tbody>
+                                            @for (technique of techniques; track $index) {
+                                                <tr>
+                                                    <td class="id">
+                                                        <a [routerLink]="['/techniques', technique.id]">{{ technique.id }}</a>
+                                                    </td>
+                                                    <td class="name">
+                                                        <a [routerLink]="['/techniques', technique.id]">{{ technique.name}}</a>
+                                                    </td>
+                                                    <td class="description">
+                                                        @if (technique.description == null || technique.description == "") {
+                                                            <i class="fas fa-exclamation-triangle" style="color:red"></i>No description for this technique is known yet.
+                                                        } @else {
+                                                            {{ technique.description }}
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         }
                     </section>

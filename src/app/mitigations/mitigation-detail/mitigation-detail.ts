@@ -19,6 +19,8 @@ export class MitigationDetail implements OnInit {
   public pathList: string[] = [];
   public isChecked = false;
 
+  public tocOpen = false;
+
   public mitigation: Mitigation | null = null;
   public mitigationId?: string;
   public technique: Technique | null = null;
@@ -103,12 +105,47 @@ export class MitigationDetail implements OnInit {
     }
   }
 
+  onClickPath(path: string, index: number): void {
+    const toHome = 
+      !path.startsWith('C1') &&
+      !path.startsWith('T1') &&
+      !path.startsWith('W1') &&
+      !path.startsWith('M1') &&
+      !/^Techniques$/.test(path) &&
+      !/^Weaknesses$/.test(path) &&
+      !/^Mitigations$/.test(path);
+    
+      if (toHome) {
+        this.sharedPathService.setSelectedView(path);
+      }
+
+      this.resetListPartialy(index);
+  }
+  
   onCheckboxChange(checked: boolean) {
+
+    let pathString = '';
+    this.pathList.forEach((item) => {
+      pathString += '> ' + item.toString() + ' ';
+    });
+
     if (checked) {
-      this.pdfService.addToPdfItemList(this.mitigation?.id + ": " + this.mitigation?.name);
+      this.pdfService.addToPdfItemList(this.mitigation?.id + ": " + this.mitigation?.name, pathString);
 
     } else {
       this.pdfService.removeFromPdfItemList(this.mitigation?.id + ": " + this.mitigation?.name);
     }
+  }
+
+  scrollTo(id: string) {
+    const element = document.getElementById(id);
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.pageYOffset - 90;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    }
+  }
+
+  toggleToc() {
+    this.tocOpen = !this.tocOpen;
   }
 }

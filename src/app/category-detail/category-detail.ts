@@ -16,6 +16,8 @@ export class CategoryDetail implements OnInit{
 
   public pathList: string[] = [];
 
+  public tocOpen = false;
+
   public category: Category | null = null;
   public categoryId?: string;
   public techniques: Technique[] = [];
@@ -56,7 +58,7 @@ export class CategoryDetail implements OnInit{
           for (const techniqueId of category.techniques) {
             this.techniqueService.getTechniquesById(techniqueId)
               .subscribe({next: (technique) => {
-                this.techniques.push(technique);
+                this.techniques[category.techniques.indexOf(techniqueId)] = technique;
                 this.loadingCategory = false;
                 this.cdr.markForCheck();
               }, error: err => {
@@ -79,6 +81,21 @@ export class CategoryDetail implements OnInit{
     })
   }
 
+  onClickPath(path: string, index: number): void {
+    const toHome = 
+      !path.startsWith('C1') &&
+      !path.startsWith('T1') &&
+      !path.startsWith('W1') &&
+      !path.startsWith('M1') &&
+      !/^Techniques$/.test(path) &&
+      !/^Weaknesses$/.test(path) &&
+      !/^Mitigations$/.test(path);
+    
+      if (toHome) {
+        this.sharedPathService.setSelectedView(path);
+      }
+  }
+
   public addCategoryPathToService() {
     this.sharedPathService.setNextItem(`${this.categoryId}: ${this.category?.name}`);
     
@@ -87,5 +104,17 @@ export class CategoryDetail implements OnInit{
     if (lastItem != `${this.categoryId}: ${this.category?.name}`) {
       this.sharedPathService.addItem(`${this.categoryId}: ${this.category?.name}`)
     }
+  }
+
+  scrollTo(id: string) {
+    const element = document.getElementById(id);
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.pageYOffset - 90;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    }
+  }
+
+  toggleToc() {
+    this.tocOpen = !this.tocOpen;
   }
 }
