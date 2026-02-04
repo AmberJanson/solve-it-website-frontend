@@ -80,7 +80,7 @@ export class Navigation implements OnInit, AfterViewInit {
     window.addEventListener('resize', this.setNavbarHeight)
   }
 
-  setNavbarHeight = () => {
+  public setNavbarHeight = () => {
     const height = this.navbar.nativeElement.getBoundingClientRect().height;
     document.documentElement.style.setProperty(
       '--navbar-height',
@@ -88,7 +88,7 @@ export class Navigation implements OnInit, AfterViewInit {
     )
   }
 
-  loadAllSearchLists() {
+  public loadAllSearchLists() {
     forkJoin({
       categories: this.categoryService.getAllCategories().pipe(catchError(err => {
         console.error("Error occured with categories: ", err);
@@ -119,7 +119,7 @@ export class Navigation implements OnInit, AfterViewInit {
     })
   }
 
-  onSearchChange(term: string) {
+  public onSearchChange(term: string) {
     this.searchTerm = term;
 
     if (!term) {
@@ -137,13 +137,13 @@ export class Navigation implements OnInit, AfterViewInit {
     this.dropdownVisible = true;
   }
 
-  onFocus() {
+  public onFocus() {
     if (this.searchTerm) {
       this.dropdownVisible = true;
     }
   }
 
-  getParts(text: string): {highlightedText: string, highlight: boolean}[] {
+  public getParts(text: string): {highlightedText: string, highlight: boolean}[] {
     if (!this.searchTerm || !text) return [{ highlightedText: text, highlight: false}];
 
     const term = this.searchTerm.toLowerCase();
@@ -189,7 +189,7 @@ export class Navigation implements OnInit, AfterViewInit {
     }
   }
 
-  onItemClick(item: any, event: MouseEvent) {
+  public onItemClick(item: any, event: MouseEvent) {
     event.stopPropagation();
 
     this.searchTerm = '';
@@ -210,11 +210,11 @@ export class Navigation implements OnInit, AfterViewInit {
       }
   }
 
-  toggleMenu() {
+  public toggleMenu() {
     this.menuOpen = !this.menuOpen;
   }
 
-  closeMenu() {
+  public closeMenu() {
     this.menuOpen = false;
   }
 }

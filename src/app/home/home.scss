@@ -63,6 +63,10 @@ main {
         pointer-events: none;
     }
 
+    p.view-description {
+        margin-top: -8rem;
+    }
+
     .category-background {
         max-width: 85%;
         width: fit-content;

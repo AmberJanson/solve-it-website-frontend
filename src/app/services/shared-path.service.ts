@@ -13,47 +13,47 @@ export class SharedPathService {
 
     constructor() {}
 
-    addItem(item: string): void {
+    public addItem(item: string): void {
         const currentList = this.listSubject.value;
         this.listSubject.next([...currentList, item]);
     }
 
-    resetList(): void {
+    public resetList(): void {
         this.listSubject.next([]);
     }
 
-    removeLastItem(): void {
+    public removeLastItem(): void {
         const currentList = this.listSubject.value;
         if (currentList.length == 0) return;
         this.listSubject.next(currentList.slice(0, -1));
     }
 
-    getLastItem(): string | null {
+    public getLastItem(): string | null {
         const list = this.getList();
         return list.length ? list[list.length - 1] : null;
     }
 
-    getList(): string[] {
+    public getList(): string[] {
         return this.listSubject.value;
     }
 
-    setNextItem(item: string) {
+    public setNextItem(item: string) {
         this.nextItemToAdd = item;
     }
 
-    getNextItem(): string | null {
+    public getNextItem(): string | null {
         return this.nextItemToAdd;
     }
 
-    setSelectedView(view: string) {
+    public setSelectedView(view: string) {
         this.selectedView = view;
     }
 
-    getSelectedView() {
+    public getSelectedView() {
         return this.selectedView;
     }
 
-    resetSelectedView() {
+    public resetSelectedView() {
         this.selectedView = "";
     }
 }

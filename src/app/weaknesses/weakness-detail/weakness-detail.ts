@@ -54,7 +54,7 @@ export class WeaknessDetail implements OnInit{
     });
   }
 
-  loadWeakness(id: string) {
+  public loadWeakness(id: string) {
     this.loadingWeakness = true;
     this.mitigations = [];
 
@@ -120,7 +120,7 @@ export class WeaknessDetail implements OnInit{
     }
   }
 
-  onClickPath(path: string, index: number): void {
+  public onClickPath(path: string, index: number): void {
     const toHome = 
       !path.startsWith('C1') &&
       !path.startsWith('T1') &&
@@ -137,7 +137,7 @@ export class WeaknessDetail implements OnInit{
       this.resetListPartialy(index);
   }
 
-  onCheckboxChange(checked: boolean) {
+  public onCheckboxChange(checked: boolean) {
 
     let pathString = '';
     this.pathList.forEach((item) => {
@@ -152,7 +152,7 @@ export class WeaknessDetail implements OnInit{
     }
   }
 
-  scrollTo(id: string) {
+  public scrollTo(id: string) {
     const element = document.getElementById(id);
     if (element) {
       const y = element.getBoundingClientRect().top + window.pageYOffset - 90;
@@ -160,7 +160,7 @@ export class WeaknessDetail implements OnInit{
     }
   }
 
-  toggleToc() {
+  public toggleToc() {
     this.tocOpen = !this.tocOpen;
   }
 }

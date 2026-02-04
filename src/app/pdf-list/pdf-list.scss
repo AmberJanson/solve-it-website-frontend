@@ -143,9 +143,9 @@
 .pdf-button {
     padding: 0.5rem; 
     margin-left: 3rem; 
-    margin-bottom: 8rem;
     margin-right: 50px;
-    margin-top: 1rem;
+    margin-top: 3rem; 
+    margin-bottom: 12rem;
     background: #004D46; 
     border-radius: 12px;
     border: none;
@@ -153,8 +153,10 @@
     display: inline-block;
 }
 
-.download-message {
+.content p.download-message {
     margin-right: 50px;
+    margin-top: 3rem; 
+    margin-bottom: 12rem;
 }
 
 .pdf-button p {

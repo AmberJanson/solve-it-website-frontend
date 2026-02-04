@@ -56,9 +56,9 @@
                 </div>
         </section>
         @if (isDownloaded) {
-            <b><p class="download-message" style="margin-top: 3rem; margin-bottom: 12rem;">The PDF-file has been downloaded!</p></b>
+            <p class="download-message"><b>The PDF-file has been downloaded!</b></p>
         } @else {
-            <button class="pdf-button" (click)="generatePDF()" style="margin-top: 3rem; margin-bottom: 12rem;">
+            <button class="pdf-button" (click)="generatePDF()">
                 <p>Download PDF of selected data</p>
             </button>
         }

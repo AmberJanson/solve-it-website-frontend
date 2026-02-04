@@ -150,7 +150,7 @@ export class Techniques implements OnInit{
     }
   }
 
-  applyFiltersAndSort() {
+  public applyFiltersAndSort() {
     this.techniqueList = this.allTechniques.filter(technique => {
       for (let key of ['description', 'synonyms', 'details', 'examples', 'references', 'CASE_output_classes']) {
         const filterValue = this.selectedFilters[key] as keyof typeof this.selectedFilters;
@@ -167,7 +167,7 @@ export class Techniques implements OnInit{
     this.sortList();
   }
 
-  sortList() {
+  public sortList() {
     switch (this.selectedSort) {
       case 'idAsc':
         this.techniqueList.sort((a, b) => a.id.localeCompare(b.id));
@@ -184,11 +184,11 @@ export class Techniques implements OnInit{
     }
   }
 
-  toggleFilters() {
+  public toggleFilters() {
     this.filtersOpen = !this.filtersOpen;
   }
 
-  resetFilters() {
+  public resetFilters() {
     Object.keys(this.selectedFilters).forEach(key => this.selectedFilters[key] = '');
     this.applyFiltersAndSort();
   }

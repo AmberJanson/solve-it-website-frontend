@@ -26,6 +26,15 @@ html {
 
 .content section {
     padding-bottom: 10px;
+
+    &#technique {
+        margin-top: 2rem;
+    }
+
+    &#references {
+        margin-bottom: 8rem; 
+        margin-top: 2rem;
+    }
 }
 
 .pdf-checkbox {
